@@ -251,6 +251,7 @@ function selectDelete(mode, message) {
 				}
 				document.form_list.target = 'iframe_process';
 				form_list.submit();
+				setTimeout("location.reload()", 500);
 			}
 			return false;
 		}

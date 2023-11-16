@@ -20,6 +20,7 @@ import com.naedam.admin.setting.model.vo.AdminSetting;
 import com.naedam.admin.setting.model.vo.Partner;
 
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.OnError;
 
 @Slf4j
 @Service
@@ -65,6 +66,7 @@ public class SettingServiceImpl implements SettingService {
 		if("insert".equals(map.get("mode"))) {
 			File file2 = new File(map.get("filePath")+file.getOriginalFilename());
 			partner.setPartnerImage(file.getOriginalFilename());
+			partner.setLocale((String)map.get("locale"));
 			file.transferTo(file2);
 			settingDao.addPartner(partner);
 		}else if("update".equals(map.get("mode"))) {
@@ -84,15 +86,15 @@ public class SettingServiceImpl implements SettingService {
 	}
 
 	@Override
-	public List<History> selectHistoryList(int limit, int offset) {
+	public List<History> selectHistoryList(int limit, int offset, String locale) {
 		// TODO Auto-generated method stub
-		return settingDao.selectHistoryList(limit, offset);
+		return settingDao.selectHistoryList(limit, offset, locale);
 	}
 
 	@Override
-	public List<Award> selectAwardList() {
+	public List<Award> selectAwardList(String locale) {
 		// TODO Auto-generated method stub
-		return settingDao.selectAwardList();
+		return settingDao.selectAwardList(locale);
 	}
 
 	@Override
@@ -110,6 +112,14 @@ public class SettingServiceImpl implements SettingService {
 	@Override
 	public List<Partner> selectPartner() throws Exception{
 		return settingDao.selectPartner();
+	}
+	
+	@Override
+	public Map<String, Object> adminPartnerList(Map<String, Object> map) throws Exception{
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("list", settingDao.adminPartnerList(map));
+		resultMap.put("totalCount", settingDao.adminPartnerTotalCount(map));
+		return resultMap;
 	}
 
 	@Override
@@ -137,9 +147,9 @@ public class SettingServiceImpl implements SettingService {
 	}
 
 	@Override
-	public int selectAllHistoryList() {
+	public int selectAllHistoryList(String locale) {
 		// TODO Auto-generated method stub
-		return settingDao.selectAllHistoryList();
+		return settingDao.selectAllHistoryList(locale);
 	}
 
 

@@ -5,6 +5,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<% 
+	Cookie cookie = new Cookie("locale", "ko"); 
+	response.addCookie(cookie);
+%>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -106,7 +110,6 @@
 	$("input:checkbox[id='remember-me']").prop("checked", true);
 
 	function loginSubmit() {		
-		console.log("loginSubmit 도착했나요?");
 		if (form.id.value == '') {
 			alert('아이디가 입력되지 않았습니다.');
 			form.id.focus();
@@ -121,7 +124,6 @@
 	}
 	
 	function enrollSubmit() {
-		console.log("enrollSubmti() 실행");
 		location.href=`${pageContext.request.contextPath}/user/user/userEnroll.do`;
 	}
 	

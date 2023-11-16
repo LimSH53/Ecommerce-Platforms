@@ -51,7 +51,7 @@ public interface BoardDao {
 	public List<Post> getUserPostList(Map<String, Object> map) throws Exception;
 	
 	//메인페이지 공지사항 최신 3개 목록
-	public List<Post> getMainPostList() throws Exception;
+	public List<Post> getMainPostList(Map<String, Object> map) throws Exception;
 	
 	//게시글의 파일 데이터
 	public List<BoardFile> getPostFile(int postNo) throws Exception;
@@ -69,7 +69,7 @@ public interface BoardDao {
 	public int getTotalCount3(int boardNo) throws Exception;
 	
 	//header의 게시판 제목
-	public List<Board> getBoardTitle();
+	public List<Board> getBoardTitle(Map<String, Object> map);
 	
 	//게시판의 데이터
 	public Board getBoardData(int boardNo) throws Exception;
@@ -90,10 +90,10 @@ public interface BoardDao {
 	public Member getMemberData(int memberNo) throws Exception;
 	
 	//게시판 선택 삭제
-	public void deleteChoiceBoard(List<Integer> boardNo) throws Exception;
+	public void deleteChoiceBoard(int boardNo) throws Exception;
 	
 	//게시글 선택 삭제
-	public void deleteChoicePost(List<Integer> postNo) throws Exception;
+	public void deleteChoicePost(int postNo) throws Exception;
 	
 	//파일 삭제
 	public void deleteFile(int fileNo) throws Exception;
@@ -128,8 +128,9 @@ public interface BoardDao {
 	public int postFileCount(Post post) throws Exception;
 
 	//dashboard에서 사용할 boardList
-	public List<String> getBoardList();
+	public List<String> getBoardList(String locale);
 
+	public String getfileName(int postNo);
 	
 	
 }

@@ -26,6 +26,7 @@
 		<result property="headImage"			column="HEAD_IMAGE"			jdbcType="VARCHAR"></result>
 		<result property="headUrl"				column="HEAD_URL"			jdbcType="VARCHAR"></result>
 		<result property="headAsc"				column="HEAD_ASC"			jdbcType="NUMERIC"></result>
+		<result property="locale"				column="LOCALE"				jdbcType="VARCHAR"></result>
 	</resultMap>
 	
 	<resultMap id="BottomSelectMap" type="bottom">
@@ -44,7 +45,8 @@
 				  MENU_DATE,
 				  ORIGIN_NO,
 				  ORD,
-				  MENU_ASC)
+				  MENU_ASC,
+				  LOCALE)
 		VALUES(#{category_code},
 			   0,
 			   #{title : VARCHAR},
@@ -52,9 +54,10 @@
 			   #{url : VARCHAR},
 			   #{status : VARCHAR},
 			   now(),
-			   0,
-			   0,
-			   0)
+			   #{originNo : VARCHAR},
+			   #{ord : VARCHAR},
+			   (SELECT IFNULL(MAX(MENU_ASC) + 1, 1) FROM menu p),
+			   #{locale : VARCHAR})
 	</insert>
 	
 	<insert id="addHead" parameterType="head">
@@ -64,14 +67,16 @@
 		STATUS, 
 		CONTENT, 
 		HEAD_IMAGE, 
-		HEAD_URL
+		HEAD_URL,
+		LOCALE
 		)
 		VALUES(
 			   #{title : VARCHAR},
 			   #{status : VARCHAR},
 			   #{content : VARCHAR},
 			   #{headImage : VARCHAR},
-			   #{headUrl : VARCHAR}
+			   #{headUrl : VARCHAR},
+			   #{locale : VARCHAR}
 		)
 	</insert>
 	
@@ -129,6 +134,7 @@
 		FROM menu
 		WHERE revision_code = 0
 		AND	  ORD = 0
+		AND   locale = #{locale}
 		ORDER BY MENU_ASC ASC, CODE ASC
 	</select>
 	
@@ -139,6 +145,7 @@
 		AND   origin_no = #{menu.code}
 		AND   code != 1
 		AND   ORD = #{menu.ord}
+		AND   locale = #{locale}
 		ORDER BY MENU_ASC ASC, CODE ASC
 	</select>	
 	
@@ -150,6 +157,7 @@
 		AND   origin_no = #{menu.originNo}
 		AND   code != 1
 		AND   ORD = 3
+		AND   locale = #{locale}
 		ORDER BY MENU_ASC ASC, CODE ASC
 	</select>
 	
@@ -192,6 +200,7 @@
 	<select id="getHeadList" resultType="hashmap" resultMap="HeadSelectMap">
 		SELECT *
 		FROM head
+		WHERE locale = #{locale}
 		ORDER BY HEAD_ASC ASC
 	</select>
 	
@@ -199,6 +208,7 @@
 		SELECT *
 		FROM head
 		WHERE status = 'y'
+		AND   locale = #{locale}
 		ORDER BY HEAD_ASC ASC
 	</select>	
 	
@@ -207,6 +217,7 @@
 		FROM menu
 		WHERE ord = 0
 		AND revision_code = 0
+		AND locale = #{locale}
 		ORDER BY menu_asc ASC, code ASC
 	</select>
 	
@@ -215,6 +226,7 @@
 		FROM menu
 		WHERE ord = 1
 		AND revision_code = 0
+		AND locale = #{locale}
 		ORDER BY menu_asc ASC, code ASC
 	</select>
 		 
@@ -257,7 +269,9 @@
 			TITLE = #{title : VARCHAR},
 			STATUS = #{status : VARCHAR},
 			CONTENT = #{content : VARCHAR},
+			<if test="headImage != ''">
 			HEAD_IMAGE = #{headImage : VARCHAR},
+			</if>
 			HEAD_URL = #{headUrl : VARCHAR}
 		</set>
 		WHERE HEAD_NO = #{headNo : NUMERIC}

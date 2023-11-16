@@ -13,9 +13,6 @@ import lombok.ToString;
 @ToString
 public class Menu implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 
@@ -30,6 +27,7 @@ public class Menu implements Serializable {
 	private int menuAsc;
 	private int originNo;
 	private int ord;
+	private String locale;
 	
 	
 	

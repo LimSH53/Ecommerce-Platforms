@@ -42,7 +42,8 @@ public class userRecruitController {
 	
 	@RequestMapping(value="userRecruitList")
 	public ModelAndView recruitList(Model model, @RequestParam(value = "searchKeyword", required = false)String searchKeyword, 
-			@RequestParam(defaultValue = "1") int cPage, HttpServletRequest request) throws Exception {
+			@RequestParam(defaultValue = "1") int cPage, HttpServletRequest request,
+			@RequestParam(value = "locale", defaultValue = "ko") String locales) throws Exception {
 		
 		//조회 전 마감일자 지난 list들 채용마감으로 변경
 		recruitService.updateContentsStatus();
@@ -55,22 +56,20 @@ public class userRecruitController {
 		map.put("searchKeyword", searchKeyword);
 		map.put("limit", limit);
 		map.put("offset", offset);
+		map.put("locale", locales);
 		Map<String, Object> resultMap = userRecruitService.selectRecruitList(map);
-		System.out.println("resultMap>>>>>" + resultMap);
 		//조회된 총 갯수
 		int totalPostListCount = Integer.parseInt(resultMap.get("totalCount").toString());
 		
 		// pagebar
-		String pagebar = NaedamUtils.getPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
+		String pagebar = NaedamUtils.getUserPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
 		
 		ModelAndView mv = new ModelAndView();
-		
-		System.out.println("pagebar>>>>>>" +pagebar);
 		
 		mv.addObject("pagebar", pagebar);		
 		mv.addObject("list", resultMap.get("list")); 
 		mv.addObject("pageCount",totalPostListCount);		
-		mv.setViewName("user/recruit/userRecruitList");
+		mv.setViewName("user/"+locales+"/recruit/userRecruitList");
 		return mv;
 	}
 	
@@ -78,7 +77,8 @@ public class userRecruitController {
 	@RequestMapping(value = "userRecruitListPaging")
 	public Map<String, Object> userRecruitListPaging(HttpServletRequest request,
 			@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam("searchKeyword") String searchKeyword){
+			@RequestParam("searchKeyword") String searchKeyword,
+			@RequestParam(value = "locale", defaultValue = "ko") String locales){
 		
 		int limit = 6;
 		int offset = (cPage - 1) * limit;
@@ -87,15 +87,13 @@ public class userRecruitController {
 		map.put("search", searchKeyword);
 		map.put("limit", limit);
 		map.put("offset", offset);
-		
-		System.out.println("userRecruitListPaging map >>>> " + map);
+		map.put("locale", locales);
 		
 		Map<String, Object> resultList = userRecruitService.selectRecruitList(map);
-		System.out.println("userRecruitListPaging resultMap>>>>>" + resultList);
 		//조회된 총 갯수
 		int totalPostListCount = Integer.parseInt(resultList.get("totalCount").toString());
 		// pagebar
-		String pagebar = NaedamUtils.getPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
+		String pagebar = NaedamUtils.getUserPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
 				
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("recruit", resultList);
@@ -107,22 +105,24 @@ public class userRecruitController {
 	
 	
 	@RequestMapping(value = "getRecruitDetail/{recruitNo}")
-	public ModelAndView recruitDetail(@PathVariable("recruitNo")int recruitNo) {
+	public ModelAndView recruitDetail(@PathVariable("recruitNo")int recruitNo,
+			@RequestParam(value = "locale", defaultValue = "ko") String locales) {
 		
 		//채용글 1차
 		recruitDTO recruitData = recruitService.getRecruitData(recruitNo);
-				
+		
+		String locale = recruitData.getLocale();
 		//채용글 2차 (리스트 여러개)
 		List<recruitContentsDTO> contents = recruitService.getContentsData(recruitNo);
 		
-		System.out.println("user recruitData>>>>>" + recruitData);
-		System.out.println("user contents>>>>>" + contents);
+		Map<String, Object> map = new HashMap<>();
+		map.put("locale", locales);
 		
 		ModelAndView mv = new ModelAndView();
 		
 		mv.addObject("recruitData", recruitData);
 		mv.addObject("contents", contents);
-		mv.setViewName("user/recruit/userRecruitDetail");
+		mv.setViewName("user/"+locale+"/recruit/userRecruitDetail");
 		return mv;
 	}
 	
@@ -133,7 +133,6 @@ public class userRecruitController {
 		
 		recruitDTO file = userRecruitService.getFileInfo(recruitNo);
 		
-//		String filePath = file.getFilePath();
 		String filePath = request.getServletContext().getRealPath(file.getFilePath());
 		
 		String fileName = file.getFileName();

@@ -81,7 +81,6 @@
 
 <script>
 	function loginSubmit() {
-		console.log("loginSubmit 도착했나요?");
 		if (form.id.value == '') {
 			alert('아이디가 입력되지 않았습니다.');
 			form.id.focus();

@@ -80,7 +80,7 @@
 		$("li[name='postData']").remove();
 		
 		$.ajax({
-			url : "/admin/board/json/getPostList/"+boardNo,
+			url : "/admin/board/json/getPostList/"+boardNo+"?locale=${cookie.locale.value}",
 			method : "GET",
 			dataType : "JSON",
 			headers : {
@@ -122,7 +122,7 @@
 		</c:forEach>
 	
 		$.ajax({
-			url : "/admin/board/json/getPostList/"+boardNo,
+			url : "/admin/board/json/getPostList/"+boardNo+"?locale=${cookie.locale.value}",
 			method : "GET",
 			dataType : "JSON",
 			headers : {
@@ -130,12 +130,10 @@
 				"Content-Type" : "application/json"	 						
 			} ,
 			success : function(JSONData, status){
-				console.log("status=====", JSONData);
 				if(status == 'success'){
 					if(JSONData.list.length != 0){
 						for(var i = 0; i < JSONData.list.length; i++){
 							var post = JSONData.list;
-							console.log("post===="+i+"=====", post[i]);
 							display = '<li name="postData">'
 									+ '<a href="/admin/board/postList?boardNo='+post[i].postBoard.boardNo+'">'+post[i].postTitle+''
 									+ '<span class="pull-right cs-m-right20">'+post[i].postDate+'</span>'
@@ -150,7 +148,6 @@
 					
 					if(JSONData.recruitList.length != 0){
 						for(var i = 0; i < JSONData.recruitList.length; i++){
-							console.log("JSONData.recruitList=====" , JSONData.recruitList);
 							var recruit = JSONData.recruitList;
 							display = '<li name="recruitData">'
 									+ '<a href="/admin/recruitList">'+recruit[i].recruitTitle
@@ -185,6 +182,9 @@
 			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li>Dashboard</li>
 		</ol>
+		<form>
+			<input type="hidden" name="locale" value="${locale }">
+		</form>
 	</section>
 
 	<section class="content">

@@ -1,8 +1,6 @@
 package com.naedam.admin.award.controller;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.naedam.admin.award.model.service.AwardService;
 import com.naedam.admin.award.model.vo.Award;
-import com.naedam.admin.history.model.vo.History;
+import com.naedam.admin.award.model.vo.AwardRequest;
 
 @Controller
 @RequestMapping("/admin/award")
@@ -33,7 +31,8 @@ public class AwardController {
 	 */
 	@PostMapping("/getAward")
 	@ResponseBody
-	public Award getAward(int awardNo) {
+	public Award getAward(@RequestParam("awardNo") int awardNo) {
+
 		Award award = awardService.selectDetailByNo(awardNo);
 		return award;
 	}
@@ -49,16 +48,22 @@ public class AwardController {
 	@PostMapping("award_process")
 	public String award_process(HttpServletRequest request, Award award, 
 								RedirectAttributes redirectAttr,
-								@RequestParam(value="awardImage", required = false) MultipartFile awardImage) throws Exception {
-		Map<String, Object> map = new HashMap<>();
-		map.put("award", award);
-		map.put("mode", request.getParameter("mode"));
-		map.put("request", request);
-		map.put("awardImage", awardImage);
+								@RequestParam(value="awardImage", required = false) MultipartFile awardImage,
+								@RequestParam(value = "locale", defaultValue = "ko") String locale,
+								@RequestParam(value = "fullDate", required = false) String fullDate
+			) throws Exception {
 		
-		Map<String, Object> resultMap = awardService.awardProcess(map);
+		AwardRequest awardRequest = new AwardRequest();
+		awardRequest.setAward(award);
+		awardRequest.setMode(request.getParameter("mode"));
+		awardRequest.setRequest(request);
+		awardRequest.setAwardImage(awardImage);
+		awardRequest.setLocale(locale);
+		awardRequest.setFullDate(fullDate);
+		
+		Map<String, Object> resultMap = awardService.awardProcess(awardRequest);
 		redirectAttr.addFlashAttribute("msg", (String)resultMap.get("msg"));
-		return "/admin/setting/award";
+		return "redirect:/admin/setting/award";
 	}
 	
 	

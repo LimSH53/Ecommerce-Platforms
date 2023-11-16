@@ -285,7 +285,6 @@
 				$("#pagebarContainer").html('');
 				$("#pagebarContainer").html(data["pagebar"]);
 			},
-			error : console.log
 		});
 	}
 	
@@ -351,7 +350,6 @@
 			contentType : "application/json; charset=utf8",
 			method : "GET",
 			success : function(res){
-				console.log("ajaxData = " + JSON.stringify(res));
 				var withdrawalMemberEntity = res.withdrawalMemberEntity;
 				var authorities = res.authorities;
 				var mobile1 = res.mobile1;
@@ -387,7 +385,6 @@
 				$("#withdraw_date").text(withdrawalDate);
 				$("#reg_date").text(regDate);
 			},
-			error : console.log
 		});
 	});
 	
@@ -439,7 +436,6 @@
 	function update(){
 		var id = $("#id").val();
 		var password = $("#password").val();
-		console.log("password = " + password);
 		var passwordCheck = $("#passwordCheck").val();
 		var firstName = $("#firstName").val();
 		var lastName = $("#lastName").val();

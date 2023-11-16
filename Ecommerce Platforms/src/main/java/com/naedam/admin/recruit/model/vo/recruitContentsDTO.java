@@ -1,6 +1,5 @@
 package com.naedam.admin.recruit.model.vo;
 
-import java.util.List;
 
 import lombok.Data;
 

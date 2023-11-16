@@ -3,7 +3,6 @@ package com.naedam.admin.business.model.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.naedam.admin.board.model.vo.BoardOption;
 import com.naedam.admin.member.model.vo.Member;
 
 import lombok.AllArgsConstructor;
@@ -17,18 +16,14 @@ import lombok.ToString;
 @ToString
 public class Business implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private int businessNo;			//business 테이블 primary 키
 	private String businessTitle; 		//게시판 제목
-	private String businessType;		//게시판 정보의 종류
 	private Member businessMemberNo;	//회원 데이터
 	private Date inDtm;
-	private BoardOption option;
 	private int count;
+	private String locale;
 	
 	
 	

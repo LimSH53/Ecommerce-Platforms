@@ -4,8 +4,6 @@ import java.util.Map;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.naedam.admin.member.model.vo.MemberAccessHistory;
-
 public interface SecurityDao {
 
 	UserDetails loadUserByUsername(String username);

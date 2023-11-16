@@ -47,8 +47,6 @@
 				contents.push($(this).val());
 			})
 
-			console.log("subTitle >>" + subTitle);
-			console.log("contents >>" + contents);
 			
 			let contentsStatus;
 			let recruitStart;
@@ -99,16 +97,15 @@
 					"recruitManager": $("#recruitManager").val(),
 					"contentsStatus": contentsStatus,
 					"subTitle": subTitle,
-					"contents": contents
+					"contents": contents,
+					"locale": $("#locale").val()
 			}
 			
 			var fileinput = $("input[name='fileName']");
-			console.log("fileinput >>>" + fileinput);
 			
 			for(var i = 0; i < fileinput.length; i++){
 				if(fileinput[i].files.length > 0){
 					for(var j = 0; j < fileinput[i].files.length; j++){
-						console.log(" fileInput[i].files[j] :::"+ fileinput[i].files[j]);
 						// formData에 'file'이라는 키값으로 fileInput 값을 append 시킨다.  
 						formData.append('file', $("input[name='fileName']")[i].files[j]); 
 					 } 
@@ -116,7 +113,6 @@
 			}
 		
 			formData.append("${_csrf.parameterName}", "${_csrf.token}");
-			console.log("formData:" + formData.get(0));
 			
 			if(!confirm("채용 게시글을 등록하시겠습니까?")){
 				alert("취소 되었습니다.");
@@ -128,7 +124,6 @@
 		  		  	 type : "POST",
 	  		  	 	 data : data,
 	    		 	 success : function(result){
-	    		 		console.log("result >> ", result);
 	    		 		$.ajax({
 	   	  			 	 url : "/admin/insertFile?",
 	   		  		  	 type : "POST",
@@ -137,7 +132,6 @@
 	   	  		  	     contentType: false,
 	   	  		  	     enctype: 'multipart/form-data',
 	   	    		 	 success : function(result){
-	   	    		 		console.log("result222 >> ", result);
 	   	    		 		let msg;
 	   	    		 		if(result == 1){
 	   	    		 			msg = "게시글 등록에 성공했습니다.";
@@ -147,7 +141,7 @@
 	   	    		 			msg = "게시글 등록에 실패했습니다.";
 	   	    		 		}
 	   	    		 		alert(msg);
-	   	   			  		location.href = "/admin/recruitList";
+	   	    		 	location.href = "/admin/recruitList?locale="+ $("#locale").val();
 	   	  		  	 	 }
 	   		  		})
 	  		  	 	 }
@@ -160,7 +154,6 @@
 			
 			let chk = $(this).is(":checked");
 			
-			console.log("버튼누름",chk);
 			
 			if(chk){
 				/* $("input:checkbox[name='always']").prop('checked', true); */
@@ -170,17 +163,17 @@
 				$('#startDay').val('');
 				$('#endDay').val('');
 				
-				console.log("startDay vla ==" , $('#startDay').val());
-				console.log("endDay vla ==" , $('#endDay').val());
-				console.log("always vla ==" , $('#always').val());	
 			} else {
-				console.log("실패");
 				$("input:checkbox[name='always']").prop('checked', false); 
 				document.getElementById('startDay').disabled = false;
 				document.getElementById('endDay').disabled = false;
 			}
 		})
 	})
+	
+	function removeFile(){
+		$('#fileName').val("");		
+	}
 	</script>
 	<div class="modal fade" id="modalContent" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
@@ -190,6 +183,7 @@
 					<input type="hidden" name="mode" id="mode" value="insert">
 					<input type="hidden" name="secNo"
 						value="<sec:authentication property='principal.memberNo'/>">
+					<input type="hidden" name="locale" id="locale" value="${locale }">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">×</button>
@@ -272,9 +266,8 @@
 									<td class="menu">파일</td>
 									<td align="left">
 										<input type="file" name="fileName" id="fileName" class="form-control input-sm" style="width: 80%; display: inline;"> 
-										<span id="display_file" style="display: none;">
-											<button type="button" onclick="winOpen('?tpf=common/image_view&amp;file_name=product/'+$('#code').val()+'_1');" class="btn btn-success btn-xs">보기</button>
-											<button type="button" onclick="confirmIframeDelete('?tpf=common/image_delete&amp;file_name=product/'+$('#code').val()+'_1&amp;table=product&amp;code='+$('#code').val());" class="btn btn-danger btn-xs">삭제</button>
+										<span id="display_file" >
+											<button type="button" onclick="removeFile();" class="btn btn-danger btn-xs">삭제</button>
 										</span>
 									</td>
 								</tr>

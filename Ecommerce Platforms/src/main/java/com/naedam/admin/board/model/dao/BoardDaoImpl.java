@@ -3,7 +3,6 @@ package com.naedam.admin.board.model.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -115,14 +114,13 @@ public class BoardDaoImpl implements BoardDao {
 	
 	//메인페이지 공지사항 최신 3개 목록
 	@Override
-	public List<Post> getMainPostList() throws Exception {
-		return sqlSession.selectList("board.getMainPostList");
+	public List<Post> getMainPostList(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList("board.getMainPostList", map);
 	}		
 	
 	//게시글 이전 이후 데이터
 	@Override
 	public Post getPrevPost(Post post) throws Exception {
-		System.out.println("데이터 체크 === "+post);
 		return sqlSession.selectOne("board.getPrevPost", post);
 	}
 	
@@ -140,8 +138,8 @@ public class BoardDaoImpl implements BoardDao {
 	
 	//header의 게시판 제목
 	@Override
-	public List<Board> getBoardTitle() {
-		return sqlSession.selectList("board.getBoardTitle");
+	public List<Board> getBoardTitle(Map<String, Object> map) {
+		return sqlSession.selectList("board.getBoardTitle",map);
 	}
 	
 	//게시판의 데이터
@@ -183,13 +181,13 @@ public class BoardDaoImpl implements BoardDao {
 	
 	//게시판 선택 산제
 	@Override
-	public void deleteChoiceBoard(List<Integer> boardNo) throws Exception {
+	public void deleteChoiceBoard(int boardNo) throws Exception {
 		sqlSession.delete("board.deleteChoiceBoard", boardNo);
 	}
 	
 	//게시글 선택 삭제
 	@Override
-	public void deleteChoicePost(List<Integer> postNo) throws Exception {
+	public void deleteChoicePost(int postNo) throws Exception {
 		sqlSession.delete("board.deleteChoicePost", postNo);
 	}
 	
@@ -263,9 +261,15 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public List<String> getBoardList() {
-		return sqlSession.selectList("board.getBoardList");
+	public List<String> getBoardList(String locale) {
+		return sqlSession.selectList("board.getBoardList", locale);
 	}
+
+	@Override
+	public String getfileName(int postNo) {
+		return sqlSession.selectOne("board.getfileName",postNo);
+	}
+
 
 	
 }

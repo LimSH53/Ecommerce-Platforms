@@ -10,7 +10,8 @@
 	word-break: keep-all;
 	}
 
-BODY {overflow-y:scroll;}
+body {overflow-y:scroll;}
+
 .css-transitions-preload * {
   -webkit-transition: none !important;
   -moz-transition: none !important;
@@ -1010,7 +1011,7 @@ img {
   padding: 64px 0;
 }
 .layout_section_outer.type12 {
-  padding: 160px 0 0;
+  padding: 40px 0 0 0;
 } /* 모바일 120px 0 0 */
 .layout_section_outer.type13 {
   padding: 0 0 160px;
@@ -1224,8 +1225,7 @@ img {
   background-image: url(../images/img/img-keyvisual-visual-contact-pc@2x.png);
 } /* 고객센터 */
 .top_visual_area.recruit {
-  /* background-image: url(../images/naedam_ca_back.png); */
-  background-image: url(../images/recruit_top.jpg);
+  background-image: url(../images/recruit_banner.jpeg);
 } /* 채용 */
 
 .top_visual_area.tech-02.ci_visual_area {
@@ -1369,10 +1369,11 @@ img {
 }
 .card-ui .desc_box .ui_category {
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 24px;
   line-height: 26px;
   letter-spacing: -0.2px;
-  color: #2b91fe;
+  color: #000;
+  font-weight: bold;
 }
 .card-ui .desc_box .ui_title {
   margin-top: 12px;
@@ -1941,7 +1942,6 @@ body.scroll-up .common-swiper_area[data-js="js-sticky"] {
     justify-content: flex-end;
   }
   #header .inner .header_util .btn_util_wrap a:not(.btn_search) {
-    display: none;
   }
   #wrap {
     min-width: 100%;
@@ -2299,6 +2299,9 @@ body.scroll-up .common-swiper_area[data-js="js-sticky"] {
 }
 
 @media all and (max-width: 950px) {
+	  #header .inner .gnb-wrap {
+    display: none;
+  }
   #footer .footer-menu {
     display: flex;
   }
@@ -2955,9 +2958,6 @@ body.scroll-up .common-swiper_area[data-js="js-sticky"] {
   #footer .footer-policy .select_policy .companyGroup li.mo_show {
     display: block;
   }
-  #header .inner .gnb-wrap {
-    display: none;
-  }
   #footer .naedam_footer_img {
     float: left;
   }
@@ -3163,4 +3163,5 @@ body.scroll-up .common-swiper_area[data-js="js-sticky"] {
   .hide_1280 {
     display: none;
   }
+}
 }

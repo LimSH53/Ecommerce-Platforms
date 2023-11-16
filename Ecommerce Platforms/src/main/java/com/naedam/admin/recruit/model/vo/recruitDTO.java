@@ -1,8 +1,6 @@
 package com.naedam.admin.recruit.model.vo;
 
-import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -28,5 +26,6 @@ public class recruitDTO {
 	private String contentsStatus;		//채용게시글 게시상태
 	private String recruitManager;		//채용 담당자
 	private int rownum;
+	private String locale;
 	
 }

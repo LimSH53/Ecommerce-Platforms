@@ -1,7 +1,6 @@
 package com.naedam.admin.board.model.vo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import lombok.Data;
 

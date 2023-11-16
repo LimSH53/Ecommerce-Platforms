@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.naedam.admin.board.model.service.BoardService;
 import com.naedam.admin.board.model.vo.Board;
 import com.naedam.admin.common.Comm;
-import com.naedam.admin.common.Mir9Utils;
+import com.naedam.admin.common.NaedamUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +54,7 @@ public class UserBoardController {
 		
 		// pagebar
 		String url = request.getRequestURI();
-		String pagebar = Mir9Utils.getPagebar(cPage, limit, totalPostListCount, url);
+		String pagebar = NaedamUtils.getPagebar(cPage, limit, totalPostListCount, url);
 		model.addAttribute("pagebar", pagebar);		
 		model.addAttribute("list", resultMap.get("list")); 
 		model.addAttribute("boardNo", boardNo);

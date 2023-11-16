@@ -1,6 +1,5 @@
 package com.naedam.admin.recruit.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,7 @@ import com.naedam.admin.recruit.model.vo.recruitDTO;
 public interface RecruitService {
 
 	// 게시글 목록
-	public Map<String, Object> getRecruitList(String search, int limit, int offset)throws Exception;
+	public Map<String, Object> getRecruitList(String search, int limit, int offset, String locale)throws Exception;
 
 	// 게시글 삭제
 	public int deleteRecruit(List<Integer> postArr);

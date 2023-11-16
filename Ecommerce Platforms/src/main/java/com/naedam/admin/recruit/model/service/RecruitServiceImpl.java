@@ -3,7 +3,6 @@ package com.naedam.admin.recruit.model.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,14 +28,11 @@ public class RecruitServiceImpl implements RecruitService {
 	private RecruitDao recruitDao;
 
 	@Override
-	public Map<String, Object> getRecruitList(String search, int limit, int offset) throws Exception {
-		
-		System.out.println("==========recruitList service =================");
-		System.out.println("search>>>" + search);
+	public Map<String, Object> getRecruitList(String search, int limit, int offset, String locale) throws Exception {
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("list", recruitDao.getRecruitList(search, offset, limit));
-		resultMap.put("totalCount", recruitDao.getTotalCount(search));
+		resultMap.put("list", recruitDao.getRecruitList(search, offset, limit, locale));
+		resultMap.put("totalCount", recruitDao.getTotalCount(search, locale));
 		
 		return resultMap;
 	}
@@ -49,7 +45,6 @@ public class RecruitServiceImpl implements RecruitService {
 
 		for (int i = 0; i < postArr.size(); i++) {
 			recruitNum = postArr.get(i);
-			System.out.println("recruitNum" + i + ">>>>>" + recruitNum);
 			deleteResult += recruitDao.deleteRecruit(recruitNum);
 		};
 		
@@ -62,8 +57,6 @@ public class RecruitServiceImpl implements RecruitService {
 		log.info(">>>>>insertRecruitService 실행");
 		
 		int recruitResult = recruitDao.insertRecruit(recruit);
-		
-		System.out.println(">>>> recruitRecult: " + recruitResult);
 		
 		return recruitResult;
 	}
@@ -117,8 +110,6 @@ public class RecruitServiceImpl implements RecruitService {
 		List<recruitContentsDTO> contentsList = new ArrayList<>();
 		int subTitleSize = 0;
 		
-		System.out.println("contents List >>>>" + contents);
-		
 		if(subTitle != null) {
 			subTitleSize = subTitle.size();
 		}
@@ -132,8 +123,6 @@ public class RecruitServiceImpl implements RecruitService {
 			
 			String subTitleStr = String.join(",", subTitle);
 			String contentsStr = String.join(",", contents);
-			System.out.println("subTitleStr>>>>>>>" + subTitleStr);
-			System.out.println("contentsStr>>>>>>>" + contentsStr);
 			
 			/*세부 내용*/
 			dtoContents.setRecruitSubTitle(subTitleStr);
@@ -148,13 +137,11 @@ public class RecruitServiceImpl implements RecruitService {
 			
 		} else {
 			for (int i = 0; i < subTitleSize; i++) {
-				System.out.println("i >> " + i);
 				recruitContentsDTO dtoContents = new recruitContentsDTO();
 						
 				/*세부 내용*/
 				dtoContents.setRecruitSubTitle(subTitle.get(i));
 				dtoContents.setRecruitContents(contents.get(i));
-				System.out.println("contents.get(i)>>>>>>" + contents.get(i));
 						
 				/*세부 내용이 들어갈 채용 게시글 dto*/
 				recruitDTO dtoRecruit = new recruitDTO();
@@ -162,13 +149,10 @@ public class RecruitServiceImpl implements RecruitService {
 				dtoContents.setRecruitNo(dtoRecruit);
 						
 				contentsList.add(dtoContents);
-						  
-				System.out.println("contents [" + i + "] >> " + contentsList);
 			}
 			
 			for(int i = 0; i < contentsList.size(); i++) {
 				insertContentsResult += recruitDao.insertRecruitContents(contentsList.get(i));
-				System.out.println("contentsList.get(" + i + ") ==>" + contentsList.get(i));
 			}
 		}
 		
@@ -179,31 +163,26 @@ public class RecruitServiceImpl implements RecruitService {
 
 	@Override
 	public recruitDTO getRecruitData(int recruitNo) {
-		System.out.println("getRecruitData Service ==== " + recruitNo);
 		return recruitDao.getRecruitData(recruitNo);
 	}
 
 	@Override
 	public List<recruitContentsDTO> getContentsData(int recruitNo) {
-		System.out.println("getContentsData Service ==== " + recruitNo);
 		return recruitDao.getContentsData(recruitNo);
 	}
 
 	@Override
 	public int updateRecruit(recruitDTO recruit) {
-		System.out.println("updateRecruit Service ==== " + recruit);
 		return recruitDao.updateRecruit(recruit);
 	}
 
 	@Override
 	public int deleteRecruitContents(int curRecruitNo) {
-		System.out.println("deleteRecruitContents Service ==== " + curRecruitNo);
 		return recruitDao.deleteRecruitContents(curRecruitNo);
 	}
 
 	@Override
 	public int updateContentsStatus() {
-		System.out.println("updateContentsStatus service ====");
 		return recruitDao.updateContentsStatus();
 	}
 

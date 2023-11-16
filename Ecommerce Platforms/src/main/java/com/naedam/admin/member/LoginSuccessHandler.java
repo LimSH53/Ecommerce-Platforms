@@ -19,7 +19,7 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Service;
 
-import com.naedam.admin.common.Mir9Utils;
+import com.naedam.admin.common.NaedamUtils;
 import com.naedam.admin.member.model.vo.Member;
 import com.naedam.admin.security.model.service.SecurityService;
 
@@ -69,7 +69,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		paramHistory.put("accessHistoryStatus", "login");
 		paramHistory.put("loginDate", param.get("loginDate"));
 		//String ip = request.getRemoteAddr();
-		String ip = Mir9Utils.getClientIP(request);
+		String ip = NaedamUtils.getClientIP(request);
 		log.debug("ip = {}", ip);
 		paramHistory.put("accessHistoryIp", ip);
 		

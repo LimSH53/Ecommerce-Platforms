@@ -13,26 +13,33 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.naedam.admin.board.model.service.BoardService;
 import com.naedam.admin.board.model.vo.Board;
 import com.naedam.admin.board.model.vo.BoardComment;
 import com.naedam.admin.board.model.vo.BoardFile;
 import com.naedam.admin.board.model.vo.Post;
+import com.naedam.admin.board.model.vo.PostRequest;
 import com.naedam.admin.common.Comm;
 import com.naedam.admin.member.model.vo.Member;
 import com.naedam.admin.recruit.model.service.RecruitService;
 import com.naedam.admin.setting.model.service.SettingService;
 import com.naedam.admin.setting.model.vo.AdminMenu;
 
+import lombok.extern.log4j.Log4j;
+
 //게시판 관리의 Rest Controller
+@Log4j
 @RestController
 @RequestMapping("/admin/board/*")
 public class BoardRestController {
@@ -69,7 +76,6 @@ public class BoardRestController {
 	//대용량 파일 업로드
 	@PostMapping(value="json/plupload")
 	public String plupload(@RequestParam("file") MultipartFile file, HttpServletRequest request)throws Exception{
-		System.out.println("/json/plupload 시작");
 		String a = file.getOriginalFilename();
 		String filePath = request.getServletContext().getRealPath("resources/admin/imgs/imageBoard/board");
 		File file2 = new File(filePath+file.getOriginalFilename());
@@ -83,8 +89,10 @@ public class BoardRestController {
 	 * @throws Exception
 	 */
 	@GetMapping(value="json/listBoard")
-	public List<Board> listBoard() throws Exception{		
-		return boardService.getBoardTitle();
+	public List<Board> listBoard(@RequestParam(value = "locale", defaultValue = "ko") String locale) throws Exception{		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("locale", locale);
+		return boardService.getBoardTitle(map);
 	}
 	
 	/***
@@ -94,8 +102,8 @@ public class BoardRestController {
 	 * @throws Exception
 	 */
 	@GetMapping(value="json/getPostList/{boardNo}")
-	public Map<String, Object> getPostList(@PathVariable("boardNo") int boardNo) throws Exception{
-		System.out.println("getPostList boardNo==== "+ boardNo);
+	public Map<String, Object> getPostList(@PathVariable("boardNo") int boardNo,
+			@RequestParam(value = "locale", defaultValue = "ko")String locale) throws Exception{
 		//조회 전 마감일자 지난 list들 채용마감으로 변경
 		recruitService.updateContentsStatus();
 		Board board = new Board();
@@ -110,6 +118,7 @@ public class BoardRestController {
 		map.put("comm", comm);
 		map.put("limit", limit);
 		map.put("offset", offset);
+		map.put("locale", locale);
 		Map<String, Object> resultMap = boardService.getPostList(map);
 		return resultMap;
 	}	
@@ -156,7 +165,7 @@ public class BoardRestController {
 	 */
 	@GetMapping(value="json/getMemberData2/{memberNo}")
 	public Member getMemberData2(@PathVariable("memberNo") int memberNo) throws Exception{
-		System.out.println("getMemberData2 시작");
+		log.info("getMemberData2 시작");
 		return boardService.getMemberData(memberNo);
 	}
 	
@@ -168,7 +177,7 @@ public class BoardRestController {
 	 */
 	@GetMapping(value="json/getCommentList/{postNo}")
 	public List<BoardComment> getCommentList(@PathVariable("postNo") int postNo) throws Exception{
-		System.out.println("json/getCommentList 시작");
+		log.info("json/getCommentList 시작");
 		List<BoardComment> boardComment = boardService.getCommentList(postNo);
 		return boardComment;
 	}
@@ -191,17 +200,18 @@ public class BoardRestController {
 	 * @param mode
 	 * @return
 	 * @throws Exception
-	 */
-	@PostMapping("json/boardProcess")
-	public Boolean boardProcess(@RequestParam(value = "boardArr[]") List<String> boardArr,  @RequestParam("mode") String mode) throws Exception{
-		Boolean result = false;
-		Map<String, Object> boardMap = new HashMap<>();
-		boardMap.put("boardArr", boardArr);
-		boardMap.put("mode", mode);
-		boardService.boardProcess(boardMap);
-		result = true;
-		return result;
-	}	
+
+//	@PostMapping("json/boardProcess")
+//	public Boolean boardProcess(@RequestParam(value = "boardArr[]") List<String> boardArr,  @RequestParam("mode") String mode) throws Exception{
+//		Boolean result = false;
+//		Map<String, Object> boardMap = new HashMap<>();
+//		boardMap.put("boardArr", boardArr);
+//		boardMap.put("mode", mode);
+//		boardService.boardProcess(boardMap);
+//		result = true;
+//		return result;
+//	}	
+
 	
 	/***
 	 * 비동기처리의 C,U,D를 위한 게시글 프로세스
@@ -212,17 +222,17 @@ public class BoardRestController {
 	 * @throws Exception
 	 */
 	@PostMapping("json/postProcess")
-	public Boolean postProcess(@RequestParam(value = "postArr[]") List<String> postArr,
-							   @RequestParam(value = "boardNo", required = false, defaultValue= "0") int boardNo,
-							   @RequestParam("mode") String mode) throws Exception{
-		Post post = new Post();
+	public Boolean postProcess(	@RequestParam(value = "postArr[]") List<String> postArr,
+							   									@RequestParam("mode") String mode,
+					   											@RequestParam(value = "boardNo", required = false, defaultValue= "0") int boardNo ) throws Exception{
 		Boolean result = false;
-		Map<String, Object> postMap = new HashMap<>();
-		postMap.put("postArr", postArr);
-		postMap.put("mode", mode);
-		postMap.put("boardNo", boardNo);
-		postMap.put("post", post);
-		boardService.postProcess(postMap);
+
+		PostRequest postRequest = new PostRequest();
+		postRequest.setPostArr(postArr);
+		postRequest.setMode(mode);
+		postRequest.setBoardNo(boardNo);
+		boardService.postProcess(postRequest);
+    
 		result = true;
 		return result;
 	}	
@@ -253,14 +263,12 @@ public class BoardRestController {
 	 */
 	@GetMapping(value="json/getAdminMenu")
 	public List<AdminMenu> getAdminMenu() throws Exception{
-		System.out.println("json/getAdminMenu 시작");
 		List<AdminMenu> adminMenu = settingService.selectAdminMenuList();
 		return adminMenu;
 	}
 	
 	@GetMapping(value="json/downloadImg/{fileNo}")
 	public void download(HttpServletResponse response, @PathVariable("fileNo") int fileNo) throws Exception {
-		System.out.println("json/downloadImg 시작");
 		BoardFile boardFile = boardService.getFileData(fileNo);
 		
         // 직접 파일 정보를 변수에 저장해 놨지만, 이 부분이 db에서 읽어왔다고 가정한다.
@@ -307,7 +315,6 @@ public class BoardRestController {
 							@RequestParam("boardUpAsc") int boardUpAsc,
 							@RequestParam("postNo") int postNo,
 							@RequestParam("upPostNo") int upPostNo) throws Exception{
-		System.out.println("updateUpAsc 시작");
 		Boolean result = false;
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> map2 = new HashMap<String, Object>();
@@ -335,7 +342,6 @@ public class BoardRestController {
 							@RequestParam("boardDownAsc") int boardDownAsc,
 							@RequestParam("postNo") int postNo,
 							@RequestParam("downPostNo") int downPostNo) throws Exception{
-		System.out.println("json/updateDownAsc 시작");
 		Boolean result = false;
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> map2 = new HashMap<String, Object>();
@@ -353,7 +359,6 @@ public class BoardRestController {
 	@PostMapping("json/testtest")
 	public Boolean testInsert(@RequestParam("formData") Map<String, Object> map) {
 		Boolean result = false;
-		System.out.println("map ==== "+map);
 		
 		return result;
 	}

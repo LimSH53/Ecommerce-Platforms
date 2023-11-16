@@ -1,18 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html lang="ko">
   <head>
     <title>내담씨앤씨</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport"content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no">
+    <meta name="title" content="내담씨앤씨">
+	<meta property="og:title" content="내담씨앤씨">
+	<meta name="description" content="디지털 트렌스포메인션의 파트너, 글로벌 경쟁력을 갖춘 내담씨앤씨입니다.">
+	<meta property="og:description" content="디지털 트렌스포메인션의 파트너, 글로벌 경쟁력을 갖춘 내담씨앤씨입니다.">
+	<meta name="keywords" content="내담C&C, 내담씨앤씨, ndcnc, 내담, NDCNC">
+	<meta property="og:url" content="http://ndcc.co.kr">
     <jsp:include page="/WEB-INF/views/user/common/script_css_js.jsp" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/user/css/main.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/user/js/main.js"></script>
   </head>
-  <body>
+  <body data-aos-easeing="easy" data-aos-duration="400" data-aos-delay="0">
     <div id="wrap">
    <jsp:include page="/WEB-INF/views/user/common/header.jsp" />
       <section id="container">
@@ -26,14 +31,10 @@
                            <div class="view" style="background-image: url(${pageContext.request.contextPath}/resources/user/images/main/${head.headImage});"></div>
                            <p class="blind">배경이미지 대체텍스트</p>
                            <div class="inner">
-                              <div class="visual_txt_area aos-init aos-animate" data-aos="fade-up" data-aos-offset="0" data-aos-duration="400" data-aos-delay="300" data-aos-easing="linear">
+                              <div class="visual_txt_area" data-aos="fade-up" data-aos-offset="0" data-aos-duration="400" data-aos-delay="300" data-aos-easing="linear">
                                  <div class="main-banner">
-                                    <h2 class="tit-slide">
-                                       ${head.title}
-                                    </h2>
-                                    <p class="description">
-                                       ${head.content}
-                                    </p>
+                                    <h2 class="tit-slide" style="white-space:pre-line;">${head.title}</h2>
+                                    <p class="description" style="white-space:pre-line;">${head.content}</p>
                                  </div>
                                  <div class="btn-area">
                                     <a href="${pageContext.request.contextPath}${head.headUrl}" class="common-btn is-white2"> 
@@ -66,6 +67,11 @@
                      </div>
                   </div>
                </div>
+			 <div class="scroll-guide-area">
+				<div class="scroll-guide">
+					<span class="blind">Scroll Down</span>
+				</div>
+			</div>
             </div>
             <div class="nft-wrap section">
                <div class="inner_container">
@@ -73,9 +79,9 @@
                      고객사의 고객 만족 및 내부 경쟁력 향상
                   </h3>
                   <p class="description aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                     내담씨앤씨는 축적된 경험 및 Knowhow와 이를 뒷받침 해주는 전문화된 Skill 및 Solution을 기반으로 
-                     <br />고객사의 고객 만족 및 내부 경쟁력 향상을 이끌어 내어 한단계 업그레이드 시키는 것을 Mission으로 하고 있으며 
-                     <br />나아가 글로벌 경쟁력을 갖춘 IT Total Service Provider 기업으로의 성장을 비전으로 하고 있습니다.
+                     내담씨앤씨는 축적된 경험 및 Know-How와 이를 뒷받침 해주는 전문화된 Skill 및 Solution을 기반으로 
+                     고객사의 고객 만족 및 내부 경쟁력 향상을 이끌어 내어 한단계 업그레이드 시키는 것을 Mission으로 하고 있으며 
+                     나아가 글로벌 경쟁력을 갖춘 IT Total Service Provider 기업으로의 성장을 비전으로 하고 있습니다.
                   </p>
                   <div class="btn-area aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
                      <a href="/user/company/businessList" class="common-btn is-white">
@@ -91,7 +97,7 @@
                      <div class="section-title-area">
                         <h2 class="tit aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">주요 사업</h2>
                         <p class="description aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                           내담씨앤씨는 친환경, 4차 산업혁명, DT(Digital Transformation), AI, Cloud, DT(Digital Twin) 등의 경쟁력이 필요한 시점을 맞이하여, 
+                           내담씨앤씨는 친환경, 4차 산업혁명, Digital Transformation, AI, Cloud, Digital Twin 등의 경쟁력이 필요한 시점을 맞이하여, 
                            고객의 성공적인 비즈니스를 위해 최적의 시스템을 제공합니다.
                         </p>
                      </div>
@@ -142,12 +148,13 @@
                               </svg>
                            </div> 
                            <div class="main_aos_naedam_txt">
-                              <h3 class="tit aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">If you with NaedamC&C</h3>
+                              <h3 class="tit aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">If you with 내담씨앤씨</h3>
                               <p class="description aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
+                                 Digital Twin, Vision AI, SI
                                  SCM(Supply Chain Management, 공급망 관리), 
-                                 <br />PLM(Product Lifecycle Management), CRM, MES, 
-                                 <br />EIP(Enterprise Information Portal) 등 
-                                 <br />다양한 IT분야에서의 구축 경험을 토대로 고객사를 위한 다양한 솔루션과 서비스를 제공합니다.
+                                 PLM(Product Lifecycle Management), CRM, MES, 
+                                 EIP(Enterprise Information Portal) 등 
+                                 다양한 IT분야에서의 구축 경험을 토대로 고객사를 위한 다양한 솔루션과 서비스를 제공합니다.
                               </p>
                            </div>                           
                         </li>
@@ -200,11 +207,11 @@
                                  </g>
                               </g>
                            </svg>                            
-                           </div> 
+                           </div>
                            <div class="main_aos_consulting_txt">
                               <h3 class="tit aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">컨설팅</h3>
                               <p class="description aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                                 빅데이터 분석 역량과 솔루션 경쟁력을 더해<br /> 데이터 생태계를 강화하는데 앞장섭니다.
+                                 빅데이터 분석 역량과 솔루션 경쟁력을 더해 데이터 생태계를 강화하는데 앞장섭니다.
                               </p>
                            </div>                           
                         </li>
@@ -234,9 +241,9 @@
                               <h3 class="tit aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
                                  정보시스템통합</h3>
                               <p class="description aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                                 내담씨앤씨는 공공, 금융, 통신, 전자상거래, 제조, 인프라 등 
-                                 <br/>다양한 산업영역의 전문적인 IT 서비스 수행을 통해 축적한 Know How를 기반으로
-                                 <br/>컨설팅, Application 개발/운영 서비스까지 고객사에서 필요로하는 IT영역의 Total Service를 제공하고 있습니다.
+                                 내담씨앤씨는 공공, 금융, 통신, 전자상거래, 제조, 농협, 인프라 등 
+                                 다양한 산업영역의 전문적인 IT 서비스 수행을 통해 축적한 Know How를 기반으로
+                                 컨설팅, Application 개발/운영 서비스까지 고객사에서 필요로하는 IT영역의 Total Service를 제공하고 있습니다.
                               </p>
                               <p class="btn-arrow aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
                                  <span class="blind">자세히 보기</span>
@@ -268,15 +275,14 @@
                               </linearGradient>
                               <g id="레이어-1" vectornator:layerName="레이어 1">
                                  <g fill="#fff" opacity="1" stroke="#42657f" stroke-linecap="butt" stroke-linejoin="round" stroke-width="4">
-                                    <path id="cloudPath1" d="M192.818 1182.41L263.153 1199.31C293.982 1206.69 317.242 1216.57 332.934 1228.94C357.302 1248.13 369.486 1275.92 369.486 1312.28C369.486 1349.58 355.225 1380.54 326.703 1405.19C298.182 1429.83 257.892 1442.16 205.833 1442.16C152.666 1442.16 110.853 1430.02 80.3931 1405.74C49.9332 1381.47 34.7032 1348.1 34.7032 1305.64L116.114 1305.64C118.699 1324.28 123.775 1338.22 131.344 1347.45C145.19 1364.25 168.912 1372.65 202.51 1372.65C222.632 1372.65 238.969 1370.44 251.523 1366.01C275.337 1357.51 287.244 1341.73 287.244 1318.65C287.244 1305.18 281.337 1294.75 269.522 1287.36C257.707 1280.16 239.154 1273.79 213.863 1268.26L170.665 1258.56C128.206 1248.97 98.8537 1238.53 82.6084 1227.27C55.1021 1208.44 41.349 1179 41.349 1138.94C41.349 1102.39 54.6406 1072.02 81.2239 1047.84C107.807 1023.65 146.851 1011.56 198.356 1011.56C241.369 1011.56 278.06 1022.96 308.427 1045.76C338.795 1068.56 354.717 1101.65 356.194 1145.03L274.229 1145.03C272.752 1120.48 262.045 1103.03 242.108 1092.7C228.816 1085.87 212.294 1082.45 192.541 1082.45C170.573 1082.45 153.035 1086.88 139.928 1095.74C126.821 1104.6 120.268 1116.97 120.268 1132.85C120.268 1147.43 126.729 1158.32 139.652 1165.52C147.959 1170.32 165.681 1175.95 192.818 1182.41Z"/>
-                                    <path id="cloudPath2" d="M746.912 1058.64C788.079 1096.11 808.663 1152.23 808.663 1227C808.663 1300.29 788.079 1356.41 746.912 1395.36C716.083 1427.11 671.501 1442.99 613.165 1442.99C554.83 1442.99 510.248 1427.11 479.419 1395.36C438.067 1356.41 417.391 1300.29 417.391 1227C417.391 1152.23 438.067 1096.11 479.419 1058.64C510.248 1026.88 554.83 1011.01 613.165 1011.01C671.501 1011.01 716.083 1026.88 746.912 1058.64ZM613.165 1083.28C579.383 1083.28 552.43 1095.74 532.308 1120.66C512.186 1145.59 502.125 1181.03 502.125 1227C502.125 1272.96 512.186 1308.41 532.308 1333.33C552.43 1358.25 579.383 1370.71 613.165 1370.71C646.948 1370.71 673.762 1358.25 693.607 1333.33C713.452 1308.41 723.375 1272.96 723.375 1227C723.375 1181.21 713.452 1145.82 693.607 1120.8C673.762 1095.79 646.948 1083.28 613.165 1083.28Z"/>
-                                    <path id="cloudPath3" d="M1181.66 1375.7C1156.55 1420 1108.65 1442.16 1037.94 1442.16C967.239 1442.16 919.242 1420 893.951 1375.7C880.475 1351.51 873.736 1317.73 873.736 1274.35L873.736 1023.47L960.409 1023.47L960.409 1274.35C960.409 1302.41 963.732 1322.9 970.378 1335.82C980.715 1358.71 1003.24 1370.16 1037.94 1370.16C1072.46 1370.16 1094.89 1358.71 1105.23 1335.82C1111.88 1322.9 1115.2 1302.41 1115.2 1274.35L1115.2 1023.47L1201.87 1023.47L1201.87 1274.35C1201.87 1317.73 1195.14 1351.51 1181.66 1375.7Z"/>
-                                    <path id="cloudPath4" d="M1368.57 1023.47L1368.57 1358.25L1570.72 1358.25L1570.72 1431.63L1283.28 1431.63L1283.28 1023.47L1368.57 1023.47Z"/>
-                                    <path id="cloudPath5" d="M1937.62 1375.7C1912.51 1420 1864.61 1442.16 1793.9 1442.16C1723.2 1442.16 1675.2 1420 1649.91 1375.7C1636.44 1351.51 1629.7 1317.73 1629.7 1274.35L1629.7 1023.47L1716.37 1023.47L1716.37 1274.35C1716.37 1302.41 1719.69 1322.9 1726.34 1335.82C1736.68 1358.71 1759.2 1370.16 1793.9 1370.16C1828.43 1370.16 1850.85 1358.71 1861.19 1335.82C1867.84 1322.9 1871.16 1302.41 1871.16 1274.35L1871.16 1023.47L1957.83 1023.47L1957.83 1274.35C1957.83 1317.73 1951.1 1351.51 1937.62 1375.7Z"/>
-                                    <path id="cloudPath6" d="M2005.19 1023.47L2335.81 1023.47L2335.81 1095.74L2213.7 1095.74L2213.7 1431.63L2127.86 1431.63L2127.86 1095.74L2005.19 1095.74L2005.19 1023.47Z"/>
-                                    <path id="cloudPath7" d="M2379.01 1023.47L2463.75 1023.47L2463.75 1431.63L2379.01 1431.63L2379.01 1023.47Z"/>
-                                    <path id="cloudPath8" d="M2857.51 1058.64C2898.68 1096.11 2919.26 1152.23 2919.26 1227C2919.26 1300.29 2898.68 1356.41 2857.51 1395.36C2826.68 1427.11 2782.1 1442.99 2723.76 1442.99C2665.43 1442.99 2620.85 1427.11 2590.02 1395.36C2548.66 1356.41 2527.99 1300.29 2527.99 1227C2527.99 1152.23 2548.66 1096.11 2590.02 1058.64C2620.85 1026.88 2665.43 1011.01 2723.76 1011.01C2782.1 1011.01 2826.68 1026.88 2857.51 1058.64ZM2723.76 1083.28C2689.98 1083.28 2663.03 1095.74 2642.91 1120.66C2622.78 1145.59 2612.72 1181.03 2612.72 1227C2612.72 1272.96 2622.78 1308.41 2642.91 1333.33C2663.03 1358.25 2689.98 1370.71 2723.76 1370.71C2757.55 1370.71 2784.36 1358.25 2804.21 1333.33C2824.05 1308.41 2833.97 1272.96 2833.97 1227C2833.97 1181.21 2824.05 1145.82 2804.21 1120.8C2784.36 1095.79 2757.55 1083.28 2723.76 1083.28Z"/>
-                                    <path id="cloudPath9" d="M3229.12 1431.63L3062.42 1141.71L3062.42 1431.63L2982.95 1431.63L2982.95 1023.47L3072.39 1023.47L3234.94 1308.41L3234.94 1023.47L3314.41 1023.47L3314.41 1431.63L3229.12 1431.63Z"/>
+									<path id="cloudPath1" d="M209.116 312.851L289.674 332.197C324.984 340.655 351.625 351.967 369.597 366.133C397.507 388.123 411.462 419.944 411.462 461.597C411.462 504.307 395.128 539.776 362.461 568.003C329.794 596.23 283.648 610.343 224.023 610.343C163.129 610.343 115.238 596.441 80.3508 568.637C45.4636 540.833 28.02 502.616 28.02 453.985L121.264 453.985C124.224 475.341 130.039 491.304 138.708 501.876C154.565 521.117 181.735 530.737 220.217 530.737C243.263 530.737 261.976 528.2 276.353 523.125C303.629 513.399 317.266 495.321 317.266 468.892C317.266 453.457 310.5 441.511 296.968 433.053C283.436 424.807 262.187 417.512 233.22 411.169L183.744 400.069C135.113 389.074 101.495 377.128 82.888 364.23C51.3839 342.664 35.6318 308.939 35.6318 263.057C35.6318 221.193 50.8553 186.411 81.3023 158.713C111.749 131.015 156.468 117.166 215.459 117.166C264.724 117.166 306.747 130.222 341.529 156.334C376.31 182.447 394.547 220.347 396.238 270.035L302.36 270.035C300.669 241.914 288.405 221.933 265.57 210.092C250.346 202.269 231.423 198.357 208.799 198.357C183.638 198.357 163.551 203.432 148.539 213.581C133.527 223.73 126.021 237.896 126.021 256.08C126.021 272.783 133.422 285.258 148.222 293.504C157.737 299.002 178.035 305.451 209.116 312.851Z"/>
+									<path id="cloudPath2" d="M843.746 171.082C890.896 214.004 914.471 278.281 914.471 363.913C914.471 447.854 890.896 512.131 843.746 556.744C808.436 593.111 757.373 611.295 690.559 611.295C623.745 611.295 572.683 593.111 537.373 556.744C490.011 512.131 466.33 447.854 466.33 363.913C466.33 278.281 490.011 214.004 537.373 171.082C572.683 134.715 623.745 116.531 690.559 116.531C757.373 116.531 808.436 134.715 843.746 171.082ZM690.559 199.309C651.866 199.309 620.996 213.581 597.95 242.125C574.903 270.669 563.38 311.265 563.38 363.913C563.38 416.561 574.903 457.157 597.95 485.701C620.996 514.245 651.866 528.517 690.559 528.517C729.252 528.517 759.964 514.245 782.693 485.701C805.423 457.157 816.787 416.561 816.787 363.913C816.787 311.477 805.423 270.933 782.693 242.284C759.964 213.634 729.252 199.309 690.559 199.309Z"/>
+									<path id="cloudPath3" d="M1086.69 130.803L1086.69 514.245L1318.21 514.245L1318.21 598.291L989.003 598.291L989.003 130.803L1086.69 130.803Z"/>
+									<path id="cloudPath4" d="M1738.44 534.226C1709.69 584.971 1654.82 610.343 1573.84 610.343C1492.86 610.343 1437.88 584.971 1408.92 534.226C1393.48 506.528 1385.77 467.835 1385.77 418.147L1385.77 130.803L1485.04 130.803L1485.04 418.147C1485.04 450.285 1488.84 473.755 1496.45 488.555C1508.29 514.774 1534.09 527.883 1573.84 527.883C1613.38 527.883 1639.07 514.774 1650.91 488.555C1658.52 473.755 1662.33 450.285 1662.33 418.147L1662.33 130.803L1761.6 130.803L1761.6 418.147C1761.6 467.835 1753.88 506.528 1738.44 534.226Z"/>
+									<path id="cloudPath5" d="M1815.83 130.803L2194.51 130.803L2194.51 213.581L2054.65 213.581L2054.65 598.291L1956.33 598.291L1956.33 213.581L1815.83 213.581L1815.83 130.803Z"/>
+									<path id="cloudPath6" d="M2243.99 130.803L2341.04 130.803L2341.04 598.291L2243.99 598.291L2243.99 130.803Z"/>
+									<path id="cloudPath7" d="M2792.04 171.082C2839.19 214.004 2862.76 278.281 2862.76 363.913C2862.76 447.854 2839.19 512.131 2792.04 556.744C2756.73 593.111 2705.66 611.295 2638.85 611.295C2572.04 611.295 2520.97 593.111 2485.66 556.744C2438.3 512.131 2414.62 447.854 2414.62 363.913C2414.62 278.281 2438.3 214.004 2485.66 171.082C2520.97 134.715 2572.04 116.531 2638.85 116.531C2705.66 116.531 2756.73 134.715 2792.04 171.082ZM2638.85 199.309C2600.16 199.309 2569.29 213.581 2546.24 242.125C2523.19 270.669 2511.67 311.265 2511.67 363.913C2511.67 416.561 2523.19 457.157 2546.24 485.701C2569.29 514.245 2600.16 528.517 2638.85 528.517C2677.54 528.517 2708.25 514.245 2730.98 485.701C2753.71 457.157 2765.08 416.561 2765.08 363.913C2765.08 311.477 2753.71 270.933 2730.98 242.284C2708.25 213.634 2677.54 199.309 2638.85 199.309Z"/>
+									<path id="cloudPath8" d="M3217.66 598.291L3026.73 266.229L3026.73 598.291L2935.71 598.291L2935.71 130.803L3038.15 130.803L3224.32 457.157L3224.32 130.803L3315.34 130.803L3315.34 598.291L3217.66 598.291Z"/>                                    
                                  </g>
                               </g>
                            </svg>                                     
@@ -284,8 +290,8 @@
                            <div class="main_aos_solution_txt">
                               <h3 class="tit aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">Solution</h3>
                               <p class="description aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                                 회사 또는 영업활동에 필요한 요구사항과 소통을 통해 분석/설계하여<br /> 전산프로그램으로 구현합니다.
-                                 사용 프로그램과 차별화된 맞춤형 개발과 유지보수 지원 <br />
+                                 회사 또는 영업활동에 필요한 요구사항과 소통을 통해 분석/설계하여 전산프로그램으로 구현합니다.
+                                 사용 프로그램과 차별화된 맞춤형 개발과 유지보수 지원 
                                  레거시 시스템과 연계되는 응용 프로그램 개발의뢰도 가능합니다. 
                               </p>
                               <p class="btn-arrow aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
@@ -303,7 +309,7 @@
                               Technology & Business
                            </h2>
                            <p class="description aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                              내담씨앤씨가 가진 기술력으로<br /> 다양한 서비스를 제공합니다.
+                              내담씨앤씨가 가진 기술력으로  다양한 서비스를 제공합니다.
                            </p>
                         </div>
                         <div class="btn-area aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
@@ -313,82 +319,29 @@
                            </a>
                         </div>
                      </div>
-                     <div class="service-list-wrap">
+					 <div class="service-list-wrap">
                         <ul class="service-list">
-                           <li class="factory-one aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                              <a href="/user/introduction/digitalTwin">
-                                 <h3 class="tit-label">Digital Twin</h3>
-                                  <h4 class="tit">산업 데이터 모니터링</h4> 
-                                 <p class="description">
-                                    설계에서 제조 및 건설, 운영 및 유지 관리<br /> 가상의 트윈 사용자의 문제를 미리 예방한다.
-                                 </p>
-                                 <p class="btn-arrow">
-                                    <span class="blind">자세히 보기</span>
-                                 </p>
-                              </a>
-                           </li>
-                           <li class="eliss-one aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                              <a href="/user/introduction/visionAi">
-                                 <h3 class="tit-label">Vision AI</h3>
-                                 <h4 class="tit">객체 인식 및 분석</h4>
-                                 <p class="description">
-                                    인공지능 서비스 제공<br /> 이미지 분류 및 사고예방
-                                 </p>
-                                 <p class="btn-arrow">
-                                    <span class="blind">자세히 보기</span>
-                                 </p>
-                              </a>
-                           </li>
-                           <li class="nd-one-ad aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                              <a href="/user/introduction/innoPlm">
-                                 <h3 class="tit-label">PLM</h3>
-                                 <h4 class="tit">Rule & Process 기반 시스템 구축</h4>
-                                 <p class="description">
-                                    제품 전체 여정을 관리하기 위한<br /> 전략적 프로세스의 소프트웨어
-                                 </p>
-                                 <p class="btn-arrow">
-                                    <span class="blind">자세히 보기</span>
-                                 </p>
-                              </a>
-                           </li>
-                           <li class="one-order aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                              <a href="/user/introduction/innoAms">
-                                 <h3 class="tit-label">AMS</h3>
-                                 <h4 class="tit">설비자산의 최적 관리를 통한 가치창출</h4>
-                                 <p class="description">
-                                    자산관리로 관리영역 확장<br /> 수익 창출의 설비
-                                 </p>
-                                 <p class="btn-arrow">
-                                    <span class="blind">자세히 보기</span>
-                                 </p>
-                              </a>
-                           </li>
-                           <li class="smart-culture-space aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                              <a href="/user/introduction/cloudMsp">
-                                 <h3 class="tit-label">MSP</h3>
-                                 <h4 class="tit">Cloud MSP 시스템 구축</h4>
-                                 <p class="description">
-                                    클라우드 인프라 이용<br /> 시스템 구축과 서비스 제공
-                                 </p>
-                                 <p class="btn-arrow">
-                                    <span class="blind">자세히 보기</span>
-                                 </p>
-                              </a>
-                           </li>
-                           <li class="mplace aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
-                              <a href="/user/introduction/scm">
-                                 <h3 class="tit-label">SCM</h3>
-                                 <h4 class="tit">인공지능, 머신러닝 SCM</h4>
-                                 <p class="description">
-                                    친환경 공급망<br /> 공급망의 투명성
-                                 </p>
-                                 <p class="btn-arrow">
-                                    <span class="blind">자세히 보기</span>
-                                 </p>
-                              </a>
-                           </li>
+                        	<c:forEach var="businessPost" items="${businessPost}" varStatus="status" >
+	                           <li class="service_img_${businessPost.businessPostNo} aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
+	                              <a href="/user/introduction/introduction?businessPostNo=${businessPost.businessPostNo}">
+	                                 <h3 class="tit-label">${businessPost.businessPostTitle}</h3>
+	                                   <h4 class="tit" style="white-space:pre-line;">${businessPost.businessPostContents}</h4>
+	                                 <p class="description">
+	                                    ${businessPost.businessPostText1}
+	                                 </p>
+	                                 <p class="btn-arrow">
+	                                    <span class="blind">자세히 보기</span>
+	                                 </p>
+	                              </a>
+	                           </li>
+	                           <style>
+									.service-wrap .service-list .service_img_${businessPost.businessPostNo}::before {
+									    background-image: url(${pageContext.request.contextPath}/resources/user/images/main/${businessPost.businessPostImg});
+									}
+							   </style>
+	                        </c:forEach>
                         </ul>
-                     </div>
+                     </div>                                         
                   </div>
                </div>
             </div>
@@ -445,7 +398,7 @@
                <div class="inner_container card-ui">
                   <div class="section-title-area">
                      <div>
-                        <h2 class="tit">Infomation</h2>
+                        <h2 class="tit">회사소식</h2>
                      </div>
                      <div class="btn-area aos-init" data-aos="fade-up" data-aos-offset="0" data-aos-duration="250" data-aos-easing="linear">
                         <a href="/user/notice/noticeList/5001" class="common-btn">
@@ -472,6 +425,13 @@
       </section>
       <!-- // #container -->
       </div>
-      <jsp:include page="/WEB-INF/views/user/common/footer.jsp" />      
+      <c:choose>
+   			<c:when test="${locale eq 'en' }">
+   				<jsp:include page="/WEB-INF/views/user/common/footer.jsp" />      
+   			</c:when>
+   			<c:otherwise>
+   				<jsp:include page="/WEB-INF/views/user/common/en_footer.jsp" />
+   			</c:otherwise>
+      </c:choose>
   </body>
 </html>

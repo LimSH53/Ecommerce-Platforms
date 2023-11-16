@@ -57,7 +57,7 @@
 		  		  	 	 },
 		    		 	 success : function(result){
 		   					alert("해당 자료가 삭제 되었습니다.")
-		   					location.href = "/admin/business/getBusinessList";    		 		
+		   					location.href = "/admin/business/getBusinessList?locale=${cookie.locale.value}";    		 		
 		  		  	 	 }
 			  		});		
 				}
@@ -66,7 +66,6 @@
 			
  			// business 상세보기 시작
 			$("button[name='updateBusiness']").on("click", function(){
-				
 				var businessNo = $(this).find('input').val();
 				$.ajax({
 					url : "/admin/business/json/getBusiness/"+businessNo,
@@ -77,51 +76,25 @@
 						"Content-Type" : "application/json"	 						
 					} ,
 					success : function(JSONData, status){
-						$("#businessTitle2").val(JSONData.BUSINESS_TITLE);
-						$("#businessType2").val(JSONData.BUSINESS_TYPE);
-						if(JSONData.OPTION_NOTICE == "y"){
-							$("#optionNotice2").prop("checked", true)
-						}
-						if(JSONData.OPTION_COMMENT == "y"){
-							$("#optionComment2").prop("checked", true)
-						}
-						if(JSONData.OPTION_SECRET == "y"){
-							$("#optionSecret2").prop("checked", true)
-						}
-						if(JSONData.OPTION_ANSWER == "y"){
-							$("#optionAnswer2").prop("checked", true)
-						}
-						if(JSONData.OPTION_CAPTCHA == "y"){
-							$("#optionCaptcha2").prop("checked", true)
-						}
-						if(JSONData.OPTION_MASS == "y"){
-							$("#optionMass2").prop("checked", true)
-						}
-						if(JSONData.OPTION_ORDER == "y"){
-							$("#optionOrder2").prop("checked", true)
-						}
-						if(JSONData.OPTION_ADDINFO == "y"){
-							$("#optionAddinfo2").prop("checked", true)
-						}
-						if(JSONData.OPTION_POPUP == "y"){
-							$("#optionPopup2").prop("checked", true)
-						}
+						$("#businessTitle2").val(JSONData.businessTitle);
+						$("#businessNo2").val(JSONData.businessNo);
 					}
 				});			
 			}); 	 
 		});
 		
 		function fncUpdateBusiness(){
-			
+
 			var businessTitle = $("input[id='businessTitle2']").val();
-			var businessCategory = $("input[id='businessCategory2']").val();
+			console.log(businessTitle);
+			/* var businessCategory = $("input[id='businessCategory2']").val(); */
 			if(businessTitle == null || businessTitle == ''){
 				alert("제목이 입력되지 않았습니다.");
 				return;
-			}else if(businessCategory == null || businessCategory == ''){
+			}/* else if(businessCategory == null || businessCategory == ''){
 				alert("카테고리가 입력되지 않았습니다.");
 				return;
-			}
+			} */
 			
 			alert("게시판이 수정 되었습니다.")
 			$("form[name='updateBusinessForm']").attr("method", "POST").attr("action", "/admin/business/businessProcess?${_csrf.parameterName}=${_csrf.token}").submit();
@@ -154,9 +127,8 @@
 	        <div class="col-xs-12">
 	            <div class="box">
 	                <div class="box-body">
-	                    <label style="margin-top:5px;">총  건</label>
 	                    <table class="table table-bordered table-hover">
-		                    <form name="form_list" method="post" action="?tpf=admin/board/manage_process">
+		                    <form name="form_list" method="post" action="?tpf=admin/board/manage_process?locale=${cookie.locale.value}">
 					            <input type="hidden" name="mode" id="mode">
 					            <thead>
 				                    <tr>
@@ -177,10 +149,7 @@
 				                        </td>
 				                        <td style="width:60px;">NO</td>
 				                        <td>제목</td>
-				                        <td style="width:250px;">연결주소</td>
-				                        <td style="width:100px;">type</td>
-				                        <td style="width:80px;">등록 글수</td>
-				                        <td style="width:220px;">명령</td>
+				                        <td style="width:150px;">명령</td>
 				                    </tr>
 			                    </thead>
 			                    <tbody>
@@ -200,15 +169,7 @@
 					                        </td>
 										  <td>${i}</td>
 										  <td align="left">${business.businessTitle}</td>
-										  <td align="left">http://localhost:8080/admin/board/postList</td>
 										  <td>
-											0
-										  </td>
-										  <td></td>
-										  <td>
-					                        <button type="button" onclick="onclickView(${business.businessNo});" class="btn btn-success btn-xs">바로가기</button>
-					                        <button type="button" onclick="copyURL(${business.businessNo});" class="btn btn-warning btn-xs" value="${business.businessNo}">
-					                        	<input type="hidden" name="hiddenBusinessNo2" value="${business.businessNo}" />링크복사</button>
 					                        <button type="button" class="btn btn-primary btn-xs" name="updateBusiness" data-toggle="modal" data-target="#updateBusinessModal">
 					                        	<input type="hidden" name="hiddenBusinessNo" value="${business.businessNo}" />상세보기</button>							  
 										  </td>

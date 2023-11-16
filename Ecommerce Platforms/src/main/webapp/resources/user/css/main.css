@@ -1,5 +1,4 @@
 @charset "utf-8";
-
 .blind {
   overflow: hidden;
   position: absolute;
@@ -250,6 +249,7 @@ h4 {
   height: 100%;
   background: no-repeat 50% 50%;
   background-size: cover;
+  background-position: 70%;
 }
 .visual-wrapper .swiper-slide video {
   position: absolute;
@@ -390,7 +390,7 @@ h4 {
   z-index: 5;
   width: 56px;
   height: 56px;
-  background: url(../images/common/icon-56-px-scroll-down@2x.png) no-repeat 0 0;
+  background: url(../images/common/icon-57-px-scroll-down@2x.png) no-repeat 0 0;
   background-size: 100% 100%;
   opacity: 0.9;
   animation: scrollDown 1.2s ease infinite alternate;
@@ -544,7 +544,7 @@ h4 {
   align-items: center;
   position: relative;
   height: 100vh;
-  background: url(../images/image_14.jpg) no-repeat;
+  background: url(../images/main_banner2_bulb.jpg) no-repeat;
   background-size: cover;
   transition: 0.4s ease;
 }
@@ -655,22 +655,21 @@ h4 {
 }
 .core-wrap .core-list .naedamcnc {
   position: absolute;
-  top: -133%;
+  top: -153%;
   right: -11%;
   width: 175%;
   height: 317%;
 }
 .core-wrap .core-list .solution {
   position: absolute;
-  top: -223%;
+  top: -234%;
   right: -253px;
   width: 162%;
   height: 600%;
 }
-
 .core-wrap .core-list .cunsulting {
   position: absolute;
-  top: -64%;
+  top: -77%;
   right: -355px;
   width: 169%;
   height: 302%;
@@ -678,8 +677,8 @@ h4 {
 
 .core-wrap .core-list .si {
   position: absolute;
-  top: -86%;
-  left: -60%;
+  top: -91%;
+  left: -52%;
   width: 166%;
   height: 397%;
 }
@@ -691,7 +690,7 @@ h4 {
   width: 660px;
   height: 504px;
   border-radius: 3%;
-  background-image: url(../images/together2.jpg);
+  background-image: url(../images/dashboard_ndcnc_section1.jpg);
   background-size: cover;
   position: fixed;
 }
@@ -713,7 +712,7 @@ h4 {
   width: 660px;
   height: 504px;
   border-radius: 3%;
-  background-image: url(../images/consulting.jpg);
+  background-image: url(../images/dashboard_ndcnc_section2.jpg);
   background-size: cover;
 }
 .core-wrap .core-list .big-data .bg-text {
@@ -730,7 +729,7 @@ h4 {
   width: 660px;
   height: 504px;
   border-radius: 3%;
-  background-image: url(../images/SI.jpg);
+  background-image: url(../images/dashboard_ndcnc_section3.jpg);
   background-size: cover;
   position: fixed;
 }
@@ -751,7 +750,7 @@ h4 {
   width: 660px;
   height: 504px;
   border-radius: 3%;
-  background-image: url(../images/solution.jpg);
+  background-image: url(../images/dashboard_ndcnc_section4.jpg);
   background-size: cover;
   position: absolute;
   left: -107px;
@@ -854,19 +853,19 @@ h4 {
   stroke-dashoffset: 2200;
 }
 .core-wrap .cloud #cloudPath2 {
-  stroke-dasharray: 1400;
-  stroke-dashoffset: 1200;
+  stroke-dasharray: 2400;
+  stroke-dashoffset: 2000;
 }
 .core-wrap .cloud #cloudPath3 {
-  stroke-dasharray: 2000;
+  stroke-dasharray: 2200;
   stroke-dashoffset: 1800;
 }
 .core-wrap .cloud #cloudPath4 {
-  stroke-dasharray: 1500;
-  stroke-dashoffset: 1300;
+  stroke-dasharray: 3200;
+  stroke-dashoffset: 2800;
 }
 .core-wrap .cloud #cloudPath5 {
-  stroke-dasharray: 2000;
+  stroke-dasharray: 2200;
   stroke-dashoffset: 1800;
 }
 .core-wrap .cloud #cloudPath6 {
@@ -874,12 +873,12 @@ h4 {
   stroke-dashoffset: 1200;
 }
 .core-wrap .cloud #cloudPath7 {
-  stroke-dasharray: 1100;
-  stroke-dashoffset: 1100;
+  stroke-dasharray: 2400;
+  stroke-dashoffset: 2000;
 }
 .core-wrap .cloud #cloudPath8 {
-  stroke-dasharray: 1600;
-  stroke-dashoffset: 1400;
+  stroke-dasharray: 3200;
+  stroke-dashoffset: 2800;
 }
 .core-wrap .cloud #cloudPath9 {
   stroke-dasharray: 2400;
@@ -944,6 +943,7 @@ h4 {
   float: left;
   position: relative;
   width: 320px;
+  height: 840px;
   margin: 52px 100px 0 0;
   transition: 0.4s ease;
 }
@@ -967,8 +967,8 @@ h4 {
 }
 .service-wrap .service-list .tit-label {
   position: absolute;
-  width: 240px;
-  top: 250px;
+  width: 415px;
+  top: 416px;
   left: 370px;
   text-align: left;
   transform-origin: top right;
@@ -984,28 +984,38 @@ h4 {
 }
 
 .service-wrap .service-list .factory-one::before {
-  /* background-image: url(../images/main/img-main-thumbnail-06-pc.png); */
   background-image: url(../images/main/img1.jpg);
 }
 .service-wrap .service-list .eliss-one::before {
-  /* background-image: url(../images/main/img-main-thumbnail-07-pc.png); */
   background-image: url(../images/main/img2.jpg);
 }
 .service-wrap .service-list .nd-one-ad::before {
-  /* background-image: url(../images/main/img-main-thumbnail-08-pc.png); */
-  background-image: url(../images/main/img3.jpg);
+  background-image: url(../images/main/business_plm_img.jpg);
 }
 .service-wrap .service-list .one-order::before {
-  /* background-image: url(../images/main/img-main-thumbnail-09-pc.png); */
-  background-image: url(../images/main/img4.jpg);
+  background-image: url(../images/main/business_ams_img.jpg);
 }
 .service-wrap .service-list .smart-culture-space::before {
-  /* background-image: url(../images/main/img-main-thumbnail-10-pc.png); */
   background-image: url(../images/main/img5.jpg);
 }
 .service-wrap .service-list .mplace::before {
-  /* background-image: url(../images/main/img-main-thumbnail-11-pc.png); */
   background-image: url(../images/main/img6.jpg);
+}
+/**/
+.service-wrap .service-list .service_mes::before {
+  background-image: url(../images/main/business_mes_img.jpg);
+}
+.service-wrap .service-list .service_sd::before {
+  background-image: url(../images/main/business_sd_img.jpg);
+}
+.service-wrap .service-list .service_meet::before {
+  background-image: url(../images/main/business_meet_img.jpg);
+}
+.service-wrap .service-list .service_feed::before {
+  background-image: url(../images/main/business_feed_img.jpg);
+}
+.service-wrap .service-list .service_erp::before {
+  background-image: url(../images/main/business_erp_img.jpg);
 }
 
 /* core & service bg response */
@@ -1184,7 +1194,7 @@ h4 {
   height: 100%;
 }
 .culture-wrap .half-wrap .is-people::before {
-  background-image: url(../images/main/main_employee_3.jpg);
+  background-image: url(../images/main/dashboard_recruit_section1.jpg);
 }
 .culture-wrap .half-wrap .tit {
   font-weight: bold;
@@ -1213,7 +1223,7 @@ h4 {
   height: 272px;
 }
 .culture-wrap .half-wrap .is-recruit::before {
-  background-image: url(../images/main/main_employee_1.jpg);
+  background-image: url(../images/main/dashboard_recruit_section2.jpg);
 }
 .culture-wrap .half-wrap .is-recruit .recruit-num {
   font-size: 40px;
@@ -1224,7 +1234,8 @@ h4 {
   height: 396px;
 }
 .culture-wrap .half-wrap .is-growth::before {
-  background-image: url(../images/main/main_employee_2.jpg);
+  background-image: url(../images/main/dashboard_recruit_section3.jpg);
+  background-position-x: right;
 }
 
 .news-wrap .tit {
@@ -1324,13 +1335,13 @@ h4 {
   margin-right: -290px;
 }
 .main_aos_naedam_txt {
-  margin-left: 54%;
-  margin-top: 21%;
+  margin-left: 53%;
+  margin-top: 20%;
   position: relative;
 }
 .main_aos_consulting_txt {
   margin-left: 0%;
-  margin-top: 58%;
+  margin-top: 55%;
   left: -102%;
   position: relative;
   text-align: right;
@@ -1338,7 +1349,7 @@ h4 {
 .main_aos_si_txt {
   position: relative;
   left: 103%;
-  bottom: 245px;
+  bottom: 315px;
   width: 86%;
 }
 .main_aos_solution_txt {
@@ -1350,14 +1361,16 @@ h4 {
   left: -109%;
   top: -80px;
 }
-
+.en_solution_txt{
+	top:-146px;
+}
 .card-ui .notice_box {
   position: relative;
   padding: 0px 40px 0px 40px;
 }
 .common-layout_3 > .main_notice_items {
   margin-left: 0;
-  background-color: aliceblue;
+  background-color: #daeeff;
   border-radius: 5%;
   height: 140px;
   margin-right: 2%;
@@ -1684,7 +1697,7 @@ h4 {
   .main_aos_si_txt {
     position: relative;
     left: 93%;
-    bottom: 340px;
+    bottom: 475px;
     width: 86%;
   }
   .core-wrap .core-list .si {
@@ -1828,6 +1841,7 @@ h4 {
   }
   .service-wrap .service-list li {
     width: 220px;
+    height: 700px;
     margin: 58px 60px 0 0;
   }
   .service-wrap .service-list li::before {
@@ -1881,12 +1895,11 @@ h4 {
     height: 399%;
   }
   .nft-wrap {
-    background-position-x: -150px;
   }
   .main_aos_naedam_txt {
     width: 85%;
     margin-left: 89%;
-    margin-top: 32%;
+    margin-top: 20%;
     position: relative;
   }
   .core-wrap .core-list .cunsulting {
@@ -1912,7 +1925,7 @@ h4 {
   }
   .core-wrap .core-list .solution {
     position: absolute;
-    top: -246%;
+    top: -145%;
     right: -183px;
     width: 162%;
     height: 600%;
@@ -2149,13 +2162,14 @@ h4 {
   .service-wrap .service-list {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     float: none;
     width: auto;
     margin-right: 0;
   }
   .service-wrap .service-list li {
     width: 100%;
+    height: 100%;
     margin: 40px 0 0 0;
   }
   .service-wrap .service-list li > a {

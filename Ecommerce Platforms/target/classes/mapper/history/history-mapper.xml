@@ -13,6 +13,7 @@
 		DATE_FORMAT(H.history_date, '%Y') AS year,
 		DATE_FORMAT(H.history_date, '%c') AS month
 		from history H,(SELECT @ROWNUM := 0) TMP
+		where H.locale = #{locale}
 		order by history_date;
 	</select>
 
@@ -20,6 +21,7 @@
 		select distinct
 		DATE_FORMAT(history_date, '%Y') AS year
 		from history
+		where locale = #{locale}
 		order by history_date desc;
 		
 	</select>
@@ -29,16 +31,17 @@
 		DATE_FORMAT(history_date, '%Y') AS year,
 		DATE_FORMAT(history_date, '%c') AS month
 		from history
+		where locale = #{locale}
 		order by history_date desc;
 		
 	</select>
 
 	<insert id="insertHistroy">
 		insert into history 
-		(history_date, content, img_url)
+		(history_date, content, img_url, locale)
 		values
 		(#{historyDate},
-		#{content}, #{imgUrl})
+		#{content}, #{imgUrl}, #{locale})
 	</insert>
 
 	<update id="updateHistory">

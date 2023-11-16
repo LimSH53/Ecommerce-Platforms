@@ -12,18 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.naedam.admin.common.Mir9Utils;
+import com.naedam.admin.common.NaedamUtils;
 import com.naedam.admin.member.model.dao.MemberDao;
 import com.naedam.admin.member.model.vo.Address;
 import com.naedam.admin.member.model.vo.AddressBook;
 import com.naedam.admin.member.model.vo.Authorities;
 import com.naedam.admin.member.model.vo.Member;
-import com.naedam.admin.member.model.vo.MemberAccessHistory;
 import com.naedam.admin.member.model.vo.MemberAccessHistoryListExcelForm;
-import com.naedam.admin.member.model.vo.MemberEntity;
 import com.naedam.admin.member.model.vo.MemberGrade;
 import com.naedam.admin.member.model.vo.MemberListExcelForm;
 import com.naedam.admin.member.model.vo.MemberMemo;
@@ -270,7 +266,7 @@ public class MemberServiceImpl implements MemberService {
 		// 명칭 가져오기
 		resultMap.put("memberGradeList", memberDao.selectMemberGradeList());
 		// pagebar
-		resultMap.put("pagebar", Mir9Utils.getPagebar(cPage, limit, memberDao.selectMemberListCount(), url));
+		resultMap.put("pagebar", NaedamUtils.getPagebar(cPage, limit, memberDao.selectMemberListCount(), url));
 		return resultMap;
 		//return memberDao.selectMemberList(offset, limit);
 	}
@@ -293,11 +289,11 @@ public class MemberServiceImpl implements MemberService {
 		Map<String, Object> resultMap = new HashMap<>();
 		int offset = (cPage - 1) * limit;
 		// 검색 게시물
-		resultMap.put("searchMemberListStr", Mir9Utils.getSearchMemberListStr(memberDao.selectSearchMemberList(map, offset, limit), (String)map.get("contextPath")));
+		resultMap.put("searchMemberListStr", NaedamUtils.getSearchMemberListStr(memberDao.selectSearchMemberList(map, offset, limit), (String)map.get("contextPath")));
 		// 검색 게시물 수
 		resultMap.put("searchListCount", memberDao.selectSearchListCount(map));
 		// pagebar
-		resultMap.put("request.getContextPath()", Mir9Utils.getPagebarMember(cPage, limit, memberDao.selectSearchListCount(map), url));
+		resultMap.put("request.getContextPath()", NaedamUtils.getPagebarMember(cPage, limit, memberDao.selectSearchListCount(map), url));
 
 		return resultMap;
 	}
@@ -329,7 +325,6 @@ public class MemberServiceImpl implements MemberService {
 			MemberGrade paramGrade = new MemberGrade();
 			Set<String> keySet = map.keySet();
 			for(String key : keySet) {
-				System.out.println(key + " : " + map.get(key));
 				paramGrade.setMemberGradeNo(Integer.parseInt(key));
 				paramGrade.setMemberGradeName(map.get(key));
 				int resultMemberGradeUpdate = memberDao.memberGradeUpdate(paramGrade);
@@ -567,7 +562,7 @@ public class MemberServiceImpl implements MemberService {
 		int offset = (cPage - 1) * limit;
 		resultMap.put("memberAccessHistoryList", memberDao.seletHistoryList(offset, limit));
 		resultMap.put("totalAccessHistoryCount", memberDao.totalAccessHistoryCount());
-		resultMap.put("pagebar", Mir9Utils.getPagebar(cPage, limit, memberDao.totalAccessHistoryCount(), url));
+		resultMap.put("pagebar", NaedamUtils.getPagebar(cPage, limit, memberDao.totalAccessHistoryCount(), url));
 		return resultMap;
 	}
 
@@ -582,9 +577,9 @@ public class MemberServiceImpl implements MemberService {
 	public Map<String, Object> seletSearchAccessHistory(Map<String, Object> param, int cPage, int limit, String url) {
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		int offset = (cPage - 1) * limit;
-		resultMap.put("searchAccessHistoryListStr", Mir9Utils.getSearchAccessHistoryListStr(memberDao.seletSearchAccessHistory(param, offset, limit), (String)param.get("contextPath")));
+		resultMap.put("searchAccessHistoryListStr", NaedamUtils.getSearchAccessHistoryListStr(memberDao.seletSearchAccessHistory(param, offset, limit), (String)param.get("contextPath")));
 		resultMap.put("searchHistoryListCount", memberDao.searchHistoryListCount(param));
-		resultMap.put("pagebar", Mir9Utils.getPagebarAccessHistory(cPage, limit, memberDao.searchHistoryListCount(param), url));
+		resultMap.put("pagebar", NaedamUtils.getPagebarAccessHistory(cPage, limit, memberDao.searchHistoryListCount(param), url));
 		return resultMap;
 	}
 
@@ -638,9 +633,9 @@ public class MemberServiceImpl implements MemberService {
 	public Map<String,Object> selectSearchWithdrawalList(Map<String, Object> param, int cPage, int limit, String url) {
 		Map<String, Object> resultMap = new HashMap<String,Object>();
 		int offset = (cPage - 1) * limit;
-		resultMap.put("searchWithdrawalListStr", Mir9Utils.getSearchWithdrawalListStr(memberDao.selectSearchWithdrawalList(param, offset, limit), (String)param.get("contextPath")));
+		resultMap.put("searchWithdrawalListStr", NaedamUtils.getSearchWithdrawalListStr(memberDao.selectSearchWithdrawalList(param, offset, limit), (String)param.get("contextPath")));
 		resultMap.put("searchListCount", memberDao.selectSearchWithdrawalListCount(param));
-		resultMap.put("pagebar", Mir9Utils.getPagebarWithdrawal(cPage, limit, memberDao.selectSearchWithdrawalListCount(param), url));
+		resultMap.put("pagebar", NaedamUtils.getPagebarWithdrawal(cPage, limit, memberDao.selectSearchWithdrawalListCount(param), url));
 		return resultMap;
 	}
 

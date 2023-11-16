@@ -4,7 +4,7 @@
   backdrop-filter: blur(5px);
 }
 .businessfooter {
-  background-image: url("../images/footer_image2.jpg");
+  background-image: url("../images/businessList_footer.jpg");
   background-size: cover;
 }
 .left {
@@ -342,6 +342,7 @@
 .esg_program .esg_program_list > li .esg_program_img {
   min-width: 320px;
   width: 620px;
+  height: 400px;
 }
 .esg_program .esg_program_list > li .esg_program_img a {
   display: block;
@@ -1501,6 +1502,7 @@
 
 .img_partnership {
   border-radius: 4%;
+  height: 400px;
 }
 
 .culture_card_area {
@@ -1801,7 +1803,7 @@
     background-color: black; */
 }
 .welfare_benefit_area .welfare_benefit_list > li .welfare_benefit_box1 {
-  background-image: url("'../../../images/businessList_website2.jpg");
+  background-image: url("'../../../images/businessList_card1.jpg");
   background-size: cover;
   width: 100%;
   height: 58%;
@@ -1817,12 +1819,12 @@
   content: "";
   position: relative;
   height: 100%;
-  background-color: rgba(177, 80, 197, 0.4);
+  background-color: rgba(94, 90, 257, 0.4);
   padding: 8%;
 }
 .welfare_benefit_area .welfare_benefit_list > li .welfare_benefit_box2 {
-  background-image: url("'../../../images/businessList_cloud.jpg");
-  background-size: cover;
+  background-image: url("'../../../images/businessList_card2.jpg");
+  background-size: cover; 
   width: 100%;
   height: 58%;
 }
@@ -2165,7 +2167,6 @@
   .img_partnership {
     border-radius: 2%;
     width: 100%;
-    height: 60%;
   }
   .esg_program_desc {
     padding: 20px 0 20px 0;
@@ -2176,7 +2177,6 @@
   .img_partnership {
     border-radius: 2%;
     width: 100%;
-    height: 50%;
   }
   .welfare_benefit_area
     .welfare_benefit_list
@@ -3409,7 +3409,7 @@
   }
   .ethical-policy .layout_section_outer.type01 {
     padding-top: 120px;
-  }
+   } 
 
   .ethical-compliance .esg_program-area .tabMenu {
     margin-top: 40px;
@@ -3431,7 +3431,6 @@
   .img_partnership {
     border-radius: 2%;
     width: 100%;
-    height: 30%;
   }
   .esg_program .esg_program_list > li .esg_program_desc .esg_program_txt {
     margin-top: 16px;

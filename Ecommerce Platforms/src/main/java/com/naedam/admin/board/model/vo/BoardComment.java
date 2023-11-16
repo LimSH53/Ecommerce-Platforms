@@ -15,9 +15,7 @@ import lombok.ToString;
 @ToString
 public class BoardComment implements Serializable {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private int commentNo;
 	private String commentContents;

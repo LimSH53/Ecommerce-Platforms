@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- Comm Head -->
+<meta name="google-site-verification" content="2H5EAHQ0gPMQbrixA73xLZ7Pe8iz-8wAPe3WjquYVb4" />
+<meta name="naver-site-verification" content="0663e296b388a797ae0c10d0208cf8587c097998" />
 <style>
 @font-face {
   font-family: "NanumGothic";

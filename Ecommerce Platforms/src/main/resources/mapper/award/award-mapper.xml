@@ -3,7 +3,7 @@
 <mapper namespace="award">
 
 	<select id="selectDetailByNo" parameterType="int" resultType="com.naedam.admin.award.model.vo.Award">
-	select * from award	where award_no = #{value} order by award_date desc;
+	select * from award	where award_no = #{awardNo} order by award_date desc;
 	</select>
 
 	<select id="selectAwardList" resultType="award">
@@ -11,6 +11,7 @@
 		DATE_FORMAT(award_date, '%Y') AS year,
 		DATE_FORMAT(award_date, '%c') AS month
 		from award 
+		where locale like #{locale}
 	order by award_date DESC;
 	</select>
 
@@ -18,6 +19,7 @@
 	select distinct
 		DATE_FORMAT(award_date, '%Y') AS year
 		from award
+		where locale = #{locale}
 		order by award_date DESC;
 	</select>
 
@@ -26,18 +28,24 @@
 		DATE_FORMAT(award_date, '%Y') AS year,
 		DATE_FORMAT(award_date, '%c') AS month
 		from award
+		where locale = #{locale}
 		order by award_date desc;
 	</select>
 	
 	<insert id="insertAward" parameterType="award" >
 		INSERT INTO award
-			(img_url, award_date, content, host)
-		VALUE(#{imgUrl},#{awardDate},#{content}, #{host} )
+			(img_url, award_date, content, host,locale)
+		VALUE(#{imgUrl},#{awardDate},#{content}, #{host},#{locale} )
 	</insert>
 	
 	<update id="updateAward">
-		UPDATE award
-		SET award_date=#{awardDate}, content=#{content}, img_url=#{imgUrl}, host = #{host}
+		UPDATE award SET 
+			award_date=#{awardDate}, 
+			content=#{content},
+			<if test="imgUrl != null">
+			img_url=#{imgUrl},
+			</if> 
+			host = #{host}
 		WHERE award_no = #{awardNo}
 	</update>
 	

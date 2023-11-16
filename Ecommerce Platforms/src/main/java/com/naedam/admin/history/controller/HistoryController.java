@@ -1,11 +1,6 @@
 package com.naedam.admin.history.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.naedam.admin.history.model.service.HistoryService;
 import com.naedam.admin.history.model.vo.History;
+import com.naedam.admin.history.model.vo.HistoryRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,20 +48,23 @@ public class HistoryController {
 	 * @throws Exception
 	 */
 	@PostMapping("history_process")
-	public void history_process(HttpServletRequest request, History history, RedirectAttributes redirectAttr,
-								  @RequestParam(value="historyImage", required = false) MultipartFile historyImage) throws Exception {
+	public String history_process(HttpServletRequest request, History history, RedirectAttributes redirectAttr,
+								  @RequestParam(value="historyImage", required = false) MultipartFile historyImage,
+								  @RequestParam(value = "locale", defaultValue = "ko") String locale,
+								  @RequestParam(value = "fullDate", required = false) String fullDate ) throws Exception {
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("history", history);
-		map.put("mode", request.getParameter("mode"));
-		map.put("request", request);
-		map.put("historyImage", historyImage);
-		Map<String, Object> resultMap = historyService.historyProcess(map);
-		System.out.println("resultMap >>>>" + resultMap);
+		HistoryRequest historyRequest = new HistoryRequest();
+		historyRequest.setHistory(history);
+		historyRequest.setMode(request.getParameter("mode"));
+		historyRequest.setLocale(locale);
+		historyRequest.setRequest(request);
+		historyRequest.setFullDate(fullDate);
+		
+		
+		Map<String, Object> resultMap = historyService.historyProcess(historyRequest);
 		redirectAttr.addFlashAttribute("msg", (String)resultMap.get("msg"));
-		System.out.println("historyNo ===== " + resultMap.get("historyNo"));
 				
-		/* return "redirect:/admin/setting/history"; */
+		return "redirect:/admin/setting/history";
 	}
 	
 }

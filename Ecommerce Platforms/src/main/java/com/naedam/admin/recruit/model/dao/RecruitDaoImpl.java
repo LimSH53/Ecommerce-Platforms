@@ -1,15 +1,14 @@
 package com.naedam.admin.recruit.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.naedam.admin.board.model.vo.Post;
 import com.naedam.admin.recruit.model.vo.recruitContentsDTO;
 import com.naedam.admin.recruit.model.vo.recruitDTO;
 
@@ -27,16 +26,33 @@ public class RecruitDaoImpl implements RecruitDao {
 	}
 
 	@Override
-	public List<recruitDTO> getRecruitList(String search, int offset, int limit) throws Exception {
-		System.out.println("==========recruitList dao =================");
-		System.out.println("search>>>" + search);
+	public List<recruitDTO> getRecruitList(String search, int offset, int limit, String locale) throws Exception {
 		/* RowBounds rowBounds = new RowBounds(offset, limit); */
-		return sqlSession.selectList("recruit.getRecruitList", search);
+		Map<String, Object> page = new HashMap<>();
+		page.put("search", search);
+		page.put("offset", offset);
+		page.put("limit", limit);
+		page.put("locale", locale);
+		return sqlSession.selectList("recruit.getRecruitList", page);
 	}
 	
 	@Override
-	public Object getTotalCount(String search) {
-		return sqlSession.selectOne("recruit.getTotalCount", search);
+	public List<recruitDTO> getRecruitList(String search, int offset, int limit) throws Exception {
+		
+		/* RowBounds rowBounds = new RowBounds(offset, limit); */
+		Map<String, Object> page = new HashMap<>();
+		page.put("search", search);
+		page.put("offset", offset);
+		page.put("limit", limit);
+		return sqlSession.selectList("recruit.getRecruitList", page);
+	}
+	
+	@Override
+	public Object getTotalCount(String search, String locale) {
+		Map<String, Object> option = new HashMap<>();
+		option.put("search", search);
+		option.put("locale", locale);
+		return sqlSession.selectOne("recruit.getTotalCount", option);
 	}
 
 	@Override
@@ -64,31 +80,26 @@ public class RecruitDaoImpl implements RecruitDao {
 
 	@Override
 	public recruitDTO getRecruitData(int recruitNo) {
-		System.out.println("getContentsData dao ==== " + recruitNo);
 		return sqlSession.selectOne("recruit.getRecruitData", recruitNo);
 	}
 
 	@Override
 	public List<recruitContentsDTO> getContentsData(int recruitNo) {
-		System.out.println("getContentsData dao ==== " + recruitNo);
 		return sqlSession.selectList("recruit.getContentsData", recruitNo);
 	}
 
 	@Override
 	public int updateRecruit(recruitDTO recruit) {
-		System.out.println("updateRecruit dao ==== " + recruit);
 		return sqlSession.update("recruit.updateRecruit", recruit);
 	}
 
 	@Override
 	public int deleteRecruitContents(int curRecruitNo) {
-		System.out.println("deleteRecruitContents dao ==== " + curRecruitNo);
 		return sqlSession.delete("recruit.deleteRecruitContents", curRecruitNo);
 	}
 
 	@Override
 	public int updateContentsStatus() {
-		System.out.println("updateContentsStatus dao ==== " + sqlSession.update("recruit.updateContentsStatus"));
 		return sqlSession.update("recruit.updateContentsStatus");
 	}
 

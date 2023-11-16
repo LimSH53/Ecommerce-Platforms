@@ -130,7 +130,6 @@
 			data : search,
 			contentType : "application/json; charset=utf-8",
 			success(data){
-				console.log("ajaxData = " + JSON.stringify(data));
 				
 				$("#tbody").html('');
 				$("#tbody").html(data["searchAccessHistoryListStr"]);

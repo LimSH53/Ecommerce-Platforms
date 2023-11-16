@@ -1,4 +1,7 @@
 @charset "UTF-8";
+a#head_list_child{
+	padding-left:30px;
+}
 /* modal customization */
 .modal .modal-dialog {
     width: 800px;

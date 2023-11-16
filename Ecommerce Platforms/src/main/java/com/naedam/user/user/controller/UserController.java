@@ -36,7 +36,6 @@ public class UserController {
 	@GetMapping("/userEnroll.do")
 	public String userEnroll() {
 		log.debug("{}", "userEnroll.do 실행!");
-//		return "user/user/userEnroll";
 		return "admin/userDashBoard";
 	}
 	

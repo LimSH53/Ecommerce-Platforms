@@ -39,7 +39,6 @@
 		<!-- #16.1 비동기처리 설정 : 요청별 스레드 비동기 처리 지원 -->
 		<async-supported>true</async-supported>
 	</servlet>
-		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>

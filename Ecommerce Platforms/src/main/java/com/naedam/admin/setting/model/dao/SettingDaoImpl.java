@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,19 +27,18 @@ public class SettingDaoImpl implements SettingDao {
 	}
 	
 	@Override
-	public List<History> selectHistoryList(int limit, int offset) {
+	public List<History> selectHistoryList(int limit, int offset, String locale) {
 		// TODO Auto-generated method stub
-		Map<String, Integer> paging = new HashMap<>();
+		Map<String, Object> paging = new HashMap<>();
 		paging.put("limit", limit);
 		paging.put("offset", offset);
+		paging.put("locale", locale);
 		return session.selectList("setting.selectHistoryList", paging);
 	}
 	
 	@Override
-	public List<Award> selectAwardList() {
-		// TODO Auto-generated method stub
-		System.out.println("log++++"+session.selectList("setting.selectAwardList"));
-		return session.selectList("setting.selectAwardList");
+	public List<Award> selectAwardList(String locale) {
+		return session.selectList("setting.selectAwardList", locale);
 	}
 
 	@Override
@@ -54,6 +52,12 @@ public class SettingDaoImpl implements SettingDao {
 		// TODO Auto-generated method stub
 		return session.selectList("setting.selectPartnerList");
 	}
+	
+	@Override
+	public List<Partner> adminPartnerList(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList("setting.adminPartnerList", map);
+	}	
 
 	@Override
 	public AdminSetting selectAdminSetting() {
@@ -98,9 +102,15 @@ public class SettingDaoImpl implements SettingDao {
 	}
 
 	@Override
-	public int selectAllHistoryList() {
+	public int selectAllHistoryList(String locale) {
 		// TODO Auto-generated method stub
-		return session.selectOne("setting.selectAllHistoryList");
+		return session.selectOne("setting.selectAllHistoryList", locale);
+	}
+
+	@Override
+	public int adminPartnerTotalCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("setting.adminPartnerTotalCount", map);
 	}
 
 

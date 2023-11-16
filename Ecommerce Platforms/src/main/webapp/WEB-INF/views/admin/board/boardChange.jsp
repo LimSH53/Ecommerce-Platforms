@@ -5,7 +5,6 @@
 
 <script>
 	var postArr = new Array();
-	console.log(postArr)
 	
 	function fncBoardTitle(){
 		var postArr = new Array();
@@ -18,7 +17,7 @@
 		}
 		$('#modalContent3').modal('show');		
 		$.ajax({
-			url : "/admin/board/json/listBoard",
+			url : "/admin/board/json/listBoard?locale="+locale,
 			method : "GET" ,
 			dataType : "json" ,
 			headers : {
@@ -39,6 +38,9 @@
 	
 	function funPostChange(){
 		var postArr = new Array();
+		var postFile = $("input[id='postName']").length;
+		var secNo = $("input[name='secNo']").val();
+		var locale = $("input[name='locale']").val();
 		var mode = "change";
 		var boardNo = $("select[name='boardNoChange']").val();
 		$("input[class='postNo']:checked").each(function(){
@@ -48,9 +50,12 @@
 			 	 url : "/admin/board/json/postProcess?${_csrf.parameterName}=${_csrf.token}",
   		  	 	 type : "POST",
 		  	 	 data : { 
-		  	 		 postArr : postArr, 
-		  	 		 boardNo,
-		  	 		 mode
+	 		  	 	 postArr : postArr, 
+	 		  	 	 boardNo,
+	 		  	 	 secNo : secNo,
+	 		  	 	 locale:locale,
+	 		  	 	 postFile:postFile,
+	 		  	 	 mode
 		  	 	 },
 		 		 success : function(result){   	 		
 		 	  		alert("게시물 이전이 완료되었습니다.")
@@ -66,6 +71,7 @@
             <form name="form_copy_data" method="post" action="?tpf=admin/board/process">
 	            <input type="hidden" name="mode" id="mode">
 	            <input type="hidden" name="code" id="code">
+                <input type="hidden" name="locale" value="${locale}"/>
 	            <div class="modal-header">
 	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	                <h4 class="modal-title" id="myModalLabelPortfolio">게시물 관리</h4>

@@ -1,9 +1,7 @@
 package com.naedam.admin.recruit.model.vo;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 

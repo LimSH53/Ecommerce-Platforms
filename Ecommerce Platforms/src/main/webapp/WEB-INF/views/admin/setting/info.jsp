@@ -214,15 +214,12 @@
 	            locale : $('[name=locale]').val()
 	        },
 	        success:function(data, textStatus, jqXHR){
-	        	console.log(data)
-	            console.log(data.content);
 	            if (data.content == null) data.content = '';
 	            //alert(json_data.content);
 	            objEditor.setData(data.content);
 	
 	        },
 	        error:function(jqXHR, textStatus, errorThrown){
-	            console.log(textStatus);
 	            // $('#content').val(errorThrown);
 	        }
 	    });

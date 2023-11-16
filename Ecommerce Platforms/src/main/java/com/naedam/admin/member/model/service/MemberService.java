@@ -7,14 +7,11 @@ import com.naedam.admin.member.model.vo.Address;
 import com.naedam.admin.member.model.vo.AddressBook;
 import com.naedam.admin.member.model.vo.Authorities;
 import com.naedam.admin.member.model.vo.Member;
-import com.naedam.admin.member.model.vo.MemberAccessHistory;
 import com.naedam.admin.member.model.vo.MemberAccessHistoryListExcelForm;
-import com.naedam.admin.member.model.vo.MemberEntity;
 import com.naedam.admin.member.model.vo.MemberGrade;
 import com.naedam.admin.member.model.vo.MemberListExcelForm;
 import com.naedam.admin.member.model.vo.MemberMemo;
 import com.naedam.admin.member.model.vo.WithdrawalMember;
-import com.naedam.admin.member.model.vo.WithdrawalMemberEntity;
 
 public interface MemberService {
 	

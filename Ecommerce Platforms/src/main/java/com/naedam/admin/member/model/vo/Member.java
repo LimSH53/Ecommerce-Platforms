@@ -22,9 +22,6 @@ import lombok.ToString;
 @ToString
 public class Member implements Serializable, UserDetails {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private int memberNo;

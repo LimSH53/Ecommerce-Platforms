@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.naedam.admin.business.model.vo.Business;
+import com.naedam.admin.business.model.vo.BusinessContents;
 import com.naedam.admin.business.model.vo.BusinessPost;
 
 @Repository
@@ -31,15 +32,20 @@ public class BusinessDaoImpl implements BusinessDao {
 	
 
 	@Override
-	public void addBusinessPost(BusinessPost businessPost) throws Exception {
-		sqlSession.insert("business.addBusinessPost", businessPost);
+	public int addBusinessPost(BusinessPost businessPost) throws Exception {
+		return sqlSession.insert("business.addBusinessPost", businessPost);
+	}
+	
+	@Override
+	public int addBusinessContents(BusinessContents businessContents) throws Exception {
+		return sqlSession.insert("business.addBusinessContents", businessContents);
 	}
 	
 	/**
 	 * 
 	 */
 	@Override
-	public Map<String,Object> getBusiness(int businessNo) throws Exception {
+	public Business getBusiness(int businessNo) throws Exception {
 		return sqlSession.selectOne("business.getBusiness", businessNo);
 	}
 	
@@ -47,8 +53,16 @@ public class BusinessDaoImpl implements BusinessDao {
 	 * 
 	 */
 	@Override
-	public Map<String,Object> getBusinessPost(int businessPostNo) throws Exception {
+	public BusinessPost getBusinessPost(int businessPostNo) throws Exception {
 		return sqlSession.selectOne("business.getBusinessPost", businessPostNo);
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public BusinessContents getBusinessContents(int businessContentsNo) throws Exception{
+		return sqlSession.selectOne("business.getBusinessContents", businessContentsNo);
 	}
 	
 	/**
@@ -67,6 +81,20 @@ public class BusinessDaoImpl implements BusinessDao {
 		return sqlSession.selectList("business.getBusinessPostList", map);
 	}
 	
+	@Override
+	public List<BusinessContents> getBusinessContentsList(Map<String, Object> map) throws Exception{
+		return sqlSession.selectList("business.getBusinessContentsList", map);
+	}
+	
+	/**
+	 * businessPost All Select
+	 */
+	@Override
+	public List<BusinessPost> getBusinessPostAllList(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("business.getBusinessPostAllList", map);
+	}
+	
 	/**
 	 * business update
 	 */
@@ -79,8 +107,13 @@ public class BusinessDaoImpl implements BusinessDao {
 	 * businessPost update
 	 */
 	@Override
-	public void updateBusinessPost(BusinessPost businessPost) throws Exception {
-		sqlSession.update("business.updateBusinessPost", businessPost);
+	public int updateBusinessPost(BusinessPost businessPost) throws Exception {
+		return sqlSession.update("business.updateBusinessPost", businessPost);
+	}
+	
+	@Override
+	public int updateBusinessContents(BusinessContents businessContents) throws Exception{
+		return sqlSession.update("business.updateBusinessContents", businessContents);
 	}
 	
 	/**
@@ -95,10 +128,19 @@ public class BusinessDaoImpl implements BusinessDao {
 	 * business delete
 	 */
 	@Override
-	public void deleteChoiceBusinessPost(List<Integer> businessPostNo) throws Exception {
-		sqlSession.delete("business.deleteChoiceBusinessPost", businessPostNo);
+	public int deleteChoiceBusinessPost(List<Integer> businessPostNo) throws Exception {
+		return sqlSession.delete("business.deleteChoiceBusinessPost", businessPostNo);
+	}
+	
+	@Override
+	public int deleteChoiceBusinessContents(List<Integer> businessContentsNo) throws Exception{
+		return sqlSession.delete("business.deleteChoiceBusinessContents", businessContentsNo);
 	}
 
+	@Override
+	public int TotalBusinessPost(int businessNo) {
+		return sqlSession.selectOne("business.TotalBusinessPost", businessNo);
+	}
 
 
 	

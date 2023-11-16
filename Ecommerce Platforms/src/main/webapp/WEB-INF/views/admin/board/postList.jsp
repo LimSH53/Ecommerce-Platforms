@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="/WEB-INF/views/admin/common/header.jsp">
-	<jsp:param value="1:1문의" name="title"/>
+	<jsp:param value="회사소식 관리" name="title"/>
 </jsp:include>
 	<jsp:useBean id="now" class="java.util.Date" />
 	<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate"/> 
@@ -12,11 +12,11 @@
 		$(function(){
 			//post 선택삭제 시작
 			$("#deleteChoicePost").on("click", function(){
-				
+				var secNo = $("input[name='secNo']").val();
 				var postArr = new Array();
 				var mode = "delete";
 				var boardNo = $("input[name='boardNo']").val();
-							
+				var locale = $("input[name='locale']").val();
 				$("input[class='postNo']:checked").each(function(){
 					postArr.push($(this).val());
 				});
@@ -31,8 +31,12 @@
 			  		$.ajax({
 		  			 	 url : "/admin/board/json/postProcess?${_csrf.parameterName}=${_csrf.token}",
 			  		  	 type : "POST",
-		  		  	 	 data : { postArr : postArr,
-		  		  	 		 	  mode
+		  		  	 	 data : { 
+	  		  	 		 	postArr : postArr,
+		  		  	 		boardNo :boardNo,
+		  		  	 		secNo :secNo,
+  		  	 		 	  	mode,
+  		  	 		 	locale:locale,
 		  		  	 		  	},
 		    		 	 success : function(result){
 		   			  		alert("게시글이 삭제 되었습니다.")
@@ -146,7 +150,19 @@
 		}
 	</script>
 	
-	<script src="${pageContext.request.contextPath}/resources/admin/ckeditor/ckeditor.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/admin/ckeditor/ckeditor/ckeditor.js"></script>
+	
+<style>
+#searchBtn {
+	width: 50px;
+	height: 100%;
+	border: 0px;
+	background: #3c8dbc;
+	outline: none;
+	float: right;
+	color: #ffffff;
+}
+</style>
 
 <div class="content-wrapper">
 	<section class="content-header">
@@ -170,11 +186,12 @@
 	                    <form name="searchForm" method="post" action="/admin/board/postList?${_csrf.parameterName}=${_csrf.token}">
 		                    <div class="box-tools pull-right" style="margin-bottom:5px;">
 		                    	<input type="hidden" name="boardNo" value="${boardNo}">
+		                    	<input type="hidden" name="locale" value="${locale}"/>
 		                    	<input type="hidden" name="cPage">
 		                        <div class="has-feedback">
 			                        <span>
-			                      	  <input type="text" name="searchKeyword" id="searchKeyword" class="form-control input-sm" placeholder="검색" value="${search.searchKeyword}"/>
-			                      	  <span class="glyphicon glyphicon-search form-control-feedback"></span>
+			                      	  <input type="text" name="searchKeyword" id="searchKeyword" class="form-control input-sm" placeholder="검색" value="${comm.searchKeyword}"/>
+			                      	  <button class="form-control-feedback" type="submit" id="searchBtn" style="pointer-events: all;">검색</button>
 			                        </span>
 		                        </div>
 		                    </div>
@@ -210,12 +227,6 @@
 				                        <td>제목</td>
 				                        <td style="width:100px;">작성자</td>
 				                        <td style="width:140px;">등록일</td>
-				                        <c:if test="${board2.option.optionOrder eq 'y'}">
-					                        <td style="width:60px;">
-					                            <i onclick="fncDown();" name="up" class="fa fa-fw fa-arrow-circle-down cp" style="cursor:pointer;"></i>
-					                            <i onclick="fncUp();" class="fa fa-fw fa-arrow-circle-up cp" style="cursor:pointer;"></i>
-					                        </td>
-				                        </c:if>
 				                        <td style="width:80px;">명령</td>
 				                    </tr>
 			                    </thead>
@@ -251,12 +262,6 @@
 					                   			<td>
 						                        	${post.postDate}
 						                        </td>
-					                   			<c:if test="${board2.option.optionOrder eq 'y'}">
-						                   			<td>
-						                   				<input type="radio" name="order_code" value="${post.postAsc}" chack="">
-						                   				<input type="hidden" name="originNo" value="${post.postOriginNo}">
-						                   			</td>
-					                   			</c:if>
 					                   			<td>
 						                   			<button type="button" name="getPostBotton" data-toggle="modal" data-target="#modalContent4" class="btn btn-primary btn-xs" value="${post.postNo}">상세보기
 						                   			<input type="hidden" class="post_member_no" value="${post.postMember.memberNo}"></button>
@@ -287,7 +292,6 @@
 	
 <jsp:include page="/WEB-INF/views/admin/board/addPost.jsp"/>
 <jsp:include page="/WEB-INF/views/admin/board/getPost.jsp"/>
-<jsp:include page="/WEB-INF/views/admin/board/addComment.jsp"/>
 <jsp:include page="/WEB-INF/views/admin/board/boardCopy.jsp"/>
 <jsp:include page="/WEB-INF/views/admin/board/boardChange.jsp"/>
 </div><!-- /.content-wrapper -->

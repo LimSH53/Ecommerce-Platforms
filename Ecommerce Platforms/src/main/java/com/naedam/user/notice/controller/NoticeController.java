@@ -34,7 +34,8 @@ public class NoticeController {
 	public ModelAndView noticeList(HttpServletRequest request,
 								   @PathVariable("boardNo") int boardNo, 
 								   @RequestParam(defaultValue = "1") int cPage,
-								   @ModelAttribute("comm") Comm comm) throws Exception{
+								   @ModelAttribute("comm") Comm comm,
+								   @RequestParam(value = "locale", defaultValue = "ko") String locales) throws Exception{
 		//게시글 리스트 수 limit 10으로
 		int limit = 8;
 		int offset = (cPage - 1) * limit;
@@ -49,18 +50,19 @@ public class NoticeController {
 		map.put("boardNo", boardNo);
 		map.put("limit", limit);
 		map.put("offset", offset);
+		map.put("locale", locales);
 		List<Post> postlist = boardService.getUserPostList(map);
 		Map<String, Object> resultMap = boardService.getPostList(map);
 		int totalPostListCount = Integer.parseInt(resultMap.get("totalCount").toString());
 		
 		// pagebar
-		String pagebar = NaedamUtils.getPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
+		String pagebar = NaedamUtils.getUserPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
 		
 		mv.addObject("pagebar", pagebar);		
 		mv.addObject("list", postlist); 
 		mv.addObject("boardNo", boardNo);
 		mv.addObject("pageCount",totalPostListCount);		
-		mv.setViewName("user/notice/noticeList");
+		mv.setViewName("user/"+locales+"/notice/noticeList");
 		return mv;
 	}
 	
@@ -69,7 +71,8 @@ public class NoticeController {
 											 @RequestParam(value = "cPage", defaultValue = "1") int cPage,
 											 @RequestParam("boardNo") int boardNo,
 											 @RequestParam("searchKeyword") String searchKeyword,
-											 @RequestParam("searchType") String searchType) throws Exception{
+											 @RequestParam("searchType") String searchType,
+											 @RequestParam(value = "locale", defaultValue = "ko") String locales) throws Exception{
 		int limit = 8;
 		int offset = (cPage - 1) * limit;
 		Comm comm = new Comm();
@@ -81,35 +84,38 @@ public class NoticeController {
 		map.put("boardNo", boardNo);
 		map.put("limit", limit);
 		map.put("offset", offset);
+		map.put("locale", locales);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		List<Post> postlist = boardService.getUserPostList(map);
 		int totalPostListCount = boardService.getUserGetTotalCount(map);
 		// pagebar
-		String pagebar = NaedamUtils.getPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
+		String pagebar = NaedamUtils.getUserPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
 		resultMap.put("list", postlist);
 		resultMap.put("pagebar", pagebar);
 		return resultMap;
 	}
 	
 	@RequestMapping(value="getNoticeDetail/{postNo}")
-	public ModelAndView getNoticeDetail(@PathVariable("postNo") int postNo) throws Exception{
+	public ModelAndView getNoticeDetail(@PathVariable("postNo") int postNo,
+		    @RequestParam(value = "locale", defaultValue = "ko") String locales) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("postNo", postNo);
 		Map<String, Object> resultMap = boardService.getNoticeDetail(map);
+		String locale = (String) resultMap.get("postLocale");
 		mv.addObject("post",resultMap.get("post"));
 		mv.addObject("board",resultMap.get("board"));
 		mv.addObject("boardFile", resultMap.get("boardFile"));
 		mv.addObject("postPrev",resultMap.get("postPrev"));
 		mv.addObject("postNext",resultMap.get("postNext"));
-		mv.setViewName("user/notice/noticeDetail");
+		mv.setViewName("user/"+locale+"/notice/noticeDetail");
 		return mv;
 	}
 	
 	@RequestMapping(value="noticeList_temp")
-	public ModelAndView noticeList_temp(Model model) throws Exception{
+	public ModelAndView noticeList_temp(Model model, @RequestParam(value = "locale", defaultValue = "ko") String locales) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("user/notice/getNotice");
+		mv.setViewName("user/"+locales+"/notice/getNotice");
 		return mv;
 	}
 	

@@ -2,7 +2,6 @@ package com.naedam.admin.board.model.vo;
 
 import java.io.Serializable;
 
-import com.naedam.admin.common.Comm;
 import com.naedam.admin.member.model.vo.Member;
 
 import lombok.AllArgsConstructor;
@@ -16,9 +15,6 @@ import lombok.ToString;
 @ToString
 public class Post implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int postNo;				//게시글번호
 	private Board postBoard;		//board의 데이터
@@ -30,5 +26,7 @@ public class Post implements Serializable {
 	private Member postMember;		//회원데이터
 	private String postMemberName;
 	private int rownum;
+	private String imgUrl;	
+	private String locale;
 	
 }

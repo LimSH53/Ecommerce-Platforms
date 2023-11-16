@@ -18,5 +18,7 @@ public class Partner implements Serializable {
 	private String partnerName;
 	private String in_dtm;
 	private String partnerImage;
+	private int partnerAsc;
+	private String locale;
 	
 }

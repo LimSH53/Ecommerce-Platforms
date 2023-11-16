@@ -9,31 +9,38 @@
 		<result property="partnerName"				column="PARTNER_NAME"			jdbcType="VARCHAR"></result>
 		<result property="in_dtm"					column="IN_DTM"					jdbcType="VARCHAR"></result>
 		<result property="partnerImage"				column="PARTNER_IMAGE"			jdbcType="VARCHAR"></result>
+		<result property="partnerAsc"				column="PARTNER_ASC"			/>
 	</resultMap>	
 	
 	<insert id="addPartner" parameterType="partner">
 		INSERT INTO partner
 		(PARTNER_NAME, 
 		 IN_DTM, 
-		 PARTNER_IMAGE)
+		 PARTNER_IMAGE,
+		 PARTNER_ASC)
 		VALUES
 		(#{partnerName}, 
 		 sysdate(), 
-		 #{partnerImage})	
+		 #{partnerImage},
+		 (SELECT IFNULL(MAX(PARTNER_ASC) + 1, 1) FROM partner p)
+		 )	
 	</insert>
 	
 	<select id="selectHistoryList" resultType="history">
-		select @ROWNUM := @ROWNUM +1 AS ROWNUM,
-		H.*
-		from history H,(SELECT @ROWNUM := 0) TMP
-		order by history_date DESC
+		select h.*
+		 from (select @ROWNUM := @ROWNUM +1 AS ROWNUM,
+					  H.*
+				 from history H,(SELECT @ROWNUM := 0) TMP
+				 where locale like #{locale}
+			    order by history_date DESC ) h
 		LIMIT #{limit} OFFSET #{offset}
 	</select>
 	
-	<select id="selectAwardList" resultType="Award">
+	<select id="selectAwardList" resultType="Award" parameterType="map">
 		select @ROWNUM := @ROWNUM +1 AS ROWNUM,
 		A.*
 		from award A,(SELECT @ROWNUM := 0) TMP
+		where locale like #{locale}
 		order by award_date DESC
 	</select>
 	
@@ -52,6 +59,39 @@
   		partner_image,
   		date_format(in_dtm, '%Y-%m-%d') in_dtm
   		from partner
+  	</select>
+  	
+  	<select id="adminPartnerList" resultMap="partnerSelectMap">
+	  	SELECT p.*	
+	  	FROM(SELECT
+	  		@rownum:=@rownum+1 as rownum,
+	  		tb1.partner_no,
+	  		tb1.partner_name,
+	  		tb1.partner_image,
+	  		date_format(tb1.in_dtm, '%Y-%m-%d') in_dtm
+	  		FROM partner tb1, (select @rownum:=0) row_reset
+	  		WHERE 1=1
+	  		<if test="searchKeyword != null">
+	  			AND tb1.partner_name like concat ('%',#{searchKeyword},'%')
+	  		</if>
+	  		) p
+	  	LIMIT #{limit} OFFSET #{offset}
+  	</select>  	
+  	
+  	<select id="adminPartnerTotalCount" resultType="int">
+	  	SELECT COUNT(*)	
+	  	FROM(SELECT
+	  		@rownum:=@rownum+1 as rownum,
+	  		tb1.partner_no,
+	  		tb1.partner_name,
+	  		tb1.partner_image,
+	  		date_format(tb1.in_dtm, '%Y-%m-%d') in_dtm
+	  		FROM partner tb1, (select @rownum:=0) row_reset
+	  		WHERE 1=1
+	  		<if test="searchKeyword != null">
+	  			AND tb1.partner_name like concat ('%',#{searchKeyword},'%')
+	  		</if>
+	  		) countTable
   	</select>
   	
   	<select id="getPartner" parameterType="int" resultMap="partnerSelectMap">
@@ -101,7 +141,8 @@
 		select COUNT(*)
 		  from (select
 				H.*
-				from history H)countTable 	
+				from history H
+				where locale like #{locale})countTable 	
 	</select>
 	
 </mapper>

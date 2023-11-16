@@ -13,9 +13,6 @@ import lombok.ToString;
 @ToString
 public class Head implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private int headNo;
@@ -25,6 +22,7 @@ public class Head implements Serializable {
 	private String headImage;
 	private String headUrl;
 	private int headAsc;
+	private String locale;
 	
 	
 }

@@ -2,6 +2,7 @@ package com.naedam.admin.menu.model.service;
 
 import java.util.Map;
 
+import com.naedam.admin.menu.controller.MenuRequest;
 import com.naedam.admin.menu.model.vo.Bottom;
 import com.naedam.admin.menu.model.vo.Head;
 import com.naedam.admin.menu.model.vo.Menu;
@@ -10,10 +11,10 @@ public interface MenuService {
 	
 	
 	//메뉴 프로세서
-	public String menuProcess(Map<String, Object> map) throws Exception;
+	public String menuProcess(MenuRequest menuRequest) throws Exception;
 	
 	//메뉴 프로세서
-	public String headProcess(Map<String, Object> map) throws Exception;
+	public String headProcess(MenuRequest menuRequest) throws Exception;
 	
 	//리비젼 생성
 	public int addRevision(Menu menu) throws Exception;

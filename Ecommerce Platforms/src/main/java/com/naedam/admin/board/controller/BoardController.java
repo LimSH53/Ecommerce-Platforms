@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,16 +25,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.naedam.admin.award.model.vo.Award;
 import com.naedam.admin.board.model.service.BoardService;
 import com.naedam.admin.board.model.vo.Board;
 import com.naedam.admin.board.model.vo.BoardOption;
+import com.naedam.admin.board.model.vo.BoardRequest;
 import com.naedam.admin.board.model.vo.Page;
 import com.naedam.admin.board.model.vo.Post;
+import com.naedam.admin.board.model.vo.PostRequest;
 import com.naedam.admin.common.Comm;
-import com.naedam.admin.common.Mir9Utils;
+import com.naedam.admin.common.NaedamUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +53,13 @@ public class BoardController {
 	
 	int pageUnit = 5;
 	int pageSize = 5;
+	@PostMapping("/getBoard")
+	@ResponseBody
+	public Board getBoard(@RequestParam("boardNo") int boardNo) throws Exception {
+
+		Board board = boardService.getBoardData(boardNo);
+		return board;
+	}
 	/***
 	 * 게시판 DML 프로세스
 	 * @param board
@@ -59,15 +70,20 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@PostMapping("boardProcess")
-	public String boardProcess(@ModelAttribute("board") Board board, 
+	public String boardProcess(@ModelAttribute("board") Board board,
+								HttpServletRequest request,RedirectAttributes redirectAttr,
 							   @ModelAttribute("boardOption") BoardOption boardOption,
 							   @RequestParam("mode") String mode) throws Exception {
-		Map<String, Object> boardMap = new HashMap<>();
-		boardMap.put("board", board);
-		boardMap.put("boardOption", boardOption);
-		boardMap.put("mode", mode);
-		boardService.boardProcess(boardMap);
-		return "redirect:/admin/board/listBoard";
+		BoardRequest boardRequest = new BoardRequest();
+		boardRequest.setBoard(board);
+		boardRequest.setBoardOption(boardOption);
+		boardRequest.setMode(mode);
+		boardRequest.setRequest(request);
+		
+		Map<String, Object> resultMap = boardService.boardProcess(boardRequest);
+		redirectAttr.addFlashAttribute("msg", (String)resultMap.get("msg"));
+
+		return "redirect:/admin/board/listBoard?locale="+board.getLocale();
 	}
 	
 	/***
@@ -84,21 +100,23 @@ public class BoardController {
 	 */
 	@PostMapping("postProcess")
 	public String postProcess(@ModelAttribute("board") Board board, @ModelAttribute("post") Post post,
-							  @RequestPart(value="postName") MultipartFile[] postName,   
+							  @RequestPart(value="postName", required = false) MultipartFile[] postName,   
 							  @RequestParam("secNo") String secNo, 
 							  @RequestParam("mode") String mode,
+							  @RequestParam(value = "locale", defaultValue = "ko") String locale,
 						      HttpServletRequest request) throws Exception {
 		String filePath = request.getSession().getServletContext().getRealPath("resources/user/downloadFile/");
-		System.out.println("공지사항 프로세스 데이터 확인 === "+postName.length);
-		Map<String, Object> postMap	 = new HashMap<>();
-		postMap.put("board", board);
-		postMap.put("post", post);	
-		postMap.put("mode", mode);
-		postMap.put("postName", postName);
-		postMap.put("filePath", filePath);
-		postMap.put("secNo", secNo);
-		boardService.postProcess(postMap);
-		return "redirect:/admin/board/postList?boardNo="+board.getBoardNo();
+		PostRequest postRequest = new PostRequest();
+		postRequest.setPost(post);
+		postRequest.setBoard(board);
+		postRequest.setMode(mode);
+		postRequest.setPostImage(postName);
+		postRequest.setFilePath(filePath);
+		postRequest.setSecNo(secNo);
+		postRequest.setLocale(locale);
+		
+		boardService.postProcess(postRequest);
+		return "redirect:/admin/board/postList?boardNo="+board.getBoardNo()+"&locale="+post.getLocale();
 	}
 	
 	/***
@@ -109,16 +127,17 @@ public class BoardController {
 	 * @throws Exception
 	 */
 	@GetMapping("listBoard")
-	public String listBoard(@ModelAttribute("comm") Comm comm, Model model) throws Exception {
+	public String listBoard(@ModelAttribute("comm") Comm comm, Model model,
+							@RequestParam(value = "locale", defaultValue = "ko") String locale) throws Exception {
 		
 		//게시글 수
 		//각 게시판마다 게시글 수가 필요하여 List로 게시글 수를 뽑아와 List에 add하는 방식
 		//List postCount = new ArrayList();
-		List<Board> board = boardService.getBoardTitle();
 		//게시판 리스트
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("comm", comm);
-		map.put("board", board);
+		map.put("board", boardService.getBoardTitle(map));
+		map.put("locale", locale);
 		Map<String, Object> resultMap = boardService.getBoardList(map);
 		Page resultPage = new Page( comm.getCurrentPage(), ((Integer)resultMap.get("totalCount")).intValue(), pageUnit, pageSize);
 		model.addAttribute("list", resultMap.get("list"));
@@ -126,6 +145,7 @@ public class BoardController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("comm", comm);
 		model.addAttribute("postCount", resultMap.get("postCount"));
+		model.addAttribute("locale", locale);
 		
 		return "admin/board/boardList";
 	}
@@ -144,30 +164,33 @@ public class BoardController {
 	public String listPost(Model model, HttpServletRequest request ,
 						   @RequestParam("boardNo") int boardNo, 
 						   @RequestParam(defaultValue = "1") int cPage,
+						   @RequestParam(value = "locale", defaultValue = "ko") String locale,
 						   @ModelAttribute("comm") Comm comm) throws Exception {
 		//게시글 리스트 수 limit 10으로
-		int limit = 5;
+		int limit = 10;
 		int offset = (cPage - 1) * limit;
 		
 		//게시글 리스트 옵션과 권한의 조건에 따라 태그를 생성해야 함
 		Board board2 = boardService.getBoardAllData(boardNo);
 		model.addAttribute("board2", board2);
-		
 		//게시글 리스트
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("comm", comm);
 		map.put("boardNo", boardNo);
 		map.put("limit", limit);
 		map.put("offset", offset);
+		map.put("locale", locale);
 		Map<String, Object> resultMap = boardService.getPostList(map);
 		int totalPostListCount = Integer.parseInt(resultMap.get("totalCount").toString());
 
 		// pagebar
-		String pagebar = Mir9Utils.getPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
+		String pagebar = NaedamUtils.getPagebar(cPage, limit, totalPostListCount, request.getRequestURI());
+		model.addAttribute("comm",comm);
 		model.addAttribute("pagebar", pagebar);		
 		model.addAttribute("list", resultMap.get("list")); 
 		model.addAttribute("boardNo", boardNo);
 		model.addAttribute("pageCount",totalPostListCount);
+		model.addAttribute("locale", board2.getLocale());
 		return "admin/board/postList";
 	}
 	
@@ -181,7 +204,6 @@ public class BoardController {
 	@PostMapping("deleteThombnail")
 	public String deleteThombnail(@ModelAttribute("post") Post post,
 								  @RequestParam("boardNo") int boardNo) throws Exception {
-		System.out.println("deleteThombnail 시작");
 		boardService.updateThombnail(post);
 		return "redirect:/admin/board/postList?boardNo="+boardNo;
 	}	
@@ -198,14 +220,14 @@ public class BoardController {
 	public void imageUpload(HttpServletRequest request, HttpServletResponse response,
 							MultipartHttpServletRequest multiFile,
 							@RequestPart(value="upload", required = false) MultipartFile upload) throws Exception{
-		System.out.println("ckeditor 이미지 업로드 로그 확인");
+		log.info("ckeditor 이미지 업로드 로그 확인");
 		UUID uid = UUID.randomUUID();
 		OutputStream out = null;
 		PrintWriter printWriter = null;
 		if(upload.equals(null)) {
-			System.out.println("null값 체크");
+			log.info("null값 체크");
 		}else {
-			System.out.println("null값 체크2");
+			log.info("null값2 체크");
 		}
 		try{ 
 			//파일 이름 가져오기 

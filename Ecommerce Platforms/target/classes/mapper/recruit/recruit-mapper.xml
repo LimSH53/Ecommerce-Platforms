@@ -33,22 +33,27 @@
 		<result column="ROWNUM" property="rownum"/>
 	</resultMap>
 
-	<select id="getRecruitList" resultMap="recruitResultMap" parameterType="String">
-		SELECT @ROWNUM := @ROWNUM +1 AS ROWNUM,
-		      R.RECRUIT_NO,
-		      R.RECRUIT_TITLE,
-		      R.RECRUIT_VIEWCOUNT,
-		      date_format(R.RECRUIT_START, '%Y-%m-%d')as RECRUIT_START,
-		      date_format(R.RECRUIT_END, '%Y-%m-%d')as RECRUIT_END,
-		      date_format(R.RECRUIT_DATE, '%Y-%m-%d')as RECRUIT_DATE,
-		      R.CAREER,
-		      R.CONTENTS_STATUS
-		 FROM recruit R,(SELECT @ROWNUM := 0) TMP
-		WHERE RECRUIT_DLE_STATUS = 'N'
-			<if test="value != null">
-			AND R.RECRUIT_TITLE like concat ('%',#{value},'%')
-			</if>
-		ORDER BY CASE WHEN CONTENTS_STATUS IN ('Y', 'R') THEN 0 ELSE 1 END, RECRUIT_NO DESC
+	<select id="getRecruitList" resultMap="recruitResultMap" parameterType="hashmap">
+		SELECT R.*
+		  FROM (SELECT @ROWNUM := @ROWNUM +1 AS ROWNUM,
+		      			R.RECRUIT_NO,
+		      			R.RECRUIT_TITLE,
+		      			R.RECRUIT_VIEWCOUNT,
+		      			date_format(R.RECRUIT_START, '%Y-%m-%d')as RECRUIT_START,
+		      			date_format(R.RECRUIT_END, '%Y-%m-%d')as RECRUIT_END,
+		      			date_format(R.RECRUIT_DATE, '%Y-%m-%d')as RECRUIT_DATE,
+		      			R.CAREER,
+		      			R.CONTENTS_STATUS
+		 		   FROM recruit R,(SELECT @ROWNUM := 0) TMP
+				  WHERE RECRUIT_DLE_STATUS = 'N'
+				  		<if test="locale != null">
+						AND LOCALE LIKE #{locale}
+						</if>
+						<if test="search != null">
+						AND R.RECRUIT_TITLE like concat ('%',#{search},'%')
+						</if>
+			   ORDER BY CASE WHEN CONTENTS_STATUS IN ('Y', 'R') THEN 0 ELSE 1 END, RECRUIT_NO DESC) R
+		LIMIT #{limit} OFFSET #{offset}
 	</select>
 
 
@@ -68,6 +73,7 @@
 				RECRUIT_TITLE like concat ('%',#{value},'%')
 			</if>
 			AND RECRUIT_DLE_STATUS = 'N'
+			AND LOCALE LIKE #{locale}
 		</where>
 		ORDER BY CONTENTS_STATUS, RECRUIT_NO DESC)countTable
 	</select>
@@ -93,7 +99,8 @@
 		JOB_INTRO,
 		QUALIFICATION,
 		CONTENTS_STATUS,
-		RECRUIT_MANAGER
+		RECRUIT_MANAGER,
+		LOCALE
 		)
 		VALUES
 		(
@@ -124,7 +131,8 @@
 			"Y",
 			</otherwise>
 		</choose>
-		#{recruitManager}
+		#{recruitManager},
+		#{locale}
 		)
 		
 		<selectKey keyProperty="recruitNo" order="AFTER" resultType="int">
@@ -224,6 +232,7 @@
 			</if>
 			AND RECRUIT_DLE_STATUS = 'N'
 			AND CONTENTS_STATUS != 'N'
+			AND LOCALE LIKE #{locale}
 		</where>
 		ORDER BY RECRUIT_NO DESC
 		LIMIT #{limit} OFFSET #{offset}	
@@ -242,6 +251,7 @@
 			</if>
 			AND RECRUIT_DLE_STATUS = 'N'
 			AND CONTENTS_STATUS != 'N'
+			AND LOCALE LIKE #{locale}
 		</where>
 		ORDER BY RECRUIT_NO DESC)countTable
 	</select>

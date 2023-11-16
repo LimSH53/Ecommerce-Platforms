@@ -2,8 +2,6 @@ package com.naedam.user.recruit.model.service;
 
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
 import com.naedam.admin.recruit.model.vo.recruitDTO;
 
 public interface UserRecruitService {

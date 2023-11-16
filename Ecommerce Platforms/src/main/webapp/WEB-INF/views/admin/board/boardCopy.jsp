@@ -5,6 +5,7 @@
 
 <script>
 	function fncBoardTitle2(){
+		var locale = $("input[name='locale']").val();
 		var postArr = new Array();
 		$("input[class='postNo']:checked").each(function(){
 			postArr.push($(this).val());
@@ -16,7 +17,7 @@
 		
 		$('#modalContent2').modal('show');
 		$.ajax({
-			url : "/admin/board/json/listBoard",
+			url : "/admin/board/json/listBoard?locale="+locale,
 			method : "GET" ,
 			dataType : "json" ,
 			headers : {
@@ -37,6 +38,9 @@
 	
 	function funPostCopy(){	
 		var postArr = new Array();
+		var postFile = $("input[id='postName']").length;
+		var secNo = $("input[name='secNo']").val();
+		var locale = $("input[name='locale']").val();
 		var mode = "copy";
 		var boardNo = $("select[name='boardNoCopy']").val();
 		$("input[class='postNo']:checked").each(function(){
@@ -49,6 +53,9 @@
  		  	 data : { 
  		  	 	 postArr : postArr, 
  		  	 	 boardNo,
+ 		  	 	 secNo : secNo,
+ 		  	 	 locale:locale,
+ 		  	 	 postFile:postFile,
  		  	 	 mode
  		  	 },
    		 	 success : function(result){
@@ -65,6 +72,9 @@
             <form name="formPostCopy" method="post" action="?tpf=admin/board/process">
 	            <input type="hidden" name="mode" id="mode">
 	            <input type="hidden" name="code" id="code">
+	            <input type="hidden" name="postName" id="postName"value="">
+               	<input type="hidden" name="locale" value="${locale}"/>
+	            <input type="hidden" name="secNo" id="secNo" value="<sec:authentication property='principal.memberNo'/>">
 	            <div class="modal-header">
 	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	                <h4 class="modal-title" id="myModalLabelPortfolio">게시물 관리</h4>

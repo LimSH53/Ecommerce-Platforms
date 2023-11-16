@@ -194,40 +194,40 @@
 }
 /* test */
 .qualify_1::before {
-  background-image: url(../images/employee/employee_excellence.jpg);
+  background-image: url(../images/employee/qualifiedEmployee_employee1.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position-x: -45px;
 }
 .qualify_2::before {
-  background-image: url(../images/employee/employee_innovation.jpg);
+  background-image: url(../images/employee/qualifiedEmployee_employee2.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position-x: -45px;
 }
 .qualify_3::before {
-  background-image: url(../images/employee/employee_insight.jpg);
+  background-image: url(../images/employee/qualifiedEmployee_employee3.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position-x: -45px;
 }
 .qualify_4::before {
-  background-image: url(../images/employee/employee_teamwork.jpg);
+  background-image: url(../images/employee/qualifiedEmployee_employee4.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position-x: -45px;
 }
 .qualify_5::before {
-  background-image: url(../images/employee/employee_responsibility.jpg);
+  background-image: url(../images/employee/qualifiedEmployee_employee5.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position-x: -45px;
 }
 .qualify_6::before {
-  background-image: url(../images/employee/employee_flexible.jpg);
+  background-image: url(../images/employee/qualifiedEmployee_employee6.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position-x: -45px;
+  background-position-x: -340px;
 }
 .employee_image_box::before {
   content: "";
@@ -238,6 +238,7 @@
   height: 100%;
   background-size: cover;
   transition: 0.4s ease;
+  filter: contrast(0.6);
 }
 /* test rast */
 .employee_box {
@@ -954,7 +955,7 @@
 @media all and (max-width: 768px) {
 	
 	.top_visual_area.recruit {
-		background-image: url(../images/recruit_top.jpg);
+		background-image: url(../images/recruit_banner.jpeg);
 	}
 	
 	.top_visual_area.recruit .top_txt_outer .top_txt_area {
@@ -1083,7 +1084,6 @@
 	}
 	
 	.qualify_2::before {
-    background-image: url(../images/employee/employee_innovation.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position-x: 0px;

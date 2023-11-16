@@ -50,7 +50,7 @@
 .core_value_img {
   background-image: url("../images/core_value.png");
   width: 80%;
-  height: 80%;
+  height: 50%;
   margin: 0 auto;
   background-size: contain;
   background-position: center;
@@ -310,7 +310,21 @@
   margin-top: 40px;
 }
 .business-wrapper {
-  height: 70%;
+    max-height: 1080px;
+/*     height: calc(100vh - 80px); */
+    position: relative;
+    background-color: #000;
+    overflow: hidden;
+}
+.business-wrapper video {
+    width: 1920px;
+    height: 1080px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: 1;
+     filter: contrast(0.6);
 }
 .visual-business_wrapper {
   overflow: hidden;
@@ -319,7 +333,7 @@
   background-color: #000;
 }
 .business_introduce_wrapper {
-  background-image: url(../images/company/division/company_business_1.jpg);
+  background-image: url(../images/company/division/businessList_banner.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
@@ -423,16 +437,18 @@
 }
 
 .top_visual_area.ceo_msg {
-  background-color: #4c5b72;
+  background: linear-gradient(222deg,#4f4f4f, #7c8389, transparent);
   background-size: cover;
 }
 .top_visual_area.ceo_msg .inner_container {
   height: 760px;
 }
 .top_visual_area.ceo_msg .ceo-img {
-  width: 43%;
+  width: 36%;
+  left: -4%;
+  top: 11%;
+  border-radius: 2%;
   position: absolute;
-  bottom: 0;
 }
 .ceo_msg-box {
   padding: 40px 0;
@@ -453,6 +469,9 @@
 }
 .ceo_msg-box .ceo_msg-txt2.line-01 {
   margin-top: 48px;
+}
+.ceo_msg-box .ceo_msg-txt2.en_line-01 {
+  margin-top: 10px;
 }
 .ceo_msg-box .ceo_msg-txt2.line-02 {
   width: calc(100% / 2 + 110px);
@@ -519,17 +538,20 @@
 .symbol_img .nd_symbol {
   width: 40%;
 }
+.layout_section_outer.intro .layout_body.ci_layout_body{
+	margin-top :0;
+}
 .naedam_main_img {
   text-align: center;
   /*   border: solid #c5c3c3; */
 }
 .naedam_main_img .nd_main {
   /*  width: 60%; */
-  padding: 70px;
+  padding: 0 70 70 70px;
 }
 .naedam_main_img .nd_reverse {
   width: 75%;
-  padding: 100px;
+  padding: 0px 100 100 100px;
 }
 .layout_symbol {
   padding: 0 0 0;
@@ -687,7 +709,7 @@
   padding-bottom: 100px;
 }
 .division_wrapper {
-  background-image: url(../images/company/division/stock-photo-network-community-concept-631791635.jpg);
+  background-image: url(../images/company/division/divisionList_banner.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -743,8 +765,9 @@
 
 @media all and (max-width: 1024px) {
   .top_visual_area.ceo_msg .ceo-img {
-    left: 0;
-    width: 400px;
+    left: 3%;
+    top: 42%;
+    width: 375px;
   }
   .ceo_msg-box {
     padding: 52px 0;
@@ -981,10 +1004,10 @@
     background-size: cover;
   }
   .top_visual_area.ceo_msg .ceo-img {
-    max-width: 326px;
-    left: 50%;
+    width: 50%;
+    left: 25%;
     right: auto;
-    margin-left: -163px;
+    bottom: 0px;
   }
   .top_visual_area .ceo_msg-box {
     padding: 35px 0 0;
@@ -1214,6 +1237,12 @@
   }
   .ceo_msg-box_media {
     font-size: 14px;
+  }
+  .top_visual_area.ceo_msg .ceo-img {
+    width: 79%;
+    left: 10%;
+    right: auto;
+    position: absolute;
   }
 }
 @media all and (max-width: 376px) {

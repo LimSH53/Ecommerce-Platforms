@@ -1350,7 +1350,7 @@ body.scroll-up .common-swiper_area[data-js="js-sticky"] {
     justify-content: flex-end;
   }
   .inner .gnb-wrap {
-    display: none;
+    display: block;
   }
   .inner .header_util .btn_util_wrap a:not(.btn_search) {
     display: none;

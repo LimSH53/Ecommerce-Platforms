@@ -10,7 +10,7 @@ public class Comm  implements Serializable{
 	///Field
 	private int currentPage;
 	private String searchCondition;
-	private String searchKeyword;
+	public String searchKeyword;
 	private String searchType;
 	private int searchSort;
 	private int pageSize;
@@ -22,6 +22,7 @@ public class Comm  implements Serializable{
 	private String year;
 	private String month;
 	private String rowNo;
+	private String locale;
 	
 	
 	public int getEndRowNum() {

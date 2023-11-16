@@ -20,10 +20,8 @@ public class UserRecruitServiceImpl implements UserRecruitService{
 		Map<String, Object> resultMap = new HashMap<>();
 		//user 채용 게시글 리스트
 		resultMap.put("list", userRecruitDao.selectRecruitList(map));
-		System.out.println("resultMap.list" + resultMap.get("list"));
 		//user 채용 게시글 수
 		resultMap.put("totalCount", userRecruitDao.getTotalCount(map));
-		System.out.println("resultMap.totalCount" + resultMap.get("totalCount"));
 		return resultMap;
 	}
 

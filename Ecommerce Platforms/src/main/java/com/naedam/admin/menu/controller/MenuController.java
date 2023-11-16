@@ -46,27 +46,34 @@ public class MenuController {
 							  @ModelAttribute("bottom") Bottom bottom,
 							  @RequestParam("mode") String mode, 
 							  @RequestParam("part") String part) throws Exception{
-		Map<String, Object> menuMap = new HashMap<>();
-		menuMap.put("menu", menu);
-		menuMap.put("head", head);
-		menuMap.put("bottom", bottom);
-		menuMap.put("mode", mode);
-		menuMap.put("part", part);
-		return menuService.menuProcess(menuMap);
+		
+		MenuRequest menuRequest = new MenuRequest();
+		menuRequest.setMenu(menu);
+		menuRequest.setHead(head);
+		menuRequest.setBottm(bottom);
+		menuRequest.setMode(mode);
+		menuRequest.setPart(part);
+		
+		return menuService.menuProcess(menuRequest);
 	}
 	
 	@PostMapping("headProcess")
 	public String headProcess(@ModelAttribute("head") Head head,
 							  @RequestParam("mode") String mode,
 							  @RequestParam(value="image", required = false) MultipartFile headImage,
+							  @RequestParam(value="imageStatus", required = false) String imageStatus,
 							  HttpServletRequest request) throws Exception{
 		String filePath = request.getServletContext().getRealPath("resources/user/images/main/");
-		Map<String, Object> headMap = new HashMap<>();
-		headMap.put("head", head);
-		headMap.put("mode", mode);
-		headMap.put("headImage", headImage);
-		headMap.put("filePath", filePath);
-		return menuService.headProcess(headMap);
+		
+		MenuRequest menuRequest = new MenuRequest();
+		
+		menuRequest.setHead(head);
+		menuRequest.setMode(mode);
+		menuRequest.setHeadImage(headImage);
+		menuRequest.setFilePath(filePath);
+		menuRequest.setImageStatus(imageStatus);
+		
+		return menuService.headProcess(menuRequest);
 	}
 	
 	/**
@@ -78,13 +85,17 @@ public class MenuController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="menu")
-	public String listMenu(Menu menu, Model model) throws Exception{
-		System.out.println("menu 시작");
+	public String listMenu(Menu menu, Model model,
+				@RequestParam(value="revision_code", defaultValue = "0") int revision_code,
+			    @RequestParam(value="ord", defaultValue = "0") int ord,
+			    @RequestParam(value = "locale", defaultValue = "ko") String locale) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("locale", locale);
 		Map<String, Object> resultMap = menuService.getMenuList(map);
 		model.addAttribute("list", resultMap.get("list"));
 		model.addAttribute("list2", resultMap.get("list2"));
 		model.addAttribute("board", resultMap.get("board"));
+		model.addAttribute("locale", locale);
 		return "admin/menu/menu";
 	}
 	
@@ -97,16 +108,18 @@ public class MenuController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="menu2")
-	public String listMenu2(@ModelAttribute("menu") Menu menu, Model model) throws Exception{
-		System.out.println("menu2 시작");
+	public String listMenu2(@ModelAttribute("menu") Menu menu, Model model,
+			@RequestParam(value="ord", defaultValue = "0") int ord,
+		    @RequestParam(value = "locale", defaultValue = "ko") String locale) throws Exception{
 		menu.setOrd(menu.getOrd()+1);
-		System.out.println("menu 체크 === "+menu);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("menu", menu);
+		map.put("locale", locale);
 		Map<String, Object> resultMap = menuService.getMenuList2(map);
-		model.addAttribute("menu", menu);
+		model.addAttribute("menuData", menuService.getMenu(menu.getCode()));
 		model.addAttribute("list", resultMap.get("list"));
-		model.addAttribute("list2", resultMap.get("list2"));			
+		model.addAttribute("list2", resultMap.get("list2"));	
+		model.addAttribute("locale", locale);
 		return "admin/menu/menuList";
 	}	
 	
@@ -119,12 +132,16 @@ public class MenuController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="menuList")
-	public String menuList(Menu menu, Model model, HttpServletRequest request) throws Exception{
-		System.out.println("menuList 시작");
+	public String menuList(Menu menu, Model model, HttpServletRequest request,
+			@RequestParam(value="ord", defaultValue = "0") int ord,
+			  @RequestParam(value = "locale", defaultValue = "ko") String locale) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("locale", locale);
 		Map<String, Object> resultMap = menuService.getMenuList(map);
+		model.addAttribute("menuData", menuService.getMenu(menu.getCode()));
 		model.addAttribute("list", resultMap.get("list"));
 		model.addAttribute("list2", resultMap.get("list2"));
+		model.addAttribute("locale", locale);
 		return "admin/menu/menuList";
 	}
 	
@@ -136,13 +153,15 @@ public class MenuController {
 	 * @throws Exception
 	 */
 	@GetMapping("tree")
-	public String tree(Model model, MenuCategory menuCategory) throws Exception{
-		System.out.println("menuCategory/tree 시작");
+	public String tree(Model model, MenuCategory menuCategory,
+			@RequestParam(value = "locale", defaultValue = "ko") String locale) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("locale", locale);
 		Map<String, Object> resultMap = menuService.getMenuCategoryList(map);
 		model.addAttribute("list", resultMap.get("list"));
 		model.addAttribute("list2", resultMap.get("list2"));
 		model.addAttribute("list3", resultMap.get("list3"));
+		model.addAttribute("locale", locale);
 		return "admin/menu/tree";
 	}
 	
@@ -154,11 +173,13 @@ public class MenuController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="headList")
-	public String headList(Head head, Model model) throws Exception{
-		System.out.println("head/headList 시작");
+	public String headList(Head head, Model model,
+			   @RequestParam(value = "locale", defaultValue = "ko") String locale) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("locale", locale);
 		Map<String, Object> resultMap = menuService.getHeadList(map);
 		model.addAttribute("list", resultMap.get("list"));
+		model.addAttribute("locale", locale);
 		return "admin/menu/head";
 	}	
 	
@@ -171,7 +192,6 @@ public class MenuController {
 	 */
 	@RequestMapping(value="bottomList")
 	public String bottomList(Model model, Bottom bottom) throws Exception{
-		System.out.println("bottom/bottomList 시작");
 		bottom = menuService.getBottom();
 		model.addAttribute("bottom", bottom);
 		return "admin/menu/bottom";

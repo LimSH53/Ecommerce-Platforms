@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
-import com.naedam.admin.member.model.vo.MemberAccessHistory;
-
 @Repository
 public class SecurityDaoImpl implements SecurityDao {
 

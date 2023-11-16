@@ -14,53 +14,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<!-- Bootstrap 3.3.7 -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<!-- Ionicons -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ionicons.min.css">
-	<!-- jvectormap -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery-jvectormap.css">
-	<!-- Theme style -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/AdminLTE.min.css">
-	<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/_all-skins.min.css">
-	<link href="${pageContext.request.contextPath}/resources/css/admin.css" rel="stylesheet" type="text/css">
-	<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
-	
-	<!-- jQuery 3 -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-	<!-- Bootstrap 3.3.7 -->
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-	<!-- FastClick -->
-	<script src="${pageContext.request.contextPath}/resources/js/fastclick.js"></script>
-	<!-- AdminLTE App -->
-	<script src="${pageContext.request.contextPath}/resources/js/adminlte.min.js"></script>
-	<!-- Sparkline -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.sparkline.min.js"></script>
-	<!-- jvectormap  -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-jvectormap-1.2.2.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-jvectormap-world-mill-en.js"></script>
-	<!-- SlimScroll -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.slimscroll.min.js"></script>
-	<!-- ChartJS -->
-	<script src="${pageContext.request.contextPath}/resources/js/Chart.js"></script>
-	<!-- AdminLTE for demo purposes -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
-	<script src="${pageContext.request.contextPath }/resources/js/common.js" type="text/javascript" charset="utf-8"></script>
-	
-	<!-- plupload -->
-	<script src="${pageContext.request.contextPath}/resources/plupload/js/plupload.full.min.js"></script>
-	<!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
-	<script src="${pageContext.request.contextPath}/resources/plupload/js/jquery.ui.plupload/jquery.ui.plupload.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/plupload/js/i18n/ko.js"></script>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css">
-	<!-- 
-		<script src="${pageContext.request.contextPath}/resources/plupload/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-		<link  href="${pageContext.request.contextPath}/resources/plupload/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet">
-		<script src="${pageContext.request.contextPath}/resources/plupload/jquery-ui-1.12.1/jquery-ui.js"></script>
-	 -->
-	
 	<script type="text/javascript">
 		$(function(){
 			//post 선택삭제 시작
@@ -88,7 +41,7 @@
 		  		  	 		  	},
 		    		 	 success : function(result){
 		   			  		alert("게시글이 삭제 되었습니다.")
-		   			  		location.href = "/admin/business/getBusinessPostList?businessNo="+businessNo;
+		   			  		location.href = "/admin/business/getBusinessPostList?businessNo="+businessNo+"&locale=${cookie.locale.value}";
 		  		  	 	 }
 			  		});		
 				}
@@ -112,6 +65,10 @@
 					$("#name").val(JSONData.lastName+JSONData.firstName);
 				}
 			})
+		}
+		
+		function fncBusinessContents(no){
+			location.href = "/admin/business/getBusinessContentsList?businessPostNo="+no;
 		}
 		
 		const paging = (cPage) => {
@@ -196,21 +153,23 @@
 		 		});				
 			}
 		}
+		
+		
 	</script>
 	
-	<script src="${pageContext.request.contextPath}/resources/ckeditor_4.18.0_0efc8d0dbe1a/ckeditor/ckeditor.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/admin/ckeditor/ckeditor.js"></script>
 </head>
 
 <div class="content-wrapper">
 	<section class="content-header">
 	    <h1>
-	     ${business.BUSINESS_TITLE} 관리
-	    <small>${business.BUSINESS_TITLE} list</small>
+	     ${business.businessTitle} 관리
+	    <small>${business.businessTitle} list</small>
 	    </h1>
 	
 	    <ol class="breadcrumb">
 	        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-	        <li class="active">${business.BUSINESS_TITLE} 관리</li>
+	        <li class="active">${business.businessTitle} 관리</li>
 	    </ol>
 	</section>
 	
@@ -219,29 +178,11 @@
 	        <div class="col-xs-12">
 	            <div class="box">
 	                <div class="box-body">
-	                    <label style="margin-top:5px;">총  건</label>
-	                    <form name="searchForm" method="post" action="/admin/board/postList?${_csrf.parameterName}=${_csrf.token}">
-		                    <div class="box-tools pull-right" style="margin-bottom:5px;">
-		                    	<input type="hidden" class="businessNo" value="${business.BUSINESS_NO}">
-		                    	<input type="hidden" name="cPage">
-		                        <div class="has-feedback">
-			                        <span>
-			                      	  <input type="text" name="searchKeyword" id="searchKeyword" class="form-control input-sm" placeholder="검색" value=""/>
-			                      	  <span class="glyphicon glyphicon-search form-control-feedback"></span>
-			                        </span>
-		                        </div>
-		                    </div>
-		                    <div class="box-tools pull-right" style="margin-bottom:5px;">
-		                        <div class="has-feedback">
-			                        <select name="searchType" class="form-control input-sm" style="float:left; width:130px;">
-			      						<option value="1">제목</option>      
-			      						<option value="2">작성자</option>                        
-			      					</select>
-		                        </div>
-		                    </div>
-	                    </form>
+	                    <label style="margin-top:5px;">총 ${count}건</label>
 	                    <table class="table table-bordered table-hover">
 		                    <form name="form_list" method="post">
+		                    <input type="hidden" class="businessNo" value="${ businessNo}">
+		                    <input type="hidden" name="locale" id="locale" value="${ locale}">
 			                    <thead>
 				                    <tr>
 				                        <td style="width:30px;">
@@ -251,9 +192,9 @@
 													$("#allCheck").click(function() {
 														var chk = $("#allCheck").prop("checked");
 														if (chk) {
-															$('.postNo').prop("checked", true);
+															$('.businessPostNo').prop("checked", true);
 														} else {
-															$('.postNo').prop("checked", false);
+															$('.businessPostNo').prop("checked", false);
 														}
 													});
 												</script>
@@ -261,51 +202,13 @@
 				                        </td>
 				                        <td style="width:60px;">NO</td>
 				                        <td>제목</td>
-				                        <td style="width:100px;">작성자</td>
+				                        <td style="width:300px;">URL</td>
 				                        <td style="width:140px;">등록일</td>
-				                        <c:if test="${business.OPTION_ORDER eq 'y'}">
-					                        <td style="width:60px;">
-					                            <i onclick="fncDown();" name="up" class="fa fa-fw fa-arrow-circle-down cp" style="cursor:pointer;"></i>
-					                            <i onclick="fncUp();" class="fa fa-fw fa-arrow-circle-up cp" style="cursor:pointer;"></i>
-					                        </td>
-				                        </c:if>
+				                        <td style="width:80px;">등록</td>
 				                        <td style="width:80px;">명령</td>
 				                    </tr>
 			                    </thead>
 			                    <tbody>
-				                    <c:forEach var="businessPost" items="${list}">
-				                    	<c:if test="${businessPost.BUSINESS_POST_NOTICE eq 1}">
-				                    		<tr>
-				                    			<td></td>
-				                    			<td>공지</td>
-				                    			<td align="left">
-				                    				<c:if test="${nowData eq businessPost.BUSINESS_POST_DATE}">
-														<img src="${pageContext.request.contextPath}/resources/imgs/imageBoard/new.png" width="15">
-						                   			</c:if>
-						                   			<c:if test="${businessPost.BUSINESS_POST_LAYER > 0}">
-						                   				&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/imgs/imageBoard/right.png" width="15">
-							                			&nbsp;&nbsp;
-						                   			</c:if>
-						                   			${businessPost.BUSINESS_POST_TITLE}
-						                   			<c:if test="${businessPost.BUSINESS_POST_THOMBNAIL != null && businessPost.BUSINESS_POST_THOMBNAIL != ''}">
-						                   				<img src="${pageContext.request.contextPath}/resources/imgs/imageBoard/disk.png" width="15">
-						                   			</c:if>
-				                    			</td>
-				                    			<td>${businessPost.MEMBER_NO}</td>
-				                    			<td>${businessPost.BUSINESS_POST_DATE}</td>
-						               			<c:if test="${business.OPTION_ORDER eq 'y'}">
-						               				<td>
-						               					<input type="radio" name="order_code" value="${businessPost.BUSINESS_POST_ASC}" chack="">
-						               					<input type="hidden" name="originNo" value="${businessPost.BUSINESS_POST_ORIGIN_NO}">
-						               				</td>
-						               			</c:if>
-						               			<td>
-						                			<button type="button" id="getBusinessPostBotton" data-toggle="modal" data-target="#modalContent4" class="btn btn-primary btn-xs" value="${businessPost.BUSINESS_POST_NO}">상세보기
-						                			<input type="hidden" value="${businessPost.MEMBER_NO}"></button>
-						                   		</td>		                    			
-				                    		</tr>
-				                    	</c:if>
-				                    </c:forEach>
 				                    <c:if test="${empty list}">
 					                    <tr>
 					                   		<td colspan="10"><br>등록된 자료가 없습니다.<br><br></td>
@@ -313,57 +216,45 @@
 				                    </c:if>
 				                    <c:set var="i" value="0"/>
 				                   	<c:forEach var="businessPost" items="${list}">
-				                   		<c:if test="${businessPost.BUSINESS_POST_NOTICE eq 0}">
-				                   			<c:set var="i" value="${ i+1 }" />
-				                   			<tr>
-				                   				<td>
-							                        <div>
-							                        	<input type="checkbox" class="businessPostNo" name="businessPostNo"  value="${businessPost.BUSINESS_POST_NO}" />
-							                        	<script>
-															$(".businessPostNo").click(function() {
-																$("#allCheck").prop("checked", false);
-															});
-														</script>
-													</div>
-					                        	</td>
-					                        	<td>${ i }</td>
-					                        	<td align="left">
-					                   				<c:if test="${nowData eq businessPost.BUSINESS_POST_DATE}">
-					                   					<img src="${pageContext.request.contextPath}/resources/imgs/imageBoard/new.png" width="15">
-					                   				</c:if>           
-						                			<c:if test="${businessPost.BUSINESS_POST_LAYER > 0}">
-						                				&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/imgs/imageBoard/right.png" width="15">
-						                				&nbsp;&nbsp;
-						                			</c:if>                   				     				
-					                   				${businessPost.BUSINESS_POST_TITLE}
-					                   				<c:if test="${businessPost.BUSINESS_POST_THOMBNAIL != null && businessPost.BUSINESS_POST_THOMBNAIL != ''}">
-					                   					<img src="${pageContext.request.contextPath}/resources/imgs/imageBoard/disk.png" width="15">
-					                   				</c:if>
-					                   			</td>
-					                   			<td>${businessPost.MEMBER_NO}</td>
-					                   			<td>${businessPost.BUSINESS_POST_DATE}</td>
-												<c:if test="${business.OPTION_ORDER eq 'y'}">
-						                   			<td>
-						                   				<input type="radio" name="order_code" value="${businessPost.BUSINESS_POST_ASC}" chack="">
-						                   				<input type="hidden" name="originNo" value="${businessPost.BUSINESS_POST_ORIGIN_NO}">
-						                   			</td>
-					                   			</c:if>	
-					                   			<td>
-						                   			<button type="button" id="getBusinessPostBotton" data-toggle="modal" data-target="#modalContent4" class="btn btn-primary btn-xs" value="${businessPost.BUSINESS_POST_NO}">상세보기
-						                   				<input type="hidden" value="${businessPost.MEMBER_NO}">
-						                   			</button>
-					                   			</td>				                   			
-				                   			</tr>
-				                   		</c:if>
-				                   	</c:forEach>           
+			                   			<c:set var="i" value="${ i+1 }" />
+			                   			<tr>
+			                   				<td>
+						                        <div>
+						                        	<input type="checkbox" class="businessPostNo" name="businessPostNo"  value="${businessPost.businessPostNo}" />
+						                        	<script>
+														$(".businessPostNo").click(function() {
+															$("#allCheck").prop("checked", false);
+														});
+													</script>
+												</div>
+				                        	</td>
+				                        	<td>${ i }</td>
+				                        	<td align="left">
+				                   				<c:if test="${nowData eq businessPost.inDtm}">
+				                   					<img src="${pageContext.request.contextPath}/resources/imgs/imageBoard/new.png" width="15">
+				                   				</c:if>                     				     				
+				                   				${businessPost.businessPostTitle}
+				                   			</td>
+				                   			<td>
+				                   				<a href="/user/introduction/introduction?businessPostNo=${businessPost.businessPostNo}" target="_blank">/user/introduction/introduction?businessPostNo=${businessPost.businessPostNo}</a>
+				                   			</td>
+				                   			<td>${businessPost.inDtm}</td>
+				                   			<td>
+				                   				<button type="button" onclick="fncBusinessContents(${businessPost.businessPostNo})" class="btn btn-primary btn-xs" value="${businessPost.businessPostNo}">내용등록</button>
+				                   			</td>      				                   			
+				                   			<td>
+					                   			<button type="button" id="getBusinessPostBotton" data-toggle="modal" data-target="#modalContent4" class="btn btn-primary btn-xs getBusinessPost" value="${businessPost.businessPostNo}">상세보기
+					                   				<input type="hidden" value="${businessPost.businessMember.memberNo}">
+					                   			</button>
+				                   			</td>         			
+			                   			</tr>
+				                   	</c:forEach>
 			      				</tbody>
 		      				</form>
 	                    </table>
 	                    <br>
 	                    <button type="button" id="deleteChoiceBusinessPost" class="btn btn-danger btn-sm"><i class="fa fa-minus-square"></i> 선택삭제</button>
 	                    <button type="button" onclick="fncPost()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalContent"><i class="fa fa-plus-square"></i> 글 등록</button>
-	                    <button type="button" onclick="fncBoardTitle2()" class="btn btn-warning btn-sm"><i class="fa fa-random"></i> 게시물 복사</button>
-	                    <button type="button" onclick="fncBoardTitle()" class="btn btn-warning btn-sm"><i class="fa fa-random"></i> 게시물 이전</button>
 						<div style="text-align: right;">
 							
 						</div>
@@ -378,15 +269,10 @@
 	</div>
 	
 <jsp:include page="/WEB-INF/views/admin/business/addBusinessPost.jsp"/>
-<jsp:include page="/WEB-INF/views/admin/business/updaterBusinessPost.jsp"/>
+<jsp:include page="/WEB-INF/views/admin/business/updateBusinessPost.jsp"/>
 <jsp:include page="/WEB-INF/views/admin/board/addComment.jsp"/>
 <jsp:include page="/WEB-INF/views/admin/board/boardCopy.jsp"/>
 <jsp:include page="/WEB-INF/views/admin/board/boardChange.jsp"/>
 </div><!-- /.content-wrapper -->
 
-<footer class="main-footer">
-	<div class="pull-right hidden-xs">
-	    <b>Version</b> 2.7.4
-	</div>
-	<strong>NDC&C<a href="/admin">  Since:2017  </a> Phone 031-712-8315 | Fax 031-789-3545</strong>
-</footer>
+<jsp:include page="/WEB-INF/views/admin/common/footer.jsp"/>

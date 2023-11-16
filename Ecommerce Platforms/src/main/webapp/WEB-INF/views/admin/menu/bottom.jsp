@@ -162,7 +162,6 @@
 	         success:function(data, textStatus, jqXHR){
 	         	
 	             var json_data = data;
-	             // console.log(json_data.content[$('[name=locale]').val()]);
 	             if (json_data.content[$('[name=locale]').val()] != null) var content = json_data.content[$('[name=locale]').val()];
 	             else var content = '';
 	
@@ -174,7 +173,6 @@
 	             }, 200);
 	         },
 	         error:function(jqXHR, textStatus, errorThrown){
-	             console.log(textStatus);
 	             // $('#content').val(errorThrown);
 	         }
 	     });

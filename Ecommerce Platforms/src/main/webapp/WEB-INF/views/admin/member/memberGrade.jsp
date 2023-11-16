@@ -99,11 +99,9 @@ pageEncoding="UTF-8"%>
 				xhr.setRequestHeader(header, token);
 			},
 			success(data){
-				console.log(data);
 				alert("등급이 수정 되었습니다.");
 				location.reload();
 			}, 
-			error : console.log
 		});
 	};
 	

@@ -35,6 +35,7 @@
 						<div class="box-tools pull-right" style="margin-bottom: 5px;"></div>
 						<form name="form_list" method="post" action="${pageContext.request.contextPath }/admin/award/award_process?${_csrf.parameterName}=${_csrf.token}">
 							<input type="hidden" name="mode" id="mode">
+							<input type="hidden" name="locale" id="locale" value="${locale}">
 							<table class="table table-bordered table-hover">
 								<thead>
 									<tr>
@@ -52,13 +53,13 @@
 									<c:forEach var="award" items="${awardList }">
 										<tr>
 											<td><input type="checkbox" name="list[]" value="${award.awardNo }" /></td>
-											<td>${award.awardNo }</td>
+											<td>${award.ROWNUM }</td>
 											<td><fmt:formatDate value="${award.awardDate }" pattern="yyyy"/></td>
 											<td><fmt:formatDate value="${award.awardDate }" pattern="MM"/></td>
 											<td><fmt:formatDate value="${award.awardDate }" pattern="dd"/></td>
 											<td style="text-align: left;">${award.host }</td>
 											<td style="text-align: left;">${award.content }</td>
-											<td><button type="button" onclick="onclickUpdate(${award.awardNo });" class="btn btn-primary btn-xs">상세보기</button></td>
+											<td><button type="button" onclick="onclickUpdate(${award.awardNo});" class="btn btn-primary btn-xs">상세보기</button></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -71,9 +72,9 @@
 						<button type="button" onclick="onclickInsert()" class="btn btn-primary btn-sm">
 							<i class="fa fa-plus-square"></i> 수상 등록
 						</button>
-						<button type="button" onclick="onclickCopyContent();" class="btn btn-warning btn-sm" style="margin-left: 20px;">
+						<!-- <button type="button" onclick="onclickCopyContent();" class="btn btn-warning btn-sm" style="margin-left: 20px;">
 							<i class="fa fa-copy"></i> 연혁 복사
-						</button>
+						</button> -->
 						<div style="text-align: right;">
 							<ul class="pagination" style="margin: 0;">
 								<li class="active"><a href="?tpf=admin/setting/award&locale=ko&page=1">1</a></li>
@@ -91,7 +92,8 @@
 				<form name="form_register" method="post" action="${pageContext.request.contextPath }/admin/award/award_process?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
 					<input type="hidden" name="mode" id="mode" value="insert"> 
 					<input type="hidden" name="awardNo" id="awardNo" value="0"> 
-					<input type="hidden" name="locale" id="locale" value="ko">
+					<input type="hidden" name="locale" id="locale" value="${locale}">
+					<input type="hidden" name="fullDate" value="" />
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 						<h4 class="modal-title" id="myModalLabelPortfolio">수상 관리</h4>
@@ -146,7 +148,8 @@
 							</tr>
 							<tr>
 								<td class="menu">파일 <span class="text-light-blue"><i class="fa fa-check"></i></span></td>
-								<td align="left" class="awardFileTd">
+								<td align="left">
+									<div class="awardFileTd" id="cImg"></div>
 									<input type="file" name="awardImage" class="form-control input-sm" style="width: 70%; display: inline;" accept="image/*"> 
 								</td>
 							</tr>
@@ -165,7 +168,7 @@
 		<div class="modal-dialog" style="width: 400px;">
 			<div class="modal-content">
 				<form name="awardCopyContent" method="post" action="${pageContext.request.contextPath }/admin/setting/award_process?${_csrf.parameterName}=${_csrf.token}">
-					<input type="hidden" name="mode" id="mode" value="copyContent"> <input type="hidden" name="locale" value="ko"> <input type="hidden" name="code" id="code">
+					<input type="hidden" name="mode" id="mode" value="copyContent"> <input type="hidden" name="locale" value="${locale}"> <input type="hidden" name="code" id="code">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 						<h4 class="modal-title" id="myModalLabelPortfolio">연혁 복사</h4>
@@ -206,10 +209,27 @@
 	    if(form_register.year.value == '') { alert('년도가 선택되지 않았습니다.'); form_register.year.focus(); return false;}
 	    if(form_register.month.value == '') { alert('월이 선택되지 않았습니다.'); form_register.month.focus(); return false;}
 	    if(form_register.date.value == '') { alert('일이 선택되지 않았습니다.'); form_register.date.focus(); return false;}
-	    if(form_register.content.value == '') { alert('내용이 선택되지 않았습니다.'); form_register.content.focus(); return false;}
-	    if(form_register.awardImage.value == '') { alert('이미지는 필수 사항입니다.'); form_register.content.focus(); return false;}
-	    form_register.target = 'iframe_process';
-	    form_register.submit();
+	    if(form_register.content.value == '') { alert('내용이 입력되지 않았습니다.'); form_register.content.focus(); return false;}
+	    if($('form[name="form_register"] #mode').val() != 'update'){
+	    	if(form_register.awardImage.value == '') { alert('이미지는 필수 사항입니다.'); form_register.content.focus(); return false;}
+	    }
+	    var zero = num => num < 10 && num >= 0 ? "0" + num : num;
+	    var year =$("[name=year]").val();
+	    var month =$("[name=month]").val();
+	    var date =$("[name=date]").val();
+	    var fullDate ="";
+	    fullDate = zero(year)+zero(month)+zero(date);
+	    $("input[name=fullDate]").attr('value',fullDate);
+
+	    if(!confirm("수상 정보를 등록하시겠습니까?")){
+			alert("취소 되었습니다.");
+			return;
+		}else{
+			form_register.target = 'iframe_process';
+		    form_register.submit();
+		    setTimeout("location.reload()", 500);
+			$('#modalContent').modal('hide');
+		}
 	}
 	
 	function setData(code) {
@@ -224,21 +244,21 @@
 				awardNo : code
 			},
 			success(data){
-	            console.log(data);
-	            $("#display_awardImage").remove();
 	            var date = new Date(data.awardDate);
 	            $('form[name="form_register"] #mode').val('update');
 	            $('[name=awardNo]').val(data.awardNo);
 	            $('[name=year]').val(date.getFullYear());
 	            $('[name=month]').val(date.getMonth() + 1);
 	            $('[name=date]').val(date.getDate());
+	            $('[name=fullDate]').val();
 	            $('[name=content]').val(data.content);
 	            $('[name=host]').val(data.host);
 	            if(data.imgUrl != null){
+	            	$("#display_awardImage").remove();
+	            	$(".awardFileTd").html('');
 					 var image = "'${pageContext.request.contextPath}/resources/user/images/company/award/"+data.imgUrl+"'"
 					 if(data.imgUrl != null && data.imgUrl != ''){
-						 console.log("1")
-						 var display = '<span id="display_awardImage" name="awardImageSpan">'
+						 var display = data.imgUrl + '&nbsp;&nbsp;&nbsp;<span id="display_awardImage" name="awardImageSpan">'
 										+ '<button type="button" onclick="window.open('+image+')" class="btn btn-success btn-xs">보기</button>'
 										+ '</span>';
 					 $(".awardFileTd").append(display);
@@ -248,7 +268,6 @@
 					 }
 				 }
 			},
-			error: console.log
 		});
 	}
 	
@@ -303,7 +322,6 @@
 	
 	// 파일 업로드
 	$("input[type=file]").change(function(e){
-		console.log($(e.target))
 	   // 이미지 업로드
 	   var file = e.target;
 	   //var imgPreview = document.getElementById("imgPreview");
@@ -326,7 +344,6 @@
 	     
 	     // 이미지 조회 및 다운로드
 	     var url = imgbb.data.thumb.url;
-	     console.log(url)
 	     $('[name=imgUrl]').val(url);
 	   });
 	});

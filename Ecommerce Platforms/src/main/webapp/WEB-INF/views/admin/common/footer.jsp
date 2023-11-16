@@ -5,6 +5,7 @@
 				<strong>NDC&C<a href="/admin">  All Rights Reserved. 2023  </a> Phone 031-712-8315 | Fax 031-789-3545</strong>
 			</footer>
 		</div>
+		<script src="${pageContext.request.contextPath }/resources/admin/js/script.js"></script>
 		<!-- jQuery 3 -->
 		<script src="${pageContext.request.contextPath}/resources/admin/js/jquery.min.js"></script>
 		<!-- Bootstrap 3.3.7 -->
@@ -34,13 +35,8 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css">
 	
 		<script language='javascript' src='//www.gstatic.com/charts/loader.js'></script>
-		
-        <script type="text/javascript">
-	        var objEditor = CKEDITOR.replace('editor', {
-	        		filebrowserImageUploadUrl: '/admin/board/imageUpload?${_csrf.parameterName}=${_csrf.token}',
-	          		filebrowserUploadUrl:'/admin/board/imageUpload?${_csrf.parameterName}=${_csrf.token}',
-	        		fillEmptyBlocks : true}
-			);             	
+		<script>CKEDITOR.replace('editor',{filebrowserUploadUrl:'/admin/board/imageUpload?${_csrf.parameterName}=${_csrf.token}'});</script>
+        <script type="text/javascript">            	
 	        $.fn.modal.Constructor.prototype.enforceFocus = function () {
 	        	modal_this = this
 	        	$(document).on('focusin.modal', function (e) {

@@ -43,10 +43,10 @@
 	            <div class="box">
 	                <div class="box-body">
 		                <div class="col-xs-3" style="padding:0 5px 0 0;">
-		                	<iframe name="tree" id="iframe_tree" src="${pageContext.request.contextPath}/admin/menu/tree" width="100%" scrolling="auto" frameborder="1" height="769"></iframe>
+		                	<iframe name="tree" id="iframe_tree" src="${pageContext.request.contextPath}/admin/menu/tree?locale=${locale}" width="100%" scrolling="auto" frameborder="1" height="769"></iframe>
 		                </div>
 		                <div class="col-xs-9" style="padding:0 5px 0 0;">
-		                	<iframe name="list" id="iframe_list" src="${pageContext.request.contextPath}/admin/menu/menuList" width="100%" scrolling="auto" frameborder="1" height="769"></iframe>
+		                	<iframe name="list" id="iframe_list" src="${pageContext.request.contextPath}/admin/menu/menuList?locale=${locale}" width="100%" scrolling="auto" frameborder="1" height="769"></iframe>
 		                </div>
 	                </div><!-- /.box-body -->
 	            </div><!-- /.box -->
@@ -63,7 +63,7 @@
 		            <input type="hidden" name="part" value="menu">
 		            <input type="hidden" name="originNo" id="originCode">
 		            <input type="hidden" name="ord" id="ordCode">
-		            <input type="hidden" name="locale" value="ko">
+		            <input type="hidden" name="locale" value="${locale}">
 		            <div class="modal-header">
 		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 		                <h4 class="modal-title">메뉴 등록</h4>
@@ -73,24 +73,6 @@
                 			<div class="col-xs-4">
                 				<span style="float:left;"><h4><p class="text-light-blue"><i class="fa fa-fw fa-info-circle"></i> 메뉴 등록</p></h4></span>
                 				<span style="float:left; padding:5px 0 0 10px;"><button type="button" onclick="onclickManual();" class="btn btn-warning btn-xs"><i class="fa fa-fw fa-question-circle"></i> 프로그램 연동 방법</button></span>
-                			</div>
-                			<div class="col-xs-8" style="padding:0">
-                				<div class="btn-group pull-right">
-      								<button type="button" id="locale_ko" onclick="setLocale('ko')" class="btn btn-primary">
-      									<i class="fa fa-globe" aria-hidden="true"></i> 한국어</button>      
-      								<button type="button" id="locale_en" onclick="setLocale('en')" class="btn btn-default">
-      									<i class="fa fa-globe" aria-hidden="true"></i> ENG</button>      
-      								<button type="button" id="locale_zh" onclick="setLocale('zh')" class="btn btn-default">
-      									<i class="fa fa-globe" aria-hidden="true"></i> 中国</button>      
-      								<button type="button" id="locale_vn" onclick="setLocale('vn')" class="btn btn-default">
-      									<i class="fa fa-globe" aria-hidden="true"></i> Tiếng việt</button>
-<%-- 									<select class="form-select" name="outer_mapping" aria-label="Default select example">
-									  <option value="0">게시판 맵핑</option>
-									  <c:forEach var="board" items="${board}">
-										  <option value="${board.boardNo}">${board.boardTitle}</option>
-									  </c:forEach>
-									</select>  --%>     									                
-      							</div>
                 			</div>
             			</div>
 						<table class="table table-bordered">
@@ -160,24 +142,6 @@
 			                	<span style="float:left;"><h4><p class="text-light-blue"><i class="fa fa-fw fa-info-circle"></i> 메뉴 등록</p></h4></span>
 			                	<span style="float:left; padding:5px 0 0 10px;"><button type="button" onclick="onclickManual();" class="btn btn-warning btn-xs"><i class="fa fa-fw fa-question-circle"></i> 프로그램 연동 방법</button></span>
 			                </div>
-			                <div class="col-xs-8" style="padding:0">
-				                <div class="btn-group pull-right">
-				      				<button type="button" id="locale_ko" onclick="setLocale('ko')" class="btn btn-primary">
-				      					<i class="fa fa-globe" aria-hidden="true"></i> 한국어</button>      
-				      				<button type="button" id="locale_en" onclick="setLocale('en')" class="btn btn-default">
-				      					<i class="fa fa-globe" aria-hidden="true"></i> ENG</button>      
-				      				<button type="button" id="locale_zh" onclick="setLocale('zh')" class="btn btn-default">
-				      					<i class="fa fa-globe" aria-hidden="true"></i> 中国</button>      
-				      				<button type="button" id="locale_vn" onclick="setLocale('vn')" class="btn btn-default">
-				      					<i class="fa fa-globe" aria-hidden="true"></i> Tiếng việt</button>
-									<select class="form-select" name="outerMapping" aria-label="Default select example">
-									  <option selected>게시판 맵핑</option>
-									  <c:forEach var="board" items="${board}">
-										  <option value="${board.boardNo}">${board.boardTitle}</option>
-									  </c:forEach>
-									</select> 				      					                
-				      			</div>
-				            </div>
 			            </div>
 			            <table class="table table-bordered">
 				            <tbody>
@@ -228,144 +192,6 @@
 	    </div><!-- /.modal-dialog -->
 	</div><!-- /.modal fade --> 
     
-	<div class="modal fade" id="modalManual" tabindex="-2" role="dialog" aria-labelledby="myModal" aria-hidden="true">
-	    <div class="modal-dialog" style="width:700px;">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	                <h4 class="modal-title" id="myModalLabel">프로그램 연동 방법</h4>
-	            </div>
-	            <div class="modal-body">
-	            	<span style="float:left;"><h4><p class="text-light-blue"><i class="fa fa-fw fa-info-circle"></i> 최신글</p></h4></span>
-	            	<table class="table table-bordered">
-	            		<tbody>
-	            			<tr>
-				                <td class="menu">게시판</td>
-				                <td align="left">
-				                	[include:tpf=board/latest&amp;board_code=1&amp;print_data_count=5]<br>
-				                	- board_code : 게시판 코드<br>
-				                	- print_data_count : 표출 자료 수<br>
-				                	- <b style="color:red">folder</b> : 메인페이지에 삽입할때만 필요 (공지사항 주소 : http://mir9.co.kr/<b style="color:red">community/notice</b> 일때는 <b style="color:red">community/notice</b> 넣어주면 됨)
-				                </td>
-				            </tr>
-				            <tr>
-				                <td class="menu">상품</td>
-				                <td align="left">
-				                	[include:tpf=product/latest&amp;print_data_count=5]<br>
-				                	- print_data_count : 표출 자료 수
-				                </td>
-				            </tr>
-				            <tr>
-				                <td class="menu">배너</td>
-				                <td align="left">
-				                	[include:tpf=company/banner&amp;print_data_count=5]<br>
-				                	- print_data_count : 표출 자료 수
-				                </td>
-				            </tr>
-	            		</tbody>
-	            	</table>
-	            	<br>
-		            <span style="float:left;"><h4><p class="text-light-blue"><i class="fa fa-fw fa-info-circle"></i> 리스트</p></h4></span>
-		            <table class="table table-bordered">
-	            		<tbody>
-	            			<tr>
-				                <td class="menu">게시판</td>
-				                <td align="left">[include:tpf=board/list&amp;board_code=1&amp;print_data_count=5]<br>
-				                	- board_code : 게시판 코드<br>
-				                	- print_data_count : 표출 자료 수<br>
-				                	- <b style="color:red">folder</b> : 메인페이지에 삽입할때만 필요 (공지사항 주소 : http://mir9.co.kr/<b style="color:red">community/notice</b> 일때는 <b style="color:red">community/notice</b> 넣어주면 됨)
-				                </td>
-				            </tr>
-	            			<tr>
-				                <td class="menu">상품</td>
-				                <td align="left">
-				                	[include:tpf=product/list&amp;category_code=1010&amp;is_best=y]<br>
-				                	- category_code : 특정 카테고리만 표출<br>
-				                	- is_best, is_new, is_event : best, new, event 체크된 상품만 표출<br>
-				                </td>
-				            </tr>
-				            <tr>
-				                <td class="menu">폼메일</td>
-				                <td align="left">
-				                	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쓰기 : [include:tpf=form/write&amp;form_code=1]<br>
-				                	리스트 : [include:tpf=form/list&amp;form_code=1]<br>
-				                </td>
-				            </tr>
-				            <tr>
-				                <td class="menu">약도</td>
-				                <td align="left">
-				                	[include:tpf=form/map&amp;code=1]<br>
-				                </td>
-				            </tr>
-				            <tr>
-				                <td class="menu">연혁</td>
-				                <td align="left">
-				                	[include:tpf=company/history]<br>
-				                	[include:tpf=company/history&amp;start_year=2015&amp;end_year=2017]<br>
-				                	- start_year : 시작년도<br>
-				                	- end_year : 종료년도
-				                </td>
-				            </tr>
-				            <tr>
-				                <td class="menu">사이트맵</td>
-				                <td align="left">
-				                	[include:tpf=company/sitemap]
-				                </td>
-				            </tr>
-				            <tr>
-				                <td class="menu">약관</td>
-				                <td align="left">
-				                	이용약관 : [include:tpf=company/contract&amp;type=provision]<br>
-				                	개인정보 취급방침 : [include:tpf=company/contract&amp;type=privacy]<br>
-				                	이메일 무단수집 거부 : [include:tpf=company/contract&amp;type=email]
-				                </td>
-				            </tr>
-	            		</tbody>
-	            	</table>
-	            	<br>
-	
-	            	<span style="float:left;"><h4><p class="text-light-blue"><i class="fa fa-fw fa-info-circle"></i> SNS</p></h4></span>
-	            	<table class="table table-bordered">
-	            		<tbody>
-				            <tr>
-				                <td class="menu">유튜브</td>
-				                <td align="left">[include:tpf=sns/youtube&amp;id=<b style="color:red">UCCK-O1Qt1MMJMbA-Sy9T000A</b>&amp;height=500]<br>
-				                	해당 채널의 최신 유튜브 동영상 표출<br>
-				                	- id : 채널아이디<br>
-				                	- height : 높이값<br>
-				                	- width : 100% (디폴트)
-				                </td>
-				            </tr>
-				            <tr>
-				                <td class="menu">facebook</td>
-				                <td align="left">
-				                	[include:tpf=sns/facebook&amp;id=<b style="color:red">gundamlab</b>&amp;height=500]<br>
-				                	페이스북 타임라인 가져오기<br>
-				                	- id : 페이스북 url (https://www.facebook.com/[id])<br>
-				                	- height : 높이값<br>
-				                	- width : 100% (디폴트)
-				                </td>
-				            </tr>
-				            <tr>
-				                <td class="menu">instagram</td>
-				                <td align="left">
-					                [include:tpf=sns/instagram&amp;accessToken=<b style="color:red">1598429989.bd2f0c8.f7 ~ 3f</b>&amp;limit=5]<br>
-					                인스타그램 타임라인 가져오기<br>
-					                - resolution : low(150 x 150), medium(306 x 306 default), high(612 x 612)<br>
-					                인스타그램 accessToken값 가져오기 : https://www.hooni.net/xe/study/91805<br>
-					      			&nbsp;&nbsp;&nbsp;1. 새로운 Client를 등록<br>
-					      			&nbsp;&nbsp;&nbsp;2. Access_Token 생성 (반드시 [2-2 클라이언트사이드 방식으로 가져오기]로 받기)
-				                </td>
-				            </tr>
-	            		</tbody>
-	            	</table>
-	            </div><!-- /.modal-body -->
-	            <div class="modal-footer">
-	            	<button type="button" onclick="closeManual();" class="btn btn-primary">닫기</button>&nbsp;&nbsp;&nbsp;
-	            </div><!-- /.modal-footer -->
-	        </div><!-- /.modal-content -->
-	    </div><!-- /.modal-dialog -->
-	</div><!-- /.modal fade -->
 	
 	<div class="modal fade" id="modalRevision" tabindex="-2" role="dialog" aria-labelledby="myModal" aria-hidden="true" style="display: none;">
 	    <div class="modal-dialog" style="width:500px;">
@@ -522,8 +348,6 @@
            if(is_revision == false) setData($('[name=code]').val());
            else infoRevision(revision_code);
 
-           console.log(':'+is_revision);
-           console.log(':'+$('[name=code]').val()+':'+revision_code);
        }
        
        function register() {
@@ -637,10 +461,8 @@
                success:function(data, textStatus, jqXHR){
                    var json_data = data;
                    printData(json_data);
-                   console.log(json_data);
                },
                error:function(jqXHR, textStatus, errorThrown){
-                   console.log(textStatus);
                    // $('#content').val(errorThrown);
                }
            });
@@ -670,15 +492,12 @@
                },
                success:function(data, textStatus, jqXHR){
                    var json_data = data;
-                   console.log('--------------------------');
-                   console.log(json_data);
                    json_data.code = json_data.menu_code;
                    is_revision = true;
                    revision_code = code;
                    printData(json_data);
                },
                error:function(jqXHR, textStatus, errorThrown){
-                   console.log(textStatus);
                    // $('#content').val(errorThrown);
                }
            });

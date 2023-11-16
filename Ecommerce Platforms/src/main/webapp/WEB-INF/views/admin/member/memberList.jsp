@@ -398,7 +398,6 @@
 				var loginDate = res.loginDate;
 				var updateDate = res.updateDate;
 				var totalPoint = res.totalPoint + res.pointName;
-				console.log(memberMemo)
 				var display = '<input type="hidden" id="memberNo" name="memberNo" value="'+member.memberNo+'" />'
 							+ '<input type="hidden" id="addressNo" name="addressNo" value="'+address.addressNo+'" />'
 							+ '<input type="hidden" id="memberMemoNo" name="memberMemoNo" value="'+memberMemo.memberMemoNo+'" />';
@@ -423,7 +422,6 @@
 				$("#modalRegister").modal();
 				$("#current_point").text(totalPoint);
 			},
-			error : console.log
 		});
 	});
 	
@@ -431,7 +429,6 @@
 	function update(){
 		var id = $("#id").val();
 		var password = $("#password").val();
-		console.log("password = " + password);
 		var passwordCheck = $("#passwordCheck").val();
 		var firstName = $("#firstName").val();
 		var lastName = $("#lastName").val();
@@ -572,7 +569,6 @@
 					$("#id").focus();
 				}
 			},
-			error : console.log
 		});
 		
 	};
@@ -581,7 +577,6 @@
 	function register(){
 		var id = $("#id").val();
 		var password = $("#password").val();
-		console.log("password = " + password);
 		var passwordCheck = $("#passwordCheck").val();
 		var firstName = $("#firstName").val();
 		var lastName = $("#lastName").val();
@@ -735,7 +730,6 @@
 				$("#pagebarContainer").html('');
 				$("#pagebarContainer").html(data["pagebar"]);
 			},
-			error : console.log	
 		});
 		
 	};

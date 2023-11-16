@@ -5,7 +5,6 @@ import java.util.Map;
 import com.naedam.admin.member.model.vo.Address;
 import com.naedam.admin.member.model.vo.AddressBook;
 import com.naedam.admin.member.model.vo.Authorities;
-import com.naedam.admin.member.model.vo.Member;
 import com.naedam.user.user.model.vo.User;
 
 public interface UserService {

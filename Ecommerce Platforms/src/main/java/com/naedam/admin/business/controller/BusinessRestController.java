@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.naedam.admin.board.model.vo.Post;
 import com.naedam.admin.business.model.service.BusinessService;
 import com.naedam.admin.business.model.vo.Business;
+import com.naedam.admin.business.model.vo.BusinessContents;
 import com.naedam.admin.business.model.vo.BusinessPost;
 
 @RestController
@@ -28,46 +28,60 @@ public class BusinessRestController {
 	public Boolean BusinessProcess(@RequestParam(value = "businessArr[]") List<String> businessArr, 
 		   @RequestParam("mode") String mode) throws Exception{
 		Boolean result = false;
-		Map<String, Object> businessMap = new HashMap<>();
-		businessMap.put("mode", mode);
-		businessMap.put("businessArr", businessArr);
-		businessService.businessProcess(businessMap);
+		
+		BusinessRequest businessRequest = new BusinessRequest();
+		businessRequest.setMode(mode);
+		businessRequest.setBusinessArr(businessArr);
+		
+		businessService.businessProcess(businessRequest);
 		result = true;
 		return result;
 	}
 	
 	@PostMapping("json/businessPostProcess")
 	public Boolean BusinessPostProcess(@RequestParam(value = "businessPostArr[]") List<String> businessPostArr,
-									   @RequestParam(value = "businessNo", required = false, defaultValue= "0") int businessNo,
 									   @RequestParam("mode") String mode) throws Exception{
-		BusinessPost businessPost = new BusinessPost();
-		Boolean result = false;
-		Map<String, Object> businessPostMap = new HashMap<>();
-		businessPostMap.put("mode", mode);
-		businessPostMap.put("businessNo", businessNo);
-		businessPostMap.put("businessPostArr", businessPostArr);
-		System.out.println("log === "+businessPostMap);
-		businessService.businessPostProcess(businessPostMap);
-		result = true;
+		BusinessRequest businessRequest = new BusinessRequest();
+		businessRequest.setMode(mode);
+		businessRequest.setBusinessPostArr(businessPostArr);
+		Boolean result = businessService.businessPostProcess(businessRequest);
+		
+		return result;
+	}
+	
+	@PostMapping("json/businessContentsProcess")
+	public Boolean BusinessContentsProcess(@RequestParam(value = "businessContentsArr[]") List<String> businessContentsArr,
+										   @RequestParam("mode") String mode) throws Exception{
+		BusinessRequest businessRequest = new BusinessRequest();
+		businessRequest.setMode(mode);
+		businessRequest.setBusinessContentsArr(businessContentsArr);
+		
+		Boolean result = businessService.businessContentsProcess(businessRequest);
+		
 		return result;
 	}
 	
 	@GetMapping("json/getBusiness/{businessNo}")
-	public Map<String, Object> getBusiness(@PathVariable("businessNo") int businessNo) throws Exception{ 
+	public Business getBusiness(@PathVariable("businessNo") int businessNo) throws Exception{ 
 		return businessService.getBusiness(businessNo);
 	}
 	
 	@GetMapping("json/getBusinessList")
-	public List<Business> getBusinessList() throws Exception{
+	public List<Business> getBusinessList(@RequestParam(value = "locale", defaultValue = "ko")String locale) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("locale", locale);
 		Map<String, Object> resultMap = businessService.getBusinessList(map);
 		List<Business> businessList = (List<Business>) resultMap.get("list");
 		return businessList;
 	}
 	
 	@GetMapping(value="json/getBusinessPost/{businessPostNo}")
-	public Map<String, Object> getBusinessPost(@PathVariable("businessPostNo") int businessPostNo)throws Exception{
-		System.out.println("log === "+businessPostNo);
+	public BusinessPost getBusinessPost(@PathVariable("businessPostNo") int businessPostNo)throws Exception{
 		return businessService.getBusinessPost(businessPostNo);
+	}
+	
+	@GetMapping(value="json/getBusinessContents/{businessContentsNo}")
+	public BusinessContents getBusinessContents(@PathVariable("businessContentsNo") int businessContentsNo) throws Exception{
+		return businessService.getBusinessContents(businessContentsNo);
 	}
 }

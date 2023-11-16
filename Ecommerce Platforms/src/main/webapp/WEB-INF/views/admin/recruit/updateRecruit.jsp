@@ -39,7 +39,6 @@ $("button[name='getPostBotton']").on("click", function(){
 			let recruitData = result.recruitData;
 			//게시글 번호
 			$("#recruitNo_u").val(recruitData.recruitNo);
-			console.log("recruitNo_u>>>>", recruitData.recruitNo);
 			//제목
 			$("#title_u").val(recruitData.recruitTitle);
 			//경력(셀렉트)
@@ -137,7 +136,6 @@ $("button[name='getPostBotton']").on("click", function(){
 
 function deleteFile(){
 	if(confirm('정말 삭제하시겠습니까?')){
-		console.log("$(this).parent() >>>>" , $("#orgFileName_u").parent());
 		$("#orgFileName_u").parent().remove();
 	}
 	
@@ -160,12 +158,10 @@ function updateRecruit(){
 		//반복작업 필요한 내용
 		var subTitle = new Array();
 		$("input[name='subTitle_u']").each(function(){
-			console.log('subTitle_u', $("input[name='subTitle_u']").val());
 			subTitle.push($(this).val());
 		})
 		var contents = new Array();
 		$("textarea[name='contents_u']").each(function(){
-			console.log('contents_u', $("textarea[name='contents_u']").val());
 			contents.push($(this).val());
 		})
 		
@@ -207,7 +203,6 @@ function updateRecruit(){
 			return;
 		}
 		
-		console.log("contentsStatus>>>>>>" ,contentsStatus);
 		
 		//FormData 새로운 객체 생성 
 		var formData = new FormData();
@@ -232,7 +227,6 @@ function updateRecruit(){
 		}
 		
 		var fileinput = $("input[name='fileName_u']");
-		console.log("fileinput >>>" + fileinput);
 		
 		// fileName_u : 새로 update 하려는 파일 orgFileName_u
 		// org value 값이 있고 fileName_u == null 이면 유지
@@ -246,7 +240,6 @@ function updateRecruit(){
 			for(var i = 0; i < fileinput.length; i++){
 				if(fileinput[i].files.length > 0){
 					for(var j = 0; j < fileinput[i].files.length; j++){
-						console.log("update fileInput[i].files[j] :::"+ fileinput[i].files[j]);
 		
 						// formData에 'file'이라는 키값으로 fileInput 값을 append 시킨다.  
 						formData.append('file', $("input[name='fileName_u']")[i].files[j]);
@@ -258,8 +251,6 @@ function updateRecruit(){
 		
 		formData.append("${_csrf.parameterName}", "${_csrf.token}");
 		
-		console.log(">>>>>" , $("input[name='fileName_u']").val());
-		console.log("length >>> " , $("input[name='fileName_u']").length);
 
 		//바뀐 ajax
 		$.ajax({
@@ -267,7 +258,6 @@ function updateRecruit(){
  		  	 	type : "POST",
 		  	 	data : data,
 		 	 	success : function(result){
-			 		console.log("result >> ", result);
 			 		//파일 변경사항이 있을 경우 실행
 			 		if( $("orgFileName_u") != null){
 			 			$.ajax({
@@ -278,7 +268,6 @@ function updateRecruit(){
 			  		  	     contentType: false,
 			  		  	     enctype: 'multipart/form-data',
 			    		 	 success : function(result){
-			    		 		console.log("result222 >> ", result);
 			    		 		let msg;
 			    		 		if(result == 1){
 			    		 			msg = "게시글 등록에 성공했습니다.";
@@ -288,7 +277,7 @@ function updateRecruit(){
 			    		 			msg = "게시글 등록에 실패했습니다.";
 			    		 		}
 			    		 		alert(msg);
-			   			  		location.href = "/admin/recruitList";
+			    		 		location.href = "/admin/recruitList?locale="+ $("#locale").val();
 			  		  	 	 }
 				  		})
 			 		} else {
@@ -300,7 +289,6 @@ function updateRecruit(){
 			  		  	     contentType: false,
 			  		  	     enctype: 'multipart/form-data',
 			    		 	 success : function(result){
-			    		 		console.log("result 333 >> ", result);
 			    		 		let msg;
 			    		 		if(result == 1){
 			    		 			msg = "게시글 등록에 성공했습니다.";
@@ -344,7 +332,6 @@ $(document).ready(function() {
 		let startDay = $('#startDay_u').val();
 		let endDay = $('#endDay_u').val();
 		
-		console.log("수정 버튼누름",chk);
 		
 		if(chk){
 			/* $("input:checkbox[name='always']").prop('checked', true); */
@@ -352,7 +339,6 @@ $(document).ready(function() {
 			document.getElementById('endDay_u').disabled = true;
 			
 		} else {
-			console.log("채용일 활성화");
 			$("input:checkbox[name='always_u']").prop('checked', false); 
 			document.getElementById('startDay_u').disabled = false;
 			document.getElementById('endDay_u').disabled = false;

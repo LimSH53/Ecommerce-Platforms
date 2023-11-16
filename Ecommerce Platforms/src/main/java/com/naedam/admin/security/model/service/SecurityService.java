@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.naedam.admin.member.model.vo.MemberAccessHistory;
 import com.naedam.admin.security.model.dao.SecurityDao;
 
 import lombok.extern.slf4j.Slf4j;

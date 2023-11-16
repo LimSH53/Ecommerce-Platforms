@@ -31,24 +31,11 @@
 			<div class="col-xs-12">
 				<div class="box">
 					<div class="box-body">
-						<div style="text-align: right;">
-							<button type="button" id="locale_ko" onclick="parent.location.href='?tpf=admin/setting/history&locale=ko'" class="btn btn-primary">
-								<i class="fa fa-globe" aria-hidden="true"></i> 한국어
-							</button>
-							<button type="button" id="locale_en" onclick="parent.location.href='?tpf=admin/setting/history&locale=en'" class="btn btn-default">
-								<i class="fa fa-globe" aria-hidden="true"></i> ENG
-							</button>
-							<button type="button" id="locale_zh" onclick="parent.location.href='?tpf=admin/setting/history&locale=zh'" class="btn btn-default">
-								<i class="fa fa-globe" aria-hidden="true"></i> 中国
-							</button>
-							<button type="button" id="locale_vn" onclick="parent.location.href='?tpf=admin/setting/history&locale=vn'" class="btn btn-default">
-								<i class="fa fa-globe" aria-hidden="true"></i> Tiếng việt
-							</button>
-						</div>
 						<label style="margin-top: 5px;">총 ${pageCount} 건</label>
 						<div class="box-tools pull-right" style="margin-bottom: 5px;"></div>
 						<form name="form_list" method="post" action="${pageContext.request.contextPath }/admin/history/history_process?${_csrf.parameterName}=${_csrf.token}">
 							<input type="hidden" name="mode" id="mode">
+							<input type="hidden" name="locale" id="locale" value="${locale}">
 							<table class="table table-bordered table-hover">
 								<thead>
 									<tr>
@@ -81,9 +68,9 @@
 						<button type="button" onclick="onclickInsert()" class="btn btn-primary btn-sm">
 							<i class="fa fa-plus-square"></i> 연혁 등록
 						</button>
-						<button type="button" onclick="onclickCopyContent();" class="btn btn-warning btn-sm" style="margin-left: 20px;">
+						<!-- <button type="button" onclick="onclickCopyContent();" class="btn btn-warning btn-sm" style="margin-left: 20px;">
 							<i class="fa fa-copy"></i> 연혁 복사
-						</button>
+						</button> -->
 						<div style="text-align: right;">
 							<!-- <ul class="pagination" style="margin: 0;">
 								<li class="active"><a href="?tpf=admin/setting/history&locale=ko&page=1">1</a></li>
@@ -101,11 +88,12 @@
 	<div class="modal fade" id="modalContent" tabindex="-2" role="dialog" aria-labelledby="myModal" aria-hidden="true">
 		<div class="modal-dialog" style="width: 650px;">
 			<div class="modal-content">
-				<form name="form_register" method="post" action="${pageContext.request.contextPath }/admin/history/history_process?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
+				<form name="form_register" method="post" action="${pageContext.request.contextPath }/admin/history/history_process?${_csrf.parameterName}=${_csrf.token}">
 					<input type="hidden" name="mode" id="mode" value="insert"> 
 					<input type="hidden" name="historyNo" id="historyNo" value="0"> 
 					<input type="hidden" name="imgUrl" />
-					<input type="hidden" name="locale" id="locale" value="ko">
+					<input type="hidden" name="locale" id="locale" value="${locale}">
+					<input type="hidden" name="fullDate" value="" />
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 						<h4 class="modal-title" id="myModalLabelPortfolio">연혁 관리</h4>
@@ -154,12 +142,6 @@
 								<td class="menu">내용</td>
 								<td align="left"><textarea name="content" rows="4" style="width: 100%"></textarea></td>
 							</tr>
-							<!-- <tr>
-								<td class="menu">파일 <span class="text-light-blue"><i class="fa fa-check"></i></span></td>
-								<td align="left" class="historyFileTd">
-									<input type="file" name="historyImage" class="form-control input-sm" style="width: 70%; display: inline;"> 
-								</td>
-							</tr> -->
 						</table>
 					</div>
 					<div class="modal-footer">
@@ -175,7 +157,7 @@
 		<div class="modal-dialog" style="width: 400px;">
 			<div class="modal-content">
 				<form name="historyCopyContent" method="post" action="${pageContext.request.contextPath }/admin/setting/history_process?${_csrf.parameterName}=${_csrf.token}">
-					<input type="hidden" name="mode" id="mode" value="copyContent"> <input type="hidden" name="locale" value="ko"> <input type="hidden" name="code" id="code">
+					<input type="hidden" name="mode" id="mode" value="copyContent"> <input type="hidden" name="locale" value="${locale}"> <input type="hidden" name="code" id="code">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 						<h4 class="modal-title" id="myModalLabelPortfolio">연혁 복사</h4>
@@ -216,20 +198,25 @@
 	function register() {
 	    if(form_register.year.value == '') { alert('년도가 선택되지 않았습니다.'); form_register.year.focus(); return false;}
 	    if(form_register.month.value == '') { alert('월이 선택되지 않았습니다.'); form_register.month.focus(); return false;}
-	    //if(form_register.date.value == '') { alert('일이 선택되지 않았습니다.'); form_register.date.focus(); return false;}
-	    //if(form_register.title.value == '') { alert('내용이 선택되지 않았습니다.'); form_register.title.focus(); return false;}
-	    if(form_register.content.value == '') { alert('내용이 선택되지 않았습니다.'); form_register.content.focus(); return false;}
+	    if(form_register.content.value == '') { alert('내용이 입력되지 않았습니다.'); form_register.content.focus(); return false;}
 	    form_register.target = 'iframe_process';
+	    
+	    var zero = num => num < 10 && num >= 0 ? "0" + num : num;
+	    var year =$("[name=year]").val();
+	    var month =$("[name=month]").val();
+	    var date =$("[name=date]").val();
+	    var fullDate ="";
+	    fullDate = zero(year)+zero(month)+zero(date);
+	    $("input[name=fullDate]").attr('value',fullDate);
 	    
 	    if(!confirm("연혁을 등록하시겠습니까?")){
 			alert("취소 되었습니다.");
 			return;
 		}else{
+			/* alert("등록이 완료되었습니다.") */
 			form_register.submit();
-			console.log("함수실행");
-			$('.modal').modal('hide');
-			location.href = location.href;
-			
+			setTimeout("location.reload()", 500);
+			$('#modalContent').modal('hide');
 		}
 	    
 	}
@@ -246,18 +233,17 @@
 	            historyNo : code
 			},
 			success(data){
-	            console.log(data);
 	            var date = new Date(data.historyDate);
 	            $('form[name="form_register"] #mode').val('update');
 	            $('[name=historyNo]').val(data.historyNo);
 	            $('[name=year]').val(date.getFullYear());
 	            $('[name=month]').val(date.getMonth() + 1);
 	            $('[name=date]').val(date.getDate());
+	            $('[name=fullDate]').val();
 	            $('[name=content]').val(data.content);
 	            if(data.imgUrl != null){
 					 var image = "'${pageContext.request.contextPath}/resources/user/images/company/history/"+data.imgUrl+"'"
 					 if(data.imgUrl != null && data.imgUrl != ''){
-						 console.log("1")
 						 var display = '<span id="display_historyImage" name="historyImageSpan">'
 										+ '<button type="button" onclick="window.open('+image+')" class="btn btn-success btn-xs">보기</button>'
 										+ '</span>';
@@ -268,7 +254,6 @@
 					 }
 				 }
 			},
-			error: console.log
 		});
 	}
 	
@@ -280,6 +265,7 @@
 	}
 	
 	function onclickUpdate(code) {
+		
 	    $('#modalContent').modal({backdrop:'static', show:true});
 	    setData(code);
 	}
@@ -323,7 +309,6 @@
 	
 	// 파일 업로드
 	$("input[type=file]").change(function(e){
-		console.log($(e.target))
 	   // 이미지 업로드
 	   var file = e.target;
 	   //var imgPreview = document.getElementById("imgPreview");
@@ -346,7 +331,6 @@
 	     
 	     // 이미지 조회 및 다운로드
 	     var url = imgbb.data.thumb.url;
-	     console.log(url)
 	     $('[name=imgUrl]').val(url);
 	   });
 	});
